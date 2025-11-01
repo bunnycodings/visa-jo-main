@@ -37,7 +37,16 @@ export default function EditHowItWorksPage() {
         const data = await res.json();
         console.log('Fetched data:', data);
         setTitle(data.title || '');
-        setSteps(Array.isArray(data.steps) && data.steps.length ? data.steps : [{ title: '' }]);
+        // Ensure exactly 5 steps - pad with empty steps if needed
+        const fetchedSteps = Array.isArray(data.steps) && data.steps.length ? data.steps.slice(0, 5) : [];
+        const paddedSteps = [
+          fetchedSteps[0] || { title: '' },
+          fetchedSteps[1] || { title: '' },
+          fetchedSteps[2] || { title: '' },
+          fetchedSteps[3] || { title: '' },
+          fetchedSteps[4] || { title: '' },
+        ];
+        setSteps(paddedSteps);
       } catch (e: any) {
         console.error('Error loading content:', e);
         setError(e.message || 'Error loading content');
@@ -67,7 +76,16 @@ export default function EditHowItWorksPage() {
       if (refreshRes.ok) {
         const data = await refreshRes.json();
         setTitle(data.title || '');
-        setSteps(Array.isArray(data.steps) && data.steps.length ? data.steps : [{ title: '' }]);
+        // Ensure exactly 5 steps - pad with empty steps if needed
+        const fetchedSteps = Array.isArray(data.steps) && data.steps.length ? data.steps.slice(0, 5) : [];
+        const paddedSteps = [
+          fetchedSteps[0] || { title: '' },
+          fetchedSteps[1] || { title: '' },
+          fetchedSteps[2] || { title: '' },
+          fetchedSteps[3] || { title: '' },
+          fetchedSteps[4] || { title: '' },
+        ];
+        setSteps(paddedSteps);
       }
       
       triggerRefresh();

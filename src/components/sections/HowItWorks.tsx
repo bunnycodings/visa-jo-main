@@ -6,11 +6,11 @@ interface HowItWorksProps {
 }
 
 const HowItWorks = ({ title = 'How It Works', steps = [
-  { title: 'Initial consultation with our experts', icon: '📞' },
-  { title: 'Document preparation and verification', icon: '📋' },
-  { title: 'Visa application submission', icon: '✍️' },
-  { title: 'Status tracking and follow-up', icon: '📊' },
-  { title: 'Visa approval and collection', icon: '✅' },
+  { title: 'Initial consultation with our experts' },
+  { title: 'Document preparation and verification' },
+  { title: 'Visa application submission' },
+  { title: 'Status tracking and follow-up' },
+  { title: 'Visa approval and collection' },
 ]}: HowItWorksProps) => {
   const getStepIcon = (index: number, customIcon?: string) => {
     if (customIcon) {
