@@ -102,13 +102,13 @@ export interface HowItWorksContent {
 }
 
 export const defaultHowItWorksContent: HowItWorksContent = {
-  title: 'How It Works',
+  title: 'Get Your Visa',
   steps: [
-    { title: 'Initial consultation with our experts' },
-    { title: 'Document preparation and verification' },
-    { title: 'Visa application submission' },
-    { title: 'Status tracking and follow-up' },
-    { title: 'Visa approval and collection' },
+    { title: 'Schedule Your Consultation' },
+    { title: 'Document Review & Preparation' },
+    { title: 'Complete Application Submission' },
+    { title: 'Application Review & Processing' },
+    { title: 'Visa Approval & Delivery' },
   ],
   isActive: true,
   updatedAt: new Date(),
