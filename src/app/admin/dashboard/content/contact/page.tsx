@@ -1,0 +1,190 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import type { ContactContent, ContactInfoItem } from '@/types/models/SiteContent';
+
+export default function EditContactPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [content, setContent] = useState<ContactContent | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      router.push('/admin/login');
+      return;
+    }
+    (async () => {
+      try {
+        const res = await fetch('/api/admin/content/contact', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (!res.ok) {
+          if (res.status === 401) { router.push('/admin/login'); return; }
+          throw new Error('Failed to load content');
+        }
+        const data = await res.json();
+        setContent(data);
+      } catch (e) {
+        console.error(e);
+        setError('Could not load Contact content');
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [router]);
+
+  function updateField<K extends keyof ContactContent>(key: K, value: ContactContent[K]) {
+    if (!content) return;
+    setContent({ ...content, [key]: value });
+  }
+
+  function updateInfoItem(index: number, field: keyof ContactInfoItem, value: string) {
+    if (!content) return;
+    const next = [...content.contactInfo];
+    next[index] = { ...next[index], [field]: value };
+    setContent({ ...content, contactInfo: next });
+  }
+
+  function addInfoItem() {
+    if (!content) return;
+    setContent({ ...content, contactInfo: [...content.contactInfo, { title: '', details: '', description: '' }] });
+  }
+
+  function removeInfoItem(index: number) {
+    if (!content) return;
+    setContent({ ...content, contactInfo: content.contactInfo.filter((_, i) => i !== index) });
+  }
+
+  async function handleSave() {
+    if (!content) return;
+    setError('');
+    setSuccess('');
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/admin/content/contact', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(content),
+      });
+      if (!res.ok) throw new Error('Failed to save content');
+      
+      // Auto-refresh the data after saving
+      const refreshRes = await fetch('/api/admin/content/contact', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (refreshRes.ok) {
+        const data = await refreshRes.json();
+        setContent(data);
+      }
+      
+      setSuccess('Content saved successfully');
+    } catch (e) {
+      console.error(e);
+      setError('Failed to save content');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) return <div className="p-6 bg-black text-white">Loading...</div>;
+  if (error) return <div className="p-6 text-red-400 bg-black">{error}</div>;
+  if (!content) return <div className="p-6 bg-black text-white">No content</div>;
+
+  return (
+    <div className="min-h-screen bg-black text-white py-8">
+      <div className="max-w-4xl mx-auto px-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold mb-4 text-white">Edit Contact Page</h1>
+          <Link href="/admin/dashboard" className="text-blue-400 hover:text-blue-300 underline">Back to Dashboard</Link>
+        </div>
+
+        {success && <div className="p-3 bg-green-900 text-green-300 rounded">{success}</div>}
+        {error && <div className="p-3 bg-red-900 text-red-300 rounded">{error}</div>}
+
+        <div className="bg-gray-900 p-8 rounded-lg space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Title</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.title}
+                     onChange={(e) => updateField('title', e.target.value)} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Subtitle</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.subtitle}
+                     onChange={(e) => updateField('subtitle', e.target.value)} />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex justify-between items-center mb-2">
+              <label className="text-sm font-medium text-gray-300">Contact Info</label>
+              <button onClick={addInfoItem} className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Add</button>
+            </div>
+            <div className="space-y-3">
+              {content.contactInfo.map((item, idx) => (
+                <div key={idx} className="bg-gray-800 border border-gray-700 p-3 rounded">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <input className="bg-gray-700 text-white border border-gray-600 px-3 py-2 rounded" placeholder="Title" value={item.title}
+                           onChange={(e) => updateInfoItem(idx, 'title', e.target.value)} />
+                    <input className="bg-gray-700 text-white border border-gray-600 px-3 py-2 rounded" placeholder="Details" value={item.details}
+                           onChange={(e) => updateInfoItem(idx, 'details', e.target.value)} />
+                    <input className="bg-gray-700 text-white border border-gray-600 px-3 py-2 rounded" placeholder="Description" value={item.description || ''}
+                           onChange={(e) => updateInfoItem(idx, 'description', e.target.value)} />
+                  </div>
+                  <div className="text-right mt-2">
+                    <button onClick={() => removeInfoItem(idx)} className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Office Title</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.officeTitle}
+                     onChange={(e) => updateField('officeTitle', e.target.value)} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Office City</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.officeCity}
+                     onChange={(e) => updateField('officeCity', e.target.value)} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Facebook</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.social?.facebook || ''}
+                     onChange={(e) => updateField('social', { ...content.social, facebook: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">Instagram</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.social?.instagram || ''}
+                     onChange={(e) => updateField('social', { ...content.social, instagram: e.target.value })} />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">WhatsApp</label>
+              <input className="w-full px-4 py-2 bg-gray-800 text-white border border-gray-700 rounded" value={content.social?.whatsapp || ''}
+                     onChange={(e) => updateField('social', { ...content.social, whatsapp: e.target.value })} />
+            </div>
+          </div>
+
+          <div className="flex gap-3">
+            <button onClick={handleSave} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Save Changes</button>
+            <button onClick={() => router.push('/admin/dashboard')} className="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600">Back to Dashboard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

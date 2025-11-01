@@ -1,0 +1,131 @@
+{
+  "common": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "applyNow": "Apply Now",
+    "learnMore": "Learn More",
+    "readMore": "Read More",
+    "contactUs": "Contact Us",
+    "aboutUs": "About Us",
+    "phone": "Phone",
+    "email": "Email",
+    "address": "Address",
+    "workingHours": "Working Hours",
+    "getInTouch": "Get in Touch",
+    "sendMessage": "Send Message",
+    "submit": "Submit",
+    "yourName": "Your Name",
+    "yourEmail": "Your Email",
+    "yourMessage": "Your Message",
+    "subject": "Subject"
+  },
+  "navbar": {
+    "professionalServices": "Professional Services",
+    "travelVisa": "Travel Visa",
+    "schengenVisa": "Schengen Visas",
+    "ourServices": "Our Services",
+    "adminDashboard": "Admin Dashboard",
+    "adminLogin": "Admin Login"
+  },
+  "hero": {
+    "banner": "Trusted by thousands of travelers",
+    "title": "Fast, Easy, and Reliable Visa Services from Jordan",
+    "subtitle": "Apply for your travel visa online — 100+ destinations, expert support, and fast approvals with our streamlined process."
+  },
+  "whyChooseUs": {
+    "badge": "Why Choose Us",
+    "title": "Your Trusted Visa Partner",
+    "subtitle": "We make visa applications simple, fast, and stress-free",
+    "features": {
+      "trusted": "Trusted by Thousands",
+      "trustedDesc": "Over 10,000 visas processed successfully with 99% approval rate",
+      "support": "24/7 Customer Support",
+      "supportDesc": "Get assistance anytime via chat or WhatsApp with our dedicated team",
+      "secure": "Fast & Secure Process",
+      "secureDesc": "Simple application with secure online payment and data protection"
+    }
+  },
+  "popularDestinations": {
+    "title": "Popular Destinations"
+  },
+  "howItWorks": {
+    "title": "How It Works",
+    "subtitle": "Professional visa application process in 5 clear steps",
+    "step1": "Initial consultation with our experts",
+    "step2": "Document preparation and verification",
+    "step3": "Visa application submission",
+    "step4": "Status tracking and follow-up",
+    "step5": "Visa approval and collection"
+  },
+  "testimonials": {
+    "title": "What Our Customers Say",
+    "subtitle": "Real reviews from our satisfied customers"
+  },
+  "footer": {
+    "companyName": "VisaJo",
+    "description": "Visa Office in Jordan - Professional visa consulting services for all your travel needs. We provide expert assistance with visa applications, documentation, and comprehensive travel planning services.",
+    "quickLinks": "Quick Links",
+    "contactInfo": "Contact Info",
+    "copyright": "© 2025 VisaJo. All rights reserved.",
+    "followUs": "Follow Us"
+  },
+  "services": {
+    "title": "Our Services",
+    "description": "Comprehensive services to make your journey seamless",
+    "visaServices": "Available Visa Services",
+    "visaServicesDesc": "Select a destination to view visa requirements and information",
+    "visaConsultations": "Visa Consultations",
+    "consultationDesc": "Expert guidance on visa preparations, requirements, and document processing",
+    "translation": "Certification Translation",
+    "translationDesc": "Professional document translation services",
+    "insurance": "Travel Insurance",
+    "insuranceDesc": "Comprehensive travel and health insurance coverage",
+    "hotelBookings": "Hotel Reservations",
+    "hotelDesc": "Hotel reservations worldwide to support your visa application",
+    "flightBookings": "Flight Bookings",
+    "flightDesc": "Flight bookings with flexible options for your travel needs",
+    "tripPlans": "Trip Plans",
+    "tripDesc": "Complete travel itinerary planning and coordination"
+  },
+  "about": {
+    "title": "About Us",
+    "intro": "We are dedicated to making visa applications simple, fast, and stress-free.",
+    "story": "Founded with the mission to simplify travel, our team provides expert guidance and end-to-end support for visa applications across the globe.",
+    "whyTitle": "Why Choose Us?",
+    "missionTitle": "Our Mission",
+    "missionText": "To deliver reliable, efficient, and personalized visa services that empower seamless global travel.",
+    "qualityTitle": "Quality Service",
+    "qualityDesc": "Expert consultants ensuring accurate applications and reliable support.",
+    "fastTitle": "Fast Processing",
+    "fastDesc": "Streamlined workflows to help you get approvals quickly.",
+    "careTitle": "Customer Care",
+    "careDesc": "Friendly assistance throughout your journey with 24/7 availability."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with our team",
+    "description": "Have questions or need assistance? We're here to help you with all your visa and travel needs.",
+    "formTitle": "Send Us a Message",
+    "formDesc": "Fill out the form below and we'll get back to you as soon as possible.",
+    "namePlaceholder": "Enter your full name",
+    "emailPlaceholder": "Enter your email address",
+    "subjectPlaceholder": "What's this regarding?",
+    "messagePlaceholder": "Tell us how we can help you...",
+    "successMessage": "Thank you! Your message has been sent successfully.",
+    "errorMessage": "Something went wrong. Please try again later.",
+    "loadingMessage": "Sending your message..."
+  },
+  "visas": {
+    "title": "Visa Information",
+    "requirements": "Requirements",
+    "documents": "Required Documents",
+    "process": "Application Process",
+    "processingTime": "Processing Time",
+    "validity": "Visa Validity",
+    "fees": "Visa Fees",
+    "apply": "Apply for",
+    "visa": "Visa"
+  }
+}
