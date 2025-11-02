@@ -65,7 +65,7 @@ const HowItWorks = ({ title = 'How It Works', steps = [
         </div>
         
         {/* Professional Steps Container */}
-        <div className="relative">
+        <div className="relative w-full">
           {/* Desktop connecting line */}
           <div className="hidden lg:block absolute top-16 left-12 right-12">
             <div className="relative" style={{ height: '2px' }}>
@@ -74,7 +74,7 @@ const HowItWorks = ({ title = 'How It Works', steps = [
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 relative w-full">
             {steps.map((step, index) => (
               <div key={index} className="relative group">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 hover:border-blue-300">
