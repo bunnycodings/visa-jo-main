@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useContentRefresh } from '@/context/ContentRefreshContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 interface HeroFormState {
   bannerText?: string;
@@ -27,10 +28,15 @@ export default function AdminHeroContentPage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string>('');
   const [success, setSuccess] = useState<string>('');
+  const [fileInput, setFileInput] = useState<File | null>(null);
   const router = useRouter();
   const { triggerRefresh } = useContentRefresh();
+  const { locale } = useLanguage();
+
+  const isRTL = locale === 'ar';
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -61,14 +67,14 @@ export default function AdminHeroContentPage() {
           isActive: data.isActive ?? true,
         });
       } catch (err: any) {
-        setError(err.message || 'Failed to load content');
+        setError(err.message || (locale === 'ar' ? 'فشل تحميل المحتوى' : 'Failed to load content'));
       } finally {
         setLoading(false);
       }
     };
 
     fetchContent();
-  }, [router]);
+  }, [router, locale]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -78,6 +84,56 @@ export default function AdminHeroContentPage() {
   const onToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileInput(file);
+      setError('');
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!fileInput) {
+      setError(locale === 'ar' ? 'يرجى اختيار صورة' : 'Please select an image');
+      return;
+    }
+
+    setUploading(true);
+    setError('');
+    try {
+      const token = localStorage.getItem('token');
+      const formData = new FormData();
+      formData.append('file', fileInput);
+      formData.append('category', 'backgrounds');
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.error || (locale === 'ar' ? 'فشل تحميل الصورة' : 'Failed to upload image'));
+      }
+
+      const data = await res.json();
+      setForm((prev) => ({ ...prev, backgroundImage: data.url }));
+      setFileInput(null);
+      setSuccess(locale === 'ar' ? 'تم تحميل الصورة بنجاح' : 'Image uploaded successfully');
+      
+      // Reset file input
+      const input = document.getElementById('image-upload') as HTMLInputElement;
+      if (input) input.value = '';
+    } catch (err: any) {
+      setError(err.message || (locale === 'ar' ? 'فشل تحميل الصورة' : 'Failed to upload image'));
+    } finally {
+      setUploading(false);
+    }
   };
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -105,25 +161,25 @@ export default function AdminHeroContentPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || 'Failed to save content');
+        throw new Error(err.error || (locale === 'ar' ? 'فشل حفظ المحتوى' : 'Failed to save content'));
       }
-      setSuccess('Hero content updated successfully');
+      setSuccess(locale === 'ar' ? 'تم تحديث المحتوى بنجاح' : 'Hero content updated successfully');
       triggerRefresh();
     } catch (err: any) {
-      setError(err.message || 'Failed to save content');
+      setError(err.message || (locale === 'ar' ? 'فشل حفظ المحتوى' : 'Failed to save content'));
     } finally {
       setSaving(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path strokeLinecap="round" strokeLinecap="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          Back to Dashboard
+          {locale === 'ar' ? 'العودة إلى لوحة التحكم' : 'Back to Dashboard'}
         </Link>
 
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
@@ -134,15 +190,15 @@ export default function AdminHeroContentPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Edit Homepage Hero</h1>
-              <p className="text-gray-600 mt-1">Update the main banner section</p>
+              <h1 className="text-3xl font-bold text-gray-900">{locale === 'ar' ? 'تحرير البانر الرئيسي' : 'Edit Homepage Hero'}</h1>
+              <p className="text-gray-600 mt-1">{locale === 'ar' ? 'تحديث قسم البانر الرئيسي' : 'Update the main banner section'}</p>
             </div>
           </div>
 
           {loading ? (
             <div className="text-center py-8">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">Loading content...</p>
+              <p className="mt-4 text-gray-600">{locale === 'ar' ? 'جاري تحميل المحتوى...' : 'Loading content...'}</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-6">
@@ -158,19 +214,19 @@ export default function AdminHeroContentPage() {
               )}
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Banner Text (small)</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'نص البانر (صغير)' : 'Banner Text (small)'}</label>
                 <input
                   type="text"
                   name="bannerText"
                   value={form.bannerText}
                   onChange={onChange}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder="Trusted by thousands of travelers"
+                  placeholder={locale === 'ar' ? 'موثوق به من قبل آلاف المسافرين' : 'Trusted by thousands of travelers'}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Title</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'العنوان' : 'Title'}</label>
                 <input
                   type="text"
                   name="title"
@@ -178,12 +234,12 @@ export default function AdminHeroContentPage() {
                   onChange={onChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder="Fast, Easy, and Reliable Visa Services from Jordan"
+                  placeholder={locale === 'ar' ? 'خدمات التأشيرات السريعة والموثوقة' : 'Fast, Easy, and Reliable Visa Services from Jordan'}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Subtitle</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'الوصف الفرعي' : 'Subtitle'}</label>
                 <textarea
                   name="subtitle"
                   value={form.subtitle}
@@ -191,13 +247,13 @@ export default function AdminHeroContentPage() {
                   required
                   rows={3}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder="Apply for your travel visa online — 100+ destinations, expert support..."
+                  placeholder={locale === 'ar' ? 'قدم طلبك للحصول على التأشيرة...' : 'Apply for your travel visa online...'}
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">CTA Text</label>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'نص الزر' : 'CTA Text'}</label>
                   <input
                     type="text"
                     name="ctaText"
@@ -205,11 +261,11 @@ export default function AdminHeroContentPage() {
                     onChange={onChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                    placeholder="Apply Now"
+                    placeholder={locale === 'ar' ? 'ابدأ الآن' : 'Apply Now'}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">CTA Link</label>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'رابط الزر' : 'CTA Link'}</label>
                   <input
                     type="text"
                     name="ctaHref"
@@ -222,16 +278,70 @@ export default function AdminHeroContentPage() {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">Background Image URL (optional)</label>
-                <input
-                  type="text"
-                  name="backgroundImage"
-                  value={form.backgroundImage}
-                  onChange={onChange}
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder="https://..."
-                />
+              {/* Image Upload Section */}
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
+                <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  {locale === 'ar' ? 'صورة الخلفية' : 'Background Image'}
+                </h3>
+
+                <div className="space-y-4">
+                  {/* File Upload Input */}
+                  <div className="flex gap-3">
+                    <input
+                      id="image-upload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileSelect}
+                      className="flex-1 px-4 py-3 border-2 border-dashed border-blue-300 rounded-lg text-gray-900 bg-white cursor-pointer hover:border-blue-500 transition-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleUpload}
+                      disabled={!fileInput || uploading}
+                      className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 font-semibold transition-all"
+                    >
+                      {uploading ? (locale === 'ar' ? 'جاري التحميل...' : 'Uploading...') : (locale === 'ar' ? 'تحميل' : 'Upload')}
+                    </button>
+                  </div>
+
+                  {/* Current Image Preview */}
+                  {form.backgroundImage && (
+                    <div className="relative">
+                      <p className="text-sm text-gray-600 mb-2">{locale === 'ar' ? 'الصورة الحالية:' : 'Current Image:'}</p>
+                      <div className="relative h-40 rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-100">
+                        <img
+                          src={form.backgroundImage}
+                          alt="Background"
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setForm((prev) => ({ ...prev, backgroundImage: '' }))}
+                          className="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-all"
+                        >
+                          {locale === 'ar' ? 'حذف' : 'Delete'}
+                        </button>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-2 break-all">{form.backgroundImage}</p>
+                    </div>
+                  )}
+
+                  {/* Manual URL Input */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">{locale === 'ar' ? 'أو أدخل رابط الصورة يدويا' : 'Or enter image URL manually'}</label>
+                    <input
+                      type="text"
+                      name="backgroundImage"
+                      value={form.backgroundImage}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                      placeholder="https://... or /uploads/backgrounds/..."
+                    />
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-3">
@@ -243,7 +353,7 @@ export default function AdminHeroContentPage() {
                   onChange={onToggle}
                   className="h-5 w-5 text-blue-600 border-gray-300 rounded"
                 />
-                <label htmlFor="isActive" className="text-sm font-medium text-gray-900">Show this section on the homepage</label>
+                <label htmlFor="isActive" className="text-sm font-medium text-gray-900">{locale === 'ar' ? 'عرض هذا القسم على الصفحة الرئيسية' : 'Show this section on the homepage'}</label>
               </div>
 
               <div className="flex justify-end gap-4 pt-6 border-t-2 border-gray-200">
@@ -252,7 +362,7 @@ export default function AdminHeroContentPage() {
                   className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 font-semibold shadow-md hover:shadow-lg transition-all"
                   disabled={saving}
                 >
-                  {saving ? 'Saving...' : 'Save Changes'}
+                  {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
                 </button>
               </div>
             </form>
