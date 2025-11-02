@@ -116,17 +116,18 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const name = searchParams.get('name');
+    const url = new URL(request.url);
+    const pathSegments = url.pathname.split('/');
+    const visaName = decodeURIComponent(pathSegments[pathSegments.length - 1]);
 
-    if (!name) {
+    if (!visaName || visaName === 'route.ts') {
       return NextResponse.json(
         { error: 'Name parameter is required' },
         { status: 400 }
       );
     }
 
-    const success = await deleteVisaByName(name);
+    const success = await deleteVisaByName(visaName);
     if (!success) {
       return NextResponse.json({ error: 'Visa not found' }, { status: 404 });
     }
