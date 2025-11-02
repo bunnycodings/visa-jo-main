@@ -103,7 +103,7 @@ const Footer = () => {
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400">
-            © {new Date().getFullYear()} {t('footer.companyName')}. {t('footer.quickLinks')}
+            Visa Jo © All Rights Reserved. 2025
           </p>
           <div className="mt-4">
             <Link
