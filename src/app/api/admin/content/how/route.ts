@@ -39,7 +39,10 @@ export async function PUT(request: NextRequest) {
 
     const payload = await request.json();
 
-    const steps = Array.isArray(payload.steps) ? payload.steps.slice(0, 5) : defaultHowItWorksContent.steps;
+    // Allow any number of steps (no limit)
+    const steps = Array.isArray(payload.steps) && payload.steps.length > 0 
+      ? payload.steps 
+      : defaultHowItWorksContent.steps;
 
     const update: HowItWorksContent = {
       title: payload.title ?? defaultHowItWorksContent.title,

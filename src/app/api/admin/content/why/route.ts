@@ -39,11 +39,16 @@ export async function PUT(request: NextRequest) {
 
     const payload = await request.json();
 
+    // Allow any number of features (no limit)
+    const features = Array.isArray(payload.features) && payload.features.length > 0
+      ? payload.features
+      : defaultWhyChooseUsContent.features;
+
     const update: WhyChooseUsContent = {
       badgeText: payload.badgeText ?? defaultWhyChooseUsContent.badgeText,
       title: payload.title ?? defaultWhyChooseUsContent.title,
       subtitle: payload.subtitle ?? defaultWhyChooseUsContent.subtitle,
-      features: Array.isArray(payload.features) && payload.features.length > 0 ? payload.features.slice(0, 3) : defaultWhyChooseUsContent.features,
+      features,
       isActive: payload.isActive ?? true,
       updatedAt: new Date(),
     };

@@ -3,14 +3,19 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AdminLogin() {
   const router = useRouter();
   const { setToken } = useAdminAuth();
+  const { locale } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const isRTL = locale === 'ar';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,10 +38,10 @@ export default function AdminLogin() {
         setToken(data.token);
         router.push('/admin/dashboard');
       } else {
-        setError(data.error || 'Invalid credentials');
+        setError(locale === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
       }
     } catch (error) {
-      setError('An error occurred. Please try again.');
+      setError(locale === 'ar' ? 'حدث خطأ. يرجى المحاولة مجددا.' : 'An error occurred. Please try again.');
       console.error(error);
     } finally {
       setLoading(false);
@@ -44,43 +49,80 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-gray-900">Admin Login</h1>
-        {error && (
-          <div className="mb-4 text-red-600 text-sm">{error}</div>
-        )}
-        <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-900 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
-              required
-            />
+    <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-blue-700 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Language Switcher in corner */}
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
+
+      <div className="w-full max-w-md">
+        <div className="bg-white rounded-2xl shadow-2xl p-8">
+          {/* Logo */}
+          <div className="flex justify-center mb-6">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-lg flex items-center justify-center shadow-lg">
+              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
           </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-900 text-gray-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-3 py-2"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Logging in…' : 'Login'}
-          </button>
-        </form>
+
+          {/* Title */}
+          <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
+            {locale === 'ar' ? 'دخول المشرف' : 'Admin Login'}
+          </h1>
+          <p className="text-center text-gray-600 mb-8">
+            {locale === 'ar' ? 'تسجيل الدخول إلى لوحة تحكم الإدارة' : 'Sign in to your admin dashboard'}
+          </p>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-red-700 text-sm font-medium">{error}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                {locale === 'ar' ? 'البريد الإلكتروني' : 'Email'}
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholder={locale === 'ar' ? 'أدخل بريدك الإلكتروني' : 'Enter your email'}
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                {locale === 'ar' ? 'كلمة المرور' : 'Password'}
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholder={locale === 'ar' ? 'أدخل كلمة المرور' : 'Enter your password'}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white font-bold py-3 rounded-lg hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (locale === 'ar' ? 'جاري التحميل...' : 'Loading...') : (locale === 'ar' ? 'تسجيل الدخول' : 'Sign In')}
+            </button>
+          </form>
+
+          {/* Footer */}
+          <p className="text-center text-gray-600 text-sm mt-6">
+            {locale === 'ar' ? 'هذا النظام مخصص للمسؤولين فقط' : 'This system is for administrators only'}
+          </p>
+        </div>
       </div>
     </div>
   );
