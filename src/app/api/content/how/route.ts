@@ -11,7 +11,18 @@ export async function GET(_request: NextRequest) {
     await autoInitializeDatabase();
 
     const doc = await getSiteContent<HowItWorksContent>('how');
-    const content = doc || defaultHowItWorksContent;
+    let content = doc || defaultHowItWorksContent;
+    
+    // Ensure at least 5 steps are returned by padding with default steps
+    if (content.steps && content.steps.length < 5) {
+      const defaultSteps = defaultHowItWorksContent.steps;
+      while (content.steps.length < defaultSteps.length) {
+        content.steps.push(defaultSteps[content.steps.length]);
+      }
+    } else if (!content.steps) {
+      content.steps = defaultHowItWorksContent.steps;
+    }
+    
     return NextResponse.json(content, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
