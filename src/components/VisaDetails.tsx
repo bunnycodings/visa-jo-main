@@ -1,5 +1,3 @@
-'use client';
-
 import { VisaType } from '@/types/models/VisaApplication';
 
 interface VisaDetailsProps {
