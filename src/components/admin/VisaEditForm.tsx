@@ -368,7 +368,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
             <button
               type="button"
               onClick={addRequirement}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+              className="flex items-center gap-2 px-4 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors shadow-md"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -413,7 +413,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
           <button
             type="submit"
             disabled={loading}
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 font-semibold shadow-md hover:shadow-lg transition-all"
+            className="px-8 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 font-semibold shadow-md hover:shadow-lg transition-all"
           >
             {loading ? 'Saving...' : isEditing ? 'Update Visa' : 'Create Visa'}
           </button>

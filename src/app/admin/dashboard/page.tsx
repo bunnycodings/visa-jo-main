@@ -27,8 +27,8 @@ const AdminDashboard = () => {
   const isRTL = locale === 'ar';
 
   const contentCards = [
-    { href: '/admin/dashboard/content/hero', label: locale === 'ar' ? 'بانر الصفحة الرئيسية' : 'Homepage Hero', icon: '🎯', color: 'bg-blue-500', description: locale === 'ar' ? 'تحرير قسم البانر الرئيسي' : 'Edit main banner section' },
-    { href: '/admin/dashboard/content/popular', label: locale === 'ar' ? 'الوجهات الشهيرة' : 'Popular Destinations', icon: '🌍', color: 'bg-blue-500', description: locale === 'ar' ? 'إدارة بطاقات الوجهات' : 'Manage destination cards' },
+    { href: '/admin/dashboard/content/hero', label: locale === 'ar' ? 'بانر الصفحة الرئيسية' : 'Homepage Hero', icon: '🎯', color: 'bg-[#145EFF]', description: locale === 'ar' ? 'تحرير قسم البانر الرئيسي' : 'Edit main banner section' },
+    { href: '/admin/dashboard/content/popular', label: locale === 'ar' ? 'الوجهات الشهيرة' : 'Popular Destinations', icon: '🌍', color: 'bg-[#145EFF]', description: locale === 'ar' ? 'إدارة بطاقات الوجهات' : 'Manage destination cards' },
     { href: '/admin/dashboard/content/how', label: locale === 'ar' ? 'كيفية العمل' : 'How It Works', icon: '⚙️', color: 'bg-teal-500', description: locale === 'ar' ? 'تحرير خطوات العملية' : 'Edit process steps' },
     { href: '/admin/dashboard/content/about', label: locale === 'ar' ? 'صفحة حول' : 'About Page', icon: '📝', color: 'bg-amber-500', description: locale === 'ar' ? 'تحديث معلومات الشركة' : 'Update company information' },
     { href: '/admin/dashboard/content/contact', label: locale === 'ar' ? 'صفحة الاتصال' : 'Contact Page', icon: '📞', color: 'bg-lime-500', description: locale === 'ar' ? 'تحرير تفاصيل الاتصال' : 'Edit contact details' },
@@ -85,7 +85,7 @@ const AdminDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-2xl font-bold mb-2">{locale === 'ar' ? `أهلا بعودتك، ${username}! 👋` : `Welcome back, ${username}! 👋`}</h2>
-              <p className="text-blue-100">{locale === 'ar' ? 'إدارة محتوى الموقع ومعلومات التأشيرات من مكان واحد' : 'Manage your website content and visa information from one place'}</p>
+              <p className="text-[#145EFF]100">{locale === 'ar' ? 'إدارة محتوى الموقع ومعلومات التأشيرات من مكان واحد' : 'Manage your website content and visa information from one place'}</p>
             </div>
             <div className="hidden md:block">
               <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
@@ -96,7 +96,7 @@ const AdminDashboard = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm text-blue-100">{locale === 'ar' ? 'حالة النظام' : 'System Status'}</p>
+                    <p className="text-sm text-[#145EFF]100">{locale === 'ar' ? 'حالة النظام' : 'System Status'}</p>
                     <p className="font-semibold">{locale === 'ar' ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All Systems Operational'}</p>
                   </div>
                 </div>
@@ -108,7 +108,7 @@ const AdminDashboard = () => {
         {/* Content Management Section */}
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <div className="bg-blue-500 w-1 h-6 rounded-full"></div>
+            <div className="bg-[#145EFF] w-1 h-6 rounded-full"></div>
             <h2 className="text-xl font-bold text-gray-900">{locale === 'ar' ? 'إدارة المحتوى' : 'Content Management'}</h2>
           </div>
           <p className="text-gray-600 mb-6">{locale === 'ar' ? 'إدارة أقسام ولوحات الموقع' : 'Manage your website content sections and pages'}</p>
@@ -125,13 +125,13 @@ const AdminDashboard = () => {
                     {card.icon}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="font-semibold text-gray-900 group-hover:text-[#145EFF]600 transition-colors">
                       {card.label}
                     </h3>
                     <p className="text-sm text-gray-600 mt-1">{card.description}</p>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center text-sm text-blue-600 font-medium group-hover:gap-2 transition-all">
+                <div className="mt-4 flex items-center text-sm text-[#145EFF]600 font-medium group-hover:gap-2 transition-all">
                   {locale === 'ar' ? 'تحرير المحتوى' : 'Edit Content'}
                   <svg className={`w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -156,10 +156,10 @@ const AdminDashboard = () => {
                 key={link.href}
                 href={link.href}
                 target="_blank"
-                className="flex items-center gap-3 bg-gray-50 hover:bg-blue-50 rounded-lg p-4 border border-gray-200 hover:border-blue-300 transition-all group"
+                className="flex items-center gap-3 bg-gray-50 hover:bg-blue-50 rounded-lg p-4 border border-gray-200 hover:border-[#145EFF]300 transition-all group"
               >
                 <span className="text-2xl">{link.icon}</span>
-                <span className="font-medium text-gray-700 group-hover:text-blue-600">{link.label}</span>
+                <span className="font-medium text-gray-700 group-hover:text-[#145EFF]600">{link.label}</span>
               </Link>
             ))}
           </div>

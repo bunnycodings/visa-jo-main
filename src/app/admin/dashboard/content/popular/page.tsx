@@ -314,7 +314,7 @@ export default function EditPopularDestinationsPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-gray-300">Destinations</label>
-                <button onClick={addItem} className="px-3 py-1 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">Add Destination</button>
+                <button onClick={addItem} className="px-3 py-1 text-sm bg-[#145EFF] text-white rounded hover:bg-[#145EFF]">Add Destination</button>
               </div>
               <div className="space-y-4 mt-3">
                 {items.map((item, idx) => (
@@ -384,7 +384,7 @@ export default function EditPopularDestinationsPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50 hover:bg-blue-700"
+                className="px-4 py-2 bg-[#145EFF] text-white rounded disabled:opacity-50 hover:bg-[#145EFF]"
               >
                 {saving ? 'Saving...' : 'Save Changes'}
               </button>

@@ -219,7 +219,7 @@ const AccountManagementPage = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                  className="w-full bg-[#145EFF] text-white py-3 px-4 rounded-lg hover:bg-[#145EFF] transition-colors disabled:opacity-50"
                 >
                   {loading ? 'Changing Password...' : 'Change Password'}
                 </button>

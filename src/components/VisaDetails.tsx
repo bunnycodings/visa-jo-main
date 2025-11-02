@@ -21,16 +21,16 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
 
   if (!visas.length) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center px-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#145EFF]50 via-white to-indigo-50 flex items-center justify-center px-4">
         <div className="text-center max-w-2xl">
           <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-10 h-10 text-[#145EFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-3">No Visas Available</h2>
           <p className="text-gray-600 text-lg mb-8">We don't currently have visa information for this country. Please check back soon!</p>
-          <a href="/" className="inline-block px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all">
+          <a href="/" className="inline-block px-8 py-3 bg-[#145EFF] text-white font-semibold rounded-lg hover:bg-[#145EFF] transition-all">
             ← Back to Home
           </a>
         </div>
@@ -39,9 +39,9 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+    <div className="min-h-screen bg-gradient-to-br from-[#145EFF]50 via-white to-indigo-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 overflow-hidden">
+      <div className="relative bg-gradient-to-r from-[#145EFF]600 to-indigo-700 text-white py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl"></div>
@@ -71,7 +71,7 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
               <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100">
                 
                 {/* Card Header */}
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-200 px-8 py-8">
+                <div className="bg-gradient-to-r from-[#145EFF]50 to-indigo-50 border-b border-gray-200 px-8 py-8">
                   <div className="flex items-start justify-between gap-6">
                     <div>
                       <h2 className="text-3xl font-bold text-gray-900 mb-2">{visa.name}</h2>
@@ -105,9 +105,9 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
 
                     {/* Validity */}
                     <div className="group/card">
-                      <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-6 border border-blue-100 h-full hover:shadow-md transition-all">
+                      <div className="bg-gradient-to-br from-[#145EFF]50 to-cyan-50 rounded-xl p-6 border border-[#145EFF]100 h-full hover:shadow-md transition-all">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="bg-blue-600 p-3 rounded-lg">
+                          <div className="bg-[#145EFF] p-3 rounded-lg">
                             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M12,2L15.09,8.26L22,9.27L17,14.14L18.18,21.02L12,17.77L5.82,21.02L7,14.14L2,9.27L8.91,8.26L12,2Z" />
                             </svg>
@@ -153,13 +153,13 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                   {/* Fee Breakdown */}
                   <div className="mb-12">
                     <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-[#145EFF]" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                       </svg>
                       Fee Breakdown
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
+                      <div className="bg-gradient-to-br from-[#145EFF]50 to-indigo-50 rounded-xl p-6 border border-[#145EFF]100">
                         <div className="text-sm text-gray-600 uppercase tracking-wide font-semibold mb-2">Services Fee</div>
                         <div className="text-3xl font-bold text-gray-900">JOD {visa.fees.consultation.toFixed(2)}</div>
                         <p className="text-sm text-gray-600 mt-3">Our professional consulting and document preparation service</p>
@@ -176,7 +176,7 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                   {visa.requirements && visa.requirements.length > 0 && (
                     <div className="mb-12">
                       <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                        <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-5 h-5 text-[#145EFF]" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M9,10A1,1 0 0,0 8,11V18H10V11A1,1 0 0,0 9,10M12,5A1,1 0 0,0 11,6V18H13V6A1,1 0 0,0 12,5M15,15A1,1 0 0,0 14,16V18H16V16A1,1 0 0,0 15,15Z" />
                         </svg>
                         Requirements ({visa.requirements.length})
@@ -214,8 +214,8 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                 </div>
 
                 {/* Card Footer */}
-                <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 px-8 py-6 flex items-center justify-center">
-                    <a href="/contact" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                <div className="bg-gradient-to-r from-gray-50 to-[#145EFF]50 border-t border-gray-200 px-8 py-6 flex items-center justify-center">
+                    <a href="/contact" className="px-6 py-3 bg-[#145EFF] text-white font-semibold rounded-lg hover:bg-[#145EFF] transition-all shadow-md hover:shadow-lg">
                       Apply Now
                     </a>
                 </div>
@@ -226,14 +226,14 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-12 text-white text-center">
+        <div className="mt-16 bg-gradient-to-r from-[#145EFF]600 to-indigo-700 rounded-2xl p-12 text-white text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Your Visa Journey?</h2>
           <p className="text-blue-100 mb-8 text-lg max-w-2xl mx-auto">Our expert team is here to guide you through every step of the process. Get in touch for personalized assistance.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/contact" className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg">
+            <a href="/contact" className="px-8 py-4 bg-white text-[#145EFF] font-semibold rounded-lg hover:bg-blue-50 transition-all shadow-lg">
               Contact Us
             </a>
-            <a href="/" className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-blue-700 transition-all">
+            <a href="/" className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-[#145EFF] transition-all">
               Back to Home
             </a>
           </div>

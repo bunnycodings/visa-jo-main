@@ -95,7 +95,7 @@ const VisaListPage = () => {
             <LanguageSwitcher />
             <Link 
               href="/admin/dashboard/visas/new" 
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+              className="flex items-center gap-2 px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors shadow-md hover:shadow-lg"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -124,7 +124,7 @@ const VisaListPage = () => {
             </p>
             <Link 
               href="/admin/dashboard/visas/new"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF]"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -164,7 +164,7 @@ const VisaListPage = () => {
                     <td className="px-6 py-4 text-sm space-x-2 flex gap-2">
                       <Link 
                         href={`/admin/dashboard/visas/edit/${encodeURIComponent(visa.name)}`}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-medium"
+                        className="px-4 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors text-xs font-medium"
                       >
                         {locale === 'ar' ? 'تحرير' : 'Edit'}
                       </Link>

@@ -6,6 +6,7 @@ import Footer from "@/components/layout/Footer";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ContentRefreshProvider } from "@/context/ContentRefreshContext";
 import { Analytics } from "@vercel/analytics/react";
+import FloatingCallButton from "@/components/FloatingCallButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <FloatingCallButton />
           </LanguageProvider>
         </ContentRefreshProvider>
         <Analytics />

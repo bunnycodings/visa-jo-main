@@ -105,7 +105,7 @@ export default function PageMetadataPage() {
 
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-blue-600 p-3 rounded-xl shadow-lg">
+            <div className="bg-[#145EFF] p-3 rounded-xl shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
@@ -170,7 +170,7 @@ export default function PageMetadataPage() {
                 <button onClick={() => setEditingPage(null)} className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50">
                   {locale === 'ar' ? 'إلغاء' : 'Cancel'}
                 </button>
-                <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50">
+                <button onClick={handleSave} disabled={saving} className="px-6 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] disabled:opacity-50">
                   {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ' : 'Save')}
                 </button>
               </div>
@@ -199,7 +199,7 @@ export default function PageMetadataPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm">
-                        <button onClick={() => setEditingPage(page)} className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs font-medium">
+                        <button onClick={() => setEditingPage(page)} className="px-4 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors text-xs font-medium">
                           {locale === 'ar' ? 'تحرير' : 'Edit'}
                         </button>
                       </td>

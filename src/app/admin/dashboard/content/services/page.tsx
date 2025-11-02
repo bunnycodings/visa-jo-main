@@ -144,7 +144,7 @@ export default function EditServicesPage() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-gray-300">Service Items</label>
-              <button onClick={addItem} className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Add</button>
+              <button onClick={addItem} className="px-3 py-1 bg-[#145EFF] text-white rounded hover:bg-[#145EFF]">Add</button>
             </div>
           </div>
 

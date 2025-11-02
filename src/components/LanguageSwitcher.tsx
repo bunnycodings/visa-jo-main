@@ -38,7 +38,7 @@ export function LanguageSwitcher() {
               onClick={() => switchLanguage('en')}
               className={`w-full text-left px-4 py-2 text-sm rounded-t-lg transition-colors ${
                 locale === 'en' 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-[#145EFF] text-white' 
                   : 'text-gray-300 hover:bg-gray-800'
               }`}
             >
@@ -48,7 +48,7 @@ export function LanguageSwitcher() {
               onClick={() => switchLanguage('ar')}
               className={`w-full text-left px-4 py-2 text-sm rounded-b-lg transition-colors ${
                 locale === 'ar' 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-[#145EFF] text-white' 
                   : 'text-gray-300 hover:bg-gray-800'
               }`}
             >

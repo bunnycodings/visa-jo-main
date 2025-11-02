@@ -204,7 +204,7 @@ export default function EditWhyChooseUsPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50 hover:bg-blue-700"
+                className="px-4 py-2 bg-[#145EFF] text-white rounded disabled:opacity-50 hover:bg-[#145EFF]"
               >
                 {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
               </button>

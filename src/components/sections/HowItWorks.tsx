@@ -70,7 +70,7 @@ const HowItWorks = ({ title = 'How It Works', steps = [
           <div className="hidden lg:block absolute top-16 left-12 right-12">
             <div className="relative" style={{ height: '2px' }}>
               <div className="absolute inset-0 bg-gray-200"></div>
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-600 rounded-full"></div>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-[#145EFF] rounded-full"></div>
             </div>
           </div>
           
@@ -79,7 +79,7 @@ const HowItWorks = ({ title = 'How It Works', steps = [
               <div key={index} className="relative group">
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all duration-300 hover:border-blue-300">
                   {/* Step number in a professional badge */}
-                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#145EFF] rounded-full flex items-center justify-center shadow-md">
                     <span className="text-white font-bold text-sm">{index + 1}</span>
                   </div>
                   
@@ -123,7 +123,7 @@ const HowItWorks = ({ title = 'How It Works', steps = [
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="/contact"
-                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-sm"
+                className="px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-all duration-300 font-semibold shadow-sm"
               >
                 Get Started Now
               </a>

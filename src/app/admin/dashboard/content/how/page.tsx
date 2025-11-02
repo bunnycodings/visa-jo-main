@@ -184,7 +184,7 @@ export default function EditHowItWorksPage() {
               <button
                 onClick={handleSave}
                 disabled={saving}
-                className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-6 py-3 bg-[#145EFF] text-white font-semibold rounded-lg hover:bg-[#145EFF] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
               </button>

@@ -48,7 +48,7 @@ const Testimonials = ({ title = 'What Our Customers Say' }: TestimonialsProps) =
 
   if (loading) {
     return (
-      <section className="py-20 bg-blue-600">
+      <section className="py-20 bg-[#145EFF]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
@@ -64,7 +64,7 @@ const Testimonials = ({ title = 'What Our Customers Say' }: TestimonialsProps) =
   }
 
   return (
-    <section className="py-20 bg-blue-600">
+    <section className="py-20 bg-[#145EFF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">

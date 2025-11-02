@@ -140,7 +140,7 @@ export default function EditAboutPage() {
           <div>
             <div className="flex justify-between items-center mb-2">
               <label className="text-sm font-medium text-gray-300">Why Items</label>
-              <button onClick={addWhyItem} className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Add</button>
+              <button onClick={addWhyItem} className="px-3 py-1 bg-[#145EFF] text-white rounded hover:bg-[#145EFF]">Add</button>
             </div>
             <div className="space-y-3">
               {content.whyItems.map((item, idx) => (
