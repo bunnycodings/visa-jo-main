@@ -172,9 +172,9 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-                        <div className="text-sm text-gray-600 uppercase tracking-wide font-semibold mb-2">Consultation Fee</div>
+                        <div className="text-sm text-gray-600 uppercase tracking-wide font-semibold mb-2">Services Fee</div>
                         <div className="text-3xl font-bold text-gray-900">JOD {visa.fees.consultation.toFixed(2)}</div>
-                        <p className="text-sm text-gray-600 mt-3">Professional consultation and document review</p>
+                        <p className="text-sm text-gray-600 mt-3">Our professional consulting and document preparation service</p>
                       </div>
                       <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-100">
                         <div className="text-sm text-gray-600 uppercase tracking-wide font-semibold mb-2">Government Fee</div>

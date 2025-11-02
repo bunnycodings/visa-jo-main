@@ -312,7 +312,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-2">
-                Consultation Fee (JOD) *
+                Services Fee (JOD) *
               </label>
               <input
                 type="number"
