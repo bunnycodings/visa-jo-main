@@ -115,7 +115,6 @@ const PopularDestinations = ({ title = 'Popular Destinations', items = [
                   className="relative z-10 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:from-blue-700 hover:to-blue-800 transition-all duration-300 inline-block hover:scale-110 hover:shadow-lg hover:shadow-blue-500/50"
                 >
                   Apply Now
-                  <span className="inline-block ml-1 group-hover:translate-x-1 transition-transform duration-300">→</span>
                 </Link>
               ) : (
                 <div className="relative z-10 bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold text-sm cursor-not-allowed inline-block">
