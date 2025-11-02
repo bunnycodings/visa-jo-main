@@ -43,10 +43,11 @@ const FloatingCallButton = () => {
                   <Image
                     src="/img/icons/whatapp.png"
                     alt="WhatsApp"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 object-contain filter brightness-0 invert"
-                    unoptimized
+                    width={50}
+                    height={50}
+                    className="w-12 h-12 object-contain"
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
               </a>
@@ -68,10 +69,11 @@ const FloatingCallButton = () => {
                   <Image
                     src="/img/icons/call.png"
                     alt="Call"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 object-contain filter brightness-0 invert"
-                    unoptimized
+                    width={50}
+                    height={50}
+                    className="w-12 h-12 object-contain"
+                    priority={false}
+                    loading="lazy"
                   />
                 </div>
               </a>
@@ -95,10 +97,11 @@ const FloatingCallButton = () => {
               <Image
                 src="/img/icons/call.png"
                 alt="Contact"
-                width={40}
-                height={40}
-                className="w-10 h-10 object-contain filter brightness-0 invert animate-pulse"
-                unoptimized
+                width={50}
+                height={50}
+                className="w-12 h-12 object-contain animate-pulse"
+                priority={false}
+                loading="lazy"
               />
             )}
           </div>
