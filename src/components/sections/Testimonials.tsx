@@ -26,7 +26,6 @@ const Testimonials = ({ title = 'What Our Customers Say' }: TestimonialsProps) =
         const response = await fetch('/api/google-places/reviews');
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({}));
-          // Silently fail - don't show testimonials section if API is not configured
           console.warn('Google Places Reviews API error:', errorData);
           setError('Reviews not available');
           return;
@@ -38,7 +37,6 @@ const Testimonials = ({ title = 'What Our Customers Say' }: TestimonialsProps) =
           setError('No reviews available');
         }
       } catch (err) {
-        // Silently fail - don't show testimonials section if API fails
         console.warn('Failed to fetch reviews:', err);
         setError('Reviews not available');
       } finally {
@@ -62,7 +60,7 @@ const Testimonials = ({ title = 'What Our Customers Say' }: TestimonialsProps) =
   }
 
   if (error || reviews.length === 0) {
-    return null; // Don't show section if no reviews or error
+    return null; // Don't show section if no real reviews available
   }
 
   return (
