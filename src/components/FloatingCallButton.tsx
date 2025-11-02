@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { siteConfig } from '@/lib/constants/site';
 
 const FloatingCallButton = () => {
@@ -40,14 +39,10 @@ const FloatingCallButton = () => {
               >
                 <div className="absolute inset-0 bg-green-500 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-150"></div>
                 <div className="relative w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 overflow-hidden">
-                  <Image
+                  <img
                     src="/img/icons/whatapp.png"
                     alt="WhatsApp"
-                    width={50}
-                    height={50}
                     className="w-12 h-12 object-contain"
-                    priority={false}
-                    loading="lazy"
                   />
                 </div>
               </a>
@@ -66,14 +61,10 @@ const FloatingCallButton = () => {
               >
                 <div className="absolute inset-0 bg-[#145EFF] rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-all duration-300 scale-150"></div>
                 <div className="relative w-20 h-20 bg-gradient-to-br from-[#145EFF] to-blue-700 hover:from-blue-600 hover:to-blue-800 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 overflow-hidden">
-                  <Image
+                  <img
                     src="/img/icons/call.png"
                     alt="Call"
-                    width={50}
-                    height={50}
                     className="w-12 h-12 object-contain"
-                    priority={false}
-                    loading="lazy"
                   />
                 </div>
               </a>
@@ -94,14 +85,10 @@ const FloatingCallButton = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <Image
+              <img
                 src="/img/icons/call.png"
                 alt="Contact"
-                width={50}
-                height={50}
                 className="w-12 h-12 object-contain animate-pulse"
-                priority={false}
-                loading="lazy"
               />
             )}
           </div>
