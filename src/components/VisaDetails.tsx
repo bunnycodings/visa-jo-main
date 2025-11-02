@@ -79,16 +79,6 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                         <p className="text-gray-700 text-lg leading-relaxed max-w-3xl">{visa.description}</p>
                       )}
                     </div>
-                    <div className="bg-white p-4 rounded-xl shadow-md">
-                      <div className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-1">Status</div>
-                      <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
-                        visa.isActive 
-                          ? 'bg-green-100 text-green-800' 
-                          : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {visa.isActive ? '✓ Active' : '○ Inactive'}
-                      </span>
-                    </div>
                   </div>
                 </div>
 
@@ -224,13 +214,10 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                 </div>
 
                 {/* Card Footer */}
-                <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 px-8 py-6 flex items-center justify-between">
-                  <div className="text-sm text-gray-600">
-                    Last updated: {new Date(visa.updatedAt || '').toLocaleDateString()}
-                  </div>
-                  <a href="/contact" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
-                    Apply Now
-                  </a>
+                <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 px-8 py-6 flex items-center justify-center">
+                    <a href="/contact" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
+                      Apply Now
+                    </a>
                 </div>
 
               </div>
