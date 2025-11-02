@@ -22,9 +22,6 @@ const Footer = () => {
                 loading="lazy"
                 className="h-24 w-auto rounded-lg"
               />
-              <span className="ml-3 text-2xl font-bold">
-                {t('footer.companyName')}
-              </span>
             </div>
             <p className="text-gray-300 mb-4 max-w-md">
               {t('footer.description')}
