@@ -28,7 +28,7 @@ const AdminDashboard = () => {
 
   const contentCards = [
     { href: '/admin/dashboard/content/hero', label: locale === 'ar' ? 'بانر الصفحة الرئيسية' : 'Homepage Hero', icon: '🎯', color: 'bg-blue-500', description: locale === 'ar' ? 'تحرير قسم البانر الرئيسي' : 'Edit main banner section' },
-    { href: '/admin/dashboard/content/popular', label: locale === 'ar' ? 'الوجهات الشهيرة' : 'Popular Destinations', icon: '🌍', color: 'bg-purple-500', description: locale === 'ar' ? 'إدارة بطاقات الوجهات' : 'Manage destination cards' },
+    { href: '/admin/dashboard/content/popular', label: locale === 'ar' ? 'الوجهات الشهيرة' : 'Popular Destinations', icon: '🌍', color: 'bg-blue-500', description: locale === 'ar' ? 'إدارة بطاقات الوجهات' : 'Manage destination cards' },
     { href: '/admin/dashboard/content/how', label: locale === 'ar' ? 'كيفية العمل' : 'How It Works', icon: '⚙️', color: 'bg-teal-500', description: locale === 'ar' ? 'تحرير خطوات العملية' : 'Edit process steps' },
     { href: '/admin/dashboard/content/about', label: locale === 'ar' ? 'صفحة حول' : 'About Page', icon: '📝', color: 'bg-amber-500', description: locale === 'ar' ? 'تحديث معلومات الشركة' : 'Update company information' },
     { href: '/admin/dashboard/content/contact', label: locale === 'ar' ? 'صفحة الاتصال' : 'Contact Page', icon: '📞', color: 'bg-lime-500', description: locale === 'ar' ? 'تحرير تفاصيل الاتصال' : 'Edit contact details' },
