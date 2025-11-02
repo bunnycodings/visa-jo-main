@@ -229,7 +229,7 @@ export default async function VisaDetails({ country, title }: VisaDetailsProps) 
                     Last updated: {new Date(visa.updatedAt || '').toLocaleDateString()}
                   </div>
                   <a href="/contact" className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-md hover:shadow-lg">
-                    Apply Now →
+                    Apply Now
                   </a>
                 </div>
 
