@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
-    const category = (formData.get('category') as string) || 'backgrounds';
+    const category = (formData.get('category') as string) || 'visas';
 
     if (!file) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
@@ -54,15 +54,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate unique filename
+    // Generate unique filename with proper extension handling
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(7);
-    const ext = file.name.split('.').pop();
+    const originalName = file.name || 'image';
+    const ext = originalName.includes('.') 
+      ? originalName.split('.').pop()?.toLowerCase() || 'jpg'
+      : file.type.includes('jpeg') ? 'jpg' 
+      : file.type.includes('png') ? 'png'
+      : file.type.includes('webp') ? 'webp'
+      : file.type.includes('gif') ? 'gif'
+      : 'jpg';
     const filename = `${timestamp}-${random}.${ext}`;
 
+    // Ensure public directory exists first
+    const publicDir = join(process.cwd(), 'public');
+    try {
+      await mkdir(publicDir, { recursive: true });
+    } catch (err: any) {
+      // Directory might already exist, that's okay
+      if (err.code !== 'EEXIST') {
+        console.error('Error creating public directory:', err);
+      }
+    }
+
     // Ensure uploads directory exists
-    const uploadsDir = join(process.cwd(), 'public', 'uploads', category);
-    await mkdir(uploadsDir, { recursive: true });
+    const uploadsDir = join(publicDir, 'uploads', category);
+    try {
+      await mkdir(uploadsDir, { recursive: true });
+    } catch (err: any) {
+      // Directory might already exist, that's okay
+      if (err.code !== 'EEXIST') {
+        console.error('Error creating uploads directory:', err);
+        throw new Error(`Failed to create uploads directory: ${err.message}`);
+      }
+    }
 
     // Write file to disk
     const filepath = join(uploadsDir, filename);
@@ -78,10 +104,23 @@ export async function POST(request: NextRequest) {
       filename: filename,
       message: 'File uploaded successfully',
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Upload error:', error);
+    
+    // Provide more detailed error information
+    const errorMessage = error.message || 'Unknown error occurred';
+    const errorDetails = {
+      error: 'Failed to upload file',
+      message: errorMessage,
+      code: error.code || 'UNKNOWN',
+      // Don't expose file system paths in production
+      ...(process.env.NODE_ENV === 'development' && {
+        details: error.stack
+      })
+    };
+    
     return NextResponse.json(
-      { error: 'Failed to upload file' },
+      errorDetails,
       { status: 500 }
     );
   }

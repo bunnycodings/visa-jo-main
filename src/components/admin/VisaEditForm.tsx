@@ -91,11 +91,30 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
       });
 
       if (!response.ok) {
-        if (response.status === 413) {
-          throw new Error('File is too large. Maximum size is 2MB. Please compress the image before uploading.');
+        let errorMessage = 'Failed to upload image';
+        
+        try {
+          const errorData = await response.json();
+          errorMessage = errorData.message || errorData.error || errorMessage;
+          
+          // Handle specific status codes
+          if (response.status === 413) {
+            errorMessage = 'File is too large. Maximum size is 2MB. Please compress the image before uploading.';
+          } else if (response.status === 401) {
+            errorMessage = 'Authentication failed. Please log in again.';
+          } else if (response.status === 400) {
+            errorMessage = errorData.error || errorData.message || 'Invalid file. Please check file type and size.';
+          }
+        } catch (parseError) {
+          // If we can't parse the error, use status-based messages
+          if (response.status === 413) {
+            errorMessage = 'File is too large. Maximum size is 2MB.';
+          } else if (response.status === 500) {
+            errorMessage = 'Server error. Please try again later or contact support.';
+          }
         }
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        throw new Error(errorData.error || 'Failed to upload image');
+        
+        throw new Error(errorMessage);
       }
 
       const data = await response.json();
