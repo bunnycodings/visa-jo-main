@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useContentRefresh } from '@/context/ContentRefreshContext';
 import { useLanguage } from '@/context/LanguageContext';
+import DashboardLayout from '@/components/admin/DashboardLayout';
+import TabNavigation from '@/components/admin/TabNavigation';
+import { adminTabs } from '@/lib/admin-tabs';
 
 interface HeroFormState {
   bannerText?: string;
@@ -173,14 +176,9 @@ export default function AdminHeroContentPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinecap="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          {locale === 'ar' ? 'العودة إلى لوحة التحكم' : 'Back to Dashboard'}
-        </Link>
+    <DashboardLayout>
+      <TabNavigation tabs={adminTabs} />
+      <div className="max-w-5xl mx-auto mt-6">
 
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
@@ -368,7 +366,6 @@ export default function AdminHeroContentPage() {
             </form>
           )}
         </div>
-      </div>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { VisaType } from '@/types/models/VisaApplication';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { useLanguage } from '@/context/LanguageContext';
+import DashboardLayout from '@/components/admin/DashboardLayout';
+import TabNavigation from '@/components/admin/TabNavigation';
+import { adminTabs } from '@/lib/admin-tabs';
 
 const VisaListPage = () => {
   const router = useRouter();
@@ -73,36 +75,37 @@ const VisaListPage = () => {
 
   if (loading) {
     return (
-      <div className={`min-h-screen bg-white flex justify-center items-center ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-900 text-lg">{locale === 'ar' ? 'جاري تحميل التأشيرات...' : 'Loading visas...'}</p>
+      <DashboardLayout>
+        <TabNavigation tabs={adminTabs} />
+        <div className={`flex justify-center items-center py-20 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-900 text-lg">{locale === 'ar' ? 'جاري تحميل التأشيرات...' : 'Loading visas...'}</p>
+          </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className={`min-h-screen bg-white ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <DashboardLayout>
+      <TabNavigation tabs={adminTabs} />
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 mt-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{locale === 'ar' ? 'إدارة التأشيرات' : 'Manage Visas'}</h1>
             <p className="text-gray-600">{locale === 'ar' ? 'إضافة أو تحرير أو حذف معلومات التأشيرات' : 'Add, edit, or delete visa information'}</p>
           </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <Link 
-              href="/admin/dashboard/visas/new" 
-              className="flex items-center gap-2 px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors shadow-md hover:shadow-lg"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-              </svg>
-              {locale === 'ar' ? 'إضافة تأشيرة جديدة' : 'Add New Visa'}
-            </Link>
-          </div>
+          <Link 
+            href="/admin/dashboard/visas/new" 
+            className="flex items-center gap-2 px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            {locale === 'ar' ? 'إضافة تأشيرة جديدة' : 'Add New Visa'}
+          </Link>
         </div>
 
         {error && (
@@ -182,7 +185,7 @@ const VisaListPage = () => {
           </div>
         )}
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
