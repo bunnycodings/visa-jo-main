@@ -267,6 +267,11 @@
     "austria": "النمسا",
     "schengen": "شنغن"
   },
+  "currency": {
+    "jod": "دينار",
+    "currencySymbol": "د.أ",
+    "jordanianDinar": "دينار أردني"
+  },
   "admin": {
     "dashboard": "لوحة التحكم",
     "login": "تسجيل الدخول",

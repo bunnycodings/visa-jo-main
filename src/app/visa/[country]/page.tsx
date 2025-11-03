@@ -7,5 +7,6 @@ export const dynamic = 'force-dynamic';
 export default async function VisaCountryPage({ params }: { params: { country: string } }) {
   const { country } = params;
   const visas = await getVisasForCountryPage(country);
-  return <VisaDetails country={country} title={`Visa Information for ${country.toUpperCase()}`} visas={visas} />;
+  // Title will be generated in VisaDetails component based on language
+  return <VisaDetails country={country} visas={visas} />;
 }

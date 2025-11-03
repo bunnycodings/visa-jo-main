@@ -9,6 +9,28 @@ interface VisaDetailsProps {
   visas: VisaType[];
 }
 
+// Helper function to get country name in current language
+const getCountryName = (countryCode: string, locale: string): string => {
+  const countryMap: Record<string, { en: string; ar: string }> = {
+    uae: { en: 'UAE', ar: 'الإمارات العربية المتحدة' },
+    uk: { en: 'UK', ar: 'المملكة المتحدة' },
+    us: { en: 'USA', ar: 'الولايات المتحدة' },
+    canada: { en: 'Canada', ar: 'كندا' },
+    australia: { en: 'Australia', ar: 'أستراليا' },
+    india: { en: 'India', ar: 'الهند' },
+    germany: { en: 'Germany', ar: 'ألمانيا' },
+    france: { en: 'France', ar: 'فرنسا' },
+    netherlands: { en: 'Netherlands', ar: 'هولندا' },
+    spain: { en: 'Spain', ar: 'إسبانيا' },
+    italy: { en: 'Italy', ar: 'إيطاليا' },
+    austria: { en: 'Austria', ar: 'النمسا' },
+  };
+  
+  const country = countryMap[countryCode.toLowerCase()];
+  if (!country) return countryCode.toUpperCase();
+  return locale === 'ar' ? country.ar : country.en;
+};
+
 // Client component that uses language context
 export default function VisaDetails({ country, title, visas }: VisaDetailsProps) {
   const { locale, t } = useLanguage();
@@ -52,7 +74,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
               <span className="text-blue-600 font-semibold text-sm">{t('visas.title')}</span>
             </div>
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent leading-tight">
-              {title || t('visas.title')}
+              {title || (locale === 'ar' 
+                ? `${t('visas.title')} - ${getCountryName(country, locale)}`
+                : `${t('visas.title')} for ${getCountryName(country, locale)}`)}
             </h1>
             <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-700 leading-relaxed">
               {t('visas.professionalGuidance')}
@@ -211,7 +235,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                       </div>
                       <div className="text-xs text-gray-600 uppercase tracking-wide font-semibold mb-2">{t('visas.visaFee')}</div>
-                      <div className="text-2xl font-bold text-gray-900">JOD {visa.fees.government.toFixed(2)}</div>
+                      <div className="text-2xl font-bold text-gray-900">
+                        {locale === 'ar' ? `${visa.fees.government.toFixed(2)} دينار` : `JOD ${visa.fees.government.toFixed(2)}`}
+                      </div>
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 transform scale-x-0 group-hover/card:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
 
@@ -270,7 +296,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                     <a 
                       href="/contact" 
                       className="inline-flex items-center justify-center w-full md:w-auto px-8 py-4 bg-[#145EFF] text-white text-lg rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
-                      aria-label={`Apply now for ${visa.name}`}
+                      aria-label={locale === 'ar' ? `تقديم طلب للحصول على ${visa.name}` : `Apply now for ${visa.name}`}
                     >
                       {t('visas.applyNow')}
                       <svg className={`ml-2 h-5 w-5 ${isRTL ? 'mr-2 ml-0 rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -294,14 +320,14 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
               <a 
                 href="/contact" 
                 className="px-6 py-3 bg-[#145EFF] text-white text-lg rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
-                aria-label="Contact us to apply for a visa"
+                aria-label={locale === 'ar' ? 'تواصل معنا لتقديم طلب التأشيرة' : 'Contact us to apply for a visa'}
               >
                 {t('common.contactUs')}
               </a>
               <a 
                 href="/" 
                 className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-900 text-lg rounded-lg hover:bg-gray-50 transition-all duration-300 font-semibold"
-                aria-label="Return to home page"
+                aria-label={locale === 'ar' ? 'العودة إلى الصفحة الرئيسية' : 'Return to home page'}
               >
                 {t('visas.backToHome')}
               </a>
