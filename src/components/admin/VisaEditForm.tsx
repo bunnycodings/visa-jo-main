@@ -58,9 +58,10 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
       return;
     }
 
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      setError('File size exceeds 5MB. Please upload a smaller image.');
+    // Validate file size (max 2MB to avoid server limits)
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+      setError(`File size exceeds 2MB limit. Please compress the image or use a smaller file. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
       return;
     }
 
@@ -91,7 +92,11 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to upload image');
+        if (response.status === 413) {
+          throw new Error('File is too large. Maximum size is 2MB. Please compress the image before uploading.');
+        }
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(errorData.error || 'Failed to upload image');
       }
 
       const data = await response.json();
@@ -102,7 +107,8 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
       setSuccess('Hero image uploaded successfully!');
     } catch (err) {
       console.error('Upload error:', err);
-      setError('Failed to upload image. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to upload image. Please try again.';
+      setError(errorMessage);
       setHeroImageFile(null);
       setHeroImagePreview(null);
     } finally {
