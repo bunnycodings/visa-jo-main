@@ -110,13 +110,24 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
               {/* Main Visa Card - Matching WhyChooseUs card style */}
               <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:border-blue-300 overflow-hidden">
                 
-                {/* Card Header */}
-                <header className="mb-8 pb-6 border-b border-gray-200">
+                {/* Card Header with Hero Image Behind Title */}
+                <header className="mb-8 pb-6 border-b border-gray-200 relative">
                   <div className={`flex items-start justify-between gap-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                    <div className="flex-1">
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{visa.name}</h2>
+                    <div className="flex-1 relative">
+                      {/* Hero Image Behind Title */}
+                      {visa.heroImage && (
+                        <div className="absolute -inset-4 -z-10 overflow-hidden rounded-xl opacity-10">
+                          <img
+                            src={visa.heroImage}
+                            alt={`${visa.name} background`}
+                            className="w-full h-full object-cover blur-sm"
+                            aria-hidden="true"
+                          />
+                        </div>
+                      )}
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight relative z-10">{visa.name}</h2>
                       {visa.description && (
-                        <p className="text-gray-700 leading-relaxed text-lg">{visa.description}</p>
+                        <p className="text-gray-700 leading-relaxed text-lg relative z-10">{visa.description}</p>
                       )}
                     </div>
                   </div>
