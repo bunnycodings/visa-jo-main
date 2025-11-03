@@ -65,7 +65,79 @@ All accessibility and readability issues have been fixed to improve your site's 
 
 ---
 
-## 4. ✅ Visa Pages - Improved Readability Score
+## 4. ✅ Navbar - Mobile Menu & Dropdown Buttons Accessibility
+
+**File:** `src/components/layout/Navbar.tsx`
+
+### Changes Made:
+
+#### Mobile Menu Button (Line 324-339)
+- ✅ Added `aria-label` with dynamic text: "Open/Close navigation menu"
+- ✅ Added `aria-expanded` attribute to indicate menu state
+- ✅ Added `aria-controls="mobile-menu"` to link button to menu
+- ✅ Added `aria-hidden="true"` to decorative hamburger icon
+- ✅ Added `id="mobile-menu"` to mobile navigation container
+
+### Before:
+```tsx
+<button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-300...">
+  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+```
+
+### After:
+```tsx
+<button 
+  onClick={() => setIsMenuOpen(!isMenuOpen)}
+  aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+  aria-expanded={isMenuOpen}
+  aria-controls="mobile-menu"
+>
+  <svg className="h-6 w-6" aria-hidden="true">
+```
+
+#### Desktop Dropdown Buttons
+- ✅ Added `aria-label` to Travel Visa dropdown: "Travel visa options"
+- ✅ Added `aria-label` to Schengen Visa dropdown: "Schengen visa options"
+- ✅ Added `aria-label` to Services dropdown: "Our services menu"
+- ✅ Added `aria-expanded` to all dropdowns (tracks open/closed state)
+- ✅ Added `aria-haspopup="true"` to indicate presence of dropdown menu
+- ✅ Added `aria-hidden="true"` to all dropdown arrow icons
+
+**Impact:**
+- Mobile menu button now properly announces its purpose
+- Screen readers understand menu state (open/closed)
+- Dropdown buttons have clear, descriptive names
+- Keyboard navigation is fully supported
+- Better ARIA landmark structure
+
+---
+
+## 5. ✅ Sitemap URL Configuration Fixed
+
+**Files:** `src/app/robots.ts` and `src/app/sitemap.ts`
+
+### Issue:
+The sitemap URL was showing as `rhananiacars.com/sitemap.xml` instead of the correct domain.
+
+### Solution:
+Updated both files to check for `NEXT_PUBLIC_SITE_URL` first, then fall back to `SITE_URL`, then to production URL:
+
+```typescript
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://visa-jo.com';
+```
+
+### Action Required:
+Set these environment variables in your hosting platform:
+```bash
+SITE_URL=https://visa-jo.com
+NEXT_PUBLIC_SITE_URL=https://visa-jo.com
+```
+
+See `DEPLOYMENT_CHECKLIST.md` for detailed deployment instructions.
+
+---
+
+## 6. ✅ Visa Pages - Improved Readability Score
 
 **File:** `src/components/VisaDetails.tsx`
 
@@ -190,21 +262,27 @@ All changes are compatible with:
 ### Files Modified:
 1. ✅ `src/components/layout/Footer.tsx` - Social media accessibility
 2. ✅ `src/components/FloatingCallButton.tsx` - Button accessibility
-3. ✅ `src/components/VisaDetails.tsx` - Complete readability overhaul
+3. ✅ `src/components/layout/Navbar.tsx` - Mobile menu & dropdown buttons accessibility
+4. ✅ `src/components/VisaDetails.tsx` - Complete readability overhaul
+5. ✅ `src/app/robots.ts` - Fixed sitemap URL configuration
+6. ✅ `src/app/sitemap.ts` - Fixed sitemap URL configuration
 
 ---
 
 ## Results
 
 🎉 **All Issues Resolved:**
-- ✅ Links have discernible names
-- ✅ Buttons have accessible names
+- ✅ Links have discernible names (Footer social media)
+- ✅ Buttons have accessible names (Navbar, FloatingCallButton)
+- ✅ Mobile menu button is fully accessible
+- ✅ Dropdown menus have proper ARIA attributes
 - ✅ Improved semantic HTML structure
 - ✅ Enhanced text readability (18px base font)
 - ✅ Better contrast ratios
 - ✅ Proper ARIA labels throughout
 - ✅ Logical heading hierarchy
 - ✅ Better SEO structure
+- ✅ Valid sitemap URL (after deployment with correct env vars)
 
 **Estimated Score Improvements:**
 - Accessibility: 85 → 95+ (+10-15 points)

@@ -112,6 +112,9 @@ const Navbar = () => {
                 <button
                   onClick={() => toggleDropdown('travel')}
                   className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center hover:bg-gray-800 relative"
+                  aria-label="Travel visa options"
+                  aria-expanded={activeDropdown === 'travel'}
+                  aria-haspopup="true"
                 >
                   {t('navbar.travelVisa')}
                   <svg 
@@ -119,6 +122,7 @@ const Navbar = () => {
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -172,6 +176,9 @@ const Navbar = () => {
                 <button
                   onClick={() => toggleDropdown('schengen')}
                   className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center hover:bg-gray-800 relative"
+                  aria-label="Schengen visa options"
+                  aria-expanded={activeDropdown === 'schengen'}
+                  aria-haspopup="true"
                 >
                   Schengen Visas
                   <svg 
@@ -179,6 +186,7 @@ const Navbar = () => {
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -232,6 +240,9 @@ const Navbar = () => {
                 <button
                   onClick={() => toggleDropdown('services')}
                   className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 flex items-center hover:bg-gray-800 relative"
+                  aria-label="Our services menu"
+                  aria-expanded={activeDropdown === 'services'}
+                  aria-haspopup="true"
                 >
                   {t('navbar.ourServices')}
                   <svg 
@@ -239,6 +250,7 @@ const Navbar = () => {
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
@@ -324,8 +336,11 @@ const Navbar = () => {
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="text-gray-300 hover:text-white focus:outline-none focus:text-white p-2 rounded-lg hover:bg-gray-800 transition-all duration-300"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
             >
-              <svg className="h-6 w-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-6 w-6 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 {isMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -338,7 +353,7 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden">
+          <div className="md:hidden" id="mobile-menu">
             <div className="px-4 pt-4 pb-6 space-y-2 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 shadow-lg max-h-[calc(100vh-96px)] overflow-y-auto">
               <Link
                 href="/"
