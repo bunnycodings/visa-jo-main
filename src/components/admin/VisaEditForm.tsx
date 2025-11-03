@@ -37,6 +37,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
   const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
   const [heroImagePreview, setHeroImagePreview] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
     if (visaData && isEditing) {
@@ -47,10 +48,8 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     }
   }, [visaData, isEditing]);
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  // Process file upload (used by both click and drag-drop)
+  const processFileUpload = async (file: File) => {
     // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
@@ -114,6 +113,41 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     } finally {
       setUploadingImage(false);
     }
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    await processFileUpload(file);
+  };
+
+  // Drag and drop handlers
+  const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    await processFileUpload(file);
   };
 
   const removeHeroImage = () => {
@@ -382,33 +416,51 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
                 </div>
               )}
               <div className="flex items-center gap-4">
-                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
-                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    {uploadingImage ? (
-                      <>
-                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-blue-600"></div>
-                        <p className="mt-2 text-sm text-gray-600">Uploading...</p>
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                        </svg>
-                        <p className="mb-2 text-sm text-gray-500">
-                          <span className="font-semibold">Click to upload</span> or drag and drop
-                        </p>
-                        <p className="text-xs text-gray-500">PNG, JPG, WEBP or GIF (MAX. 5MB)</p>
-                      </>
-                    )}
-                  </div>
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/jpeg,image/png,image/webp,image/gif"
-                    onChange={handleImageChange}
-                    disabled={uploadingImage}
-                  />
-                </label>
+                <div
+                  onDragEnter={handleDragEnter}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-all ${
+                    isDragging
+                      ? 'border-blue-500 bg-blue-50 scale-105'
+                      : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+                  } ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  <label className="flex flex-col items-center justify-center w-full h-full cursor-pointer">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      {uploadingImage ? (
+                        <>
+                          <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-blue-600"></div>
+                          <p className="mt-2 text-sm text-gray-600">Uploading...</p>
+                        </>
+                      ) : (
+                        <>
+                          <svg className={`w-10 h-10 mb-3 ${isDragging ? 'text-blue-600' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                          </svg>
+                          <p className={`mb-2 text-sm ${isDragging ? 'text-blue-700 font-semibold' : 'text-gray-500'}`}>
+                            {isDragging ? (
+                              <span className="font-semibold">Drop image here</span>
+                            ) : (
+                              <>
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </>
+                            )}
+                          </p>
+                          <p className="text-xs text-gray-500">PNG, JPG, WEBP or GIF (MAX. 2MB)</p>
+                        </>
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="image/jpeg,image/png,image/webp,image/gif"
+                      onChange={handleImageChange}
+                      disabled={uploadingImage}
+                    />
+                  </label>
+                </div>
               </div>
               {formData.heroImage && !heroImagePreview && (
                 <p className="text-sm text-gray-600">
