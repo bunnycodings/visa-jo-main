@@ -264,7 +264,14 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                       </div>
                       <div className="text-xs text-gray-600 uppercase tracking-wide font-semibold mb-2">{t('visas.visaFee')}</div>
                       <div className="text-2xl font-bold text-gray-900">
-                        {locale === 'ar' ? `${visa.fees.government.toFixed(2)} دينار` : `JOD ${visa.fees.government.toFixed(2)}`}
+                        {typeof visa.fees.government === 'string' && visa.fees.government.includes('-') 
+                          ? (locale === 'ar' 
+                              ? `JOD ${visa.fees.government} دينار` 
+                              : `JOD ${visa.fees.government}`)
+                          : (locale === 'ar' 
+                              ? `${Number(visa.fees.government).toFixed(2)} دينار` 
+                              : `JOD ${Number(visa.fees.government).toFixed(2)}`)
+                        }
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 transform scale-x-0 group-hover/card:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>

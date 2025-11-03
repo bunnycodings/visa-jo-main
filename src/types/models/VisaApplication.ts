@@ -45,7 +45,7 @@ export interface VisaType {
   validity: string;
   fees: {
     consultation?: number; // Deprecated, not shown in UI
-    government: number; // Will be displayed as "Visa Fee"
+    government: number | string; // Will be displayed as "Visa Fee" - can be a range like "80-180" or a number
     total: number;
   };
   isActive: boolean;

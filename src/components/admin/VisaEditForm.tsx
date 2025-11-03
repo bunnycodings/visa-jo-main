@@ -34,6 +34,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     visaTypes: null,
     heroImage: null
   });
+  const [feeInput, setFeeInput] = useState<string>('');
   const [heroImageUrl, setHeroImageUrl] = useState<string>('');
 
   useEffect(() => {
@@ -41,6 +42,14 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
       setFormData(visaData);
       if (visaData.heroImage) {
         setHeroImageUrl(visaData.heroImage);
+      }
+      // Set fee input - handle both number and string formats (including ranges)
+      if (visaData.fees.government !== undefined && visaData.fees.government !== null) {
+        // If it's already a string (range like "80-180"), use it directly
+        // If it's a number, convert to string
+        setFeeInput(String(visaData.fees.government));
+      } else {
+        setFeeInput('');
       }
     }
   }, [visaData, isEditing]);
@@ -77,6 +86,27 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     });
   };
 
+  const handleFeeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setFeeInput(value);
+    
+    // Validate range format (e.g., "80-180" or single number "80")
+    const rangePattern = /^\d+(\.\d+)?(-\d+(\.\d+)?)?$/;
+    if (value === '' || rangePattern.test(value)) {
+      // Store as string in the fees object (will be converted to number for backward compatibility if needed)
+      // For ranges, we'll store the string; for single numbers, we can store as number
+      const numValue = Number(value.split('-')[0]);
+      setFormData(prev => ({
+        ...prev,
+        fees: {
+          ...prev.fees,
+          government: isNaN(numValue) ? 0 : numValue, // Store first number for backward compatibility
+          total: isNaN(numValue) ? 0 : numValue
+        }
+      }));
+    }
+  };
+
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const num = Number(value);
@@ -84,15 +114,9 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       if (parent === 'fees') {
-        setFormData(prev => ({
-          ...prev,
-          fees: {
-            ...prev.fees,
-            [child as keyof typeof prev.fees]: isNaN(num) ? 0 : num
-          }
-        }));
+        // Don't handle fees here, use handleFeeChange instead
+        return;
       }
-      return;
     }
   
     setFormData(prev => ({
@@ -133,13 +157,24 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     setSuccess('');
 
     try {
-      // Calculate total fees (only visa fee now, no service fee)
-      const totalFees = formData.fees.government;
+      // Handle fee input - can be a range like "80-180" or single number
+      // Store the fee input as-is in the government field (as string in JSON)
+      const feeValue = feeInput.trim();
+      let governmentFee: number | string = formData.fees.government;
+      
+      // If it's a range format, store as string; otherwise store as number
+      if (feeValue.includes('-')) {
+        governmentFee = feeValue;
+      } else if (feeValue) {
+        governmentFee = Number(feeValue) || 0;
+      }
+      
       const updatedFormData = {
         ...formData,
         fees: {
           ...formData.fees,
-          total: totalFees
+          government: governmentFee,
+          total: typeof governmentFee === 'string' ? Number(governmentFee.split('-')[0]) || 0 : governmentFee
         }
       };
 
@@ -389,16 +424,17 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
                 Visa Fee (JOD) *
               </label>
               <input
-                type="number"
+                type="text"
                 name="fees.government"
-                value={formData.fees.government}
-                onChange={handleNumberChange}
+                value={feeInput}
+                onChange={handleFeeChange}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                min="0"
-                step="0.01"
+                placeholder="e.g., 80 or 80-180"
                 required
               />
-              <p className="text-sm text-gray-600 mt-2">Official visa processing fee</p>
+              <p className="text-sm text-gray-600 mt-2">
+                Enter a single amount (e.g., 80) or a range (e.g., 80-180)
+              </p>
             </div>
 
             <div>
@@ -406,12 +442,13 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
                 Total Fee (JOD)
               </label>
               <input
-                type="number"
+                type="text"
                 name="fees.total"
-                value={formData.fees.government}
+                value={feeInput}
                 className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg text-gray-900 bg-gray-100 font-semibold"
                 disabled
               />
+              <p className="text-sm text-gray-500 mt-2">Auto-filled from visa fee</p>
             </div>
           </div>
         </div>
