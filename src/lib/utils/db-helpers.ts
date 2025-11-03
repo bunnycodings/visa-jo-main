@@ -124,7 +124,7 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
 
 export async function getVisasByCountry(country: string): Promise<VisaType[]> {
   const rows = await query<VisaRow>(
-    'SELECT * FROM visas WHERE country = ? AND is_active = 1 ORDER BY name ASC',
+    'SELECT * FROM visas WHERE LOWER(country) = LOWER(?) AND is_active = 1 ORDER BY name ASC',
     [country]
   );
 
