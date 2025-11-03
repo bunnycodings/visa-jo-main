@@ -120,7 +120,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                           <img
                             src={visa.heroImage}
                             alt={`${visa.name} background`}
-                            className="w-full h-full object-cover blur-sm"
+                            className="w-full h-full object-cover blur-[4.4px]"
                             aria-hidden="true"
                           />
                         </div>
