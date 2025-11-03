@@ -4,10 +4,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   // Performance optimizations
-  swcMinify: true, // Use SWC for faster builds and minification
   compress: true, // Enable gzip compression
   poweredByHeader: false, // Remove X-Powered-By header
-  optimizeFonts: true, // Optimize font loading
   
   images: {
     unoptimized: true,

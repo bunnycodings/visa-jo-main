@@ -10,9 +10,10 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   // Performance optimizations
-  swcMinify: true, // Use SWC for faster minification
   compress: true, // Enable gzip compression
   poweredByHeader: false, // Remove X-Powered-By header for security
+  // Enable strict mode for better performance
+  reactStrictMode: true,
   images: {
     unoptimized: true,
     domains: ['localhost'],
@@ -29,10 +30,6 @@ const nextConfig = {
       },
     ],
   },
-  // Optimize CSS
-  optimizeFonts: true,
-  // Enable strict mode for better performance
-  reactStrictMode: true,
   env: {
     SITE_URL: process.env.SITE_URL || 'https://visa-jo.com',
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://visa-jo.com',
