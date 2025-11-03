@@ -85,7 +85,11 @@ export default function TabNavigation({ tabs, showSubTabs = true }: TabNavigatio
                     }
                   `}
                 >
-                  {subTab.icon && <span className="text-gray-400">{subTab.icon}</span>}
+                  {subTab.icon && (
+                    <span className={isActive(subTab.href) ? 'text-blue-600' : 'text-gray-400 group-hover:text-gray-600'}>
+                      {subTab.icon}
+                    </span>
+                  )}
                   <span>{subTab.label[locale as 'en' | 'ar']}</span>
                   {isActive(subTab.href) && (
                     <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
