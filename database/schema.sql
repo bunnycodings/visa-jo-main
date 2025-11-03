@@ -171,54 +171,32 @@ INSERT INTO users (
 ) ON DUPLICATE KEY UPDATE updated_at = NOW();
 
 -- Insert All Visas
--- UAE Visas (3)
-INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at) 
+-- UAE Visa (consolidated into one entry)
+INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, visa_types, is_active, created_at, updated_at) 
 VALUES (
-  'UAE 14 Days Visa',
+  'UAE Visa',
   'uae',
   'travel',
   '["A clear photo with a white background", "A 6 months validity clear passport scan or picture"]',
   'Up to 7 working days',
-  '14 days single entry',
+  '14-90 days',
   '{"consultation": 50, "government": 150, "total": 200}',
-  'Short-term single entry visa for UAE valid for 14 days.',
-  'Processing time varies. Application must include clear documents for faster processing.',
+  'UAE visa with flexible duration options for tourism and business travel.',
+  'Processing time varies. Application must include clear documents for faster processing. Multiple entry options available for 30 and 90 day visas.',
+  '["14 Days Single Entry", "30 Days Multiple Entry", "90 Days Multiple Entry"]',
   1,
   NOW(),
   NOW()
-) ON DUPLICATE KEY UPDATE updated_at = NOW();
+) ON DUPLICATE KEY UPDATE 
+  name = 'UAE Visa',
+  visa_types = '["14 Days Single Entry", "30 Days Multiple Entry", "90 Days Multiple Entry"]',
+  validity = '14-90 days',
+  description = 'UAE visa with flexible duration options for tourism and business travel.',
+  notes = 'Processing time varies. Application must include clear documents for faster processing. Multiple entry options available for 30 and 90 day visas.',
+  updated_at = NOW();
 
-INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at) 
-VALUES (
-  'UAE 30 Days Visa',
-  'uae',
-  'travel',
-  '["A clear photo with a white background", "A 6 months validity clear passport scan or picture"]',
-  'Up to 7 working days',
-  '30 days multiple entry',
-  '{"consultation": 70, "government": 250, "total": 320}',
-  '30-day multiple entry visa for UAE with flexible travel options.',
-  'Allows multiple entries within the 30-day validity period.',
-  1,
-  NOW(),
-  NOW()
-) ON DUPLICATE KEY UPDATE updated_at = NOW();
-
-INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at) 
-VALUES (
-  'UAE 90 Days Visa',
-  'uae',
-  'travel',
-  '["A clear photo with a white background", "A 6 months validity clear passport scan or picture"]',
-  'Up to 7 working days',
-  '90 days multiple entry',
-  '{"consultation": 100, "government": 400, "total": 500}',
-  'Long-term multiple entry visa for UAE valid for 90 days.',
-  'Ideal for extended stays and multiple visits.',
-  1,
-  NOW(),
-  NOW()
-) ON DUPLICATE KEY UPDATE updated_at = NOW();
+-- Deactivate old UAE visa entries (14 Days, 30 Days, 90 Days)
+UPDATE visas SET is_active = 0 WHERE country = 'uae' AND name IN ('UAE 14 Days Visa', 'UAE 30 Days Visa', 'UAE 90 Days Visa');
 
 -- Germany Schengen Visa
 INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, is_active, created_at, updated_at) 
