@@ -1,8 +1,10 @@
+import React from 'react';
+
 export interface TabItem {
   id: string;
   href: string;
   label: { en: string; ar: string };
-  icon: React.ReactNode;
+  icon: React.ReactNode | null;
   children?: TabItem[];
 }
 
