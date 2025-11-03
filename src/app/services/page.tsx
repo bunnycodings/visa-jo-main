@@ -1,8 +1,12 @@
+'use client';
+
 import type { ServicesContent } from '@/types/models/SiteContent';
 import { defaultServicesContent } from '@/types/models/SiteContent';
 import Link from 'next/link';
+import { useLanguage } from '@/context/LanguageContext';
 
-export default async function ServicesPage() {
+export default function ServicesPage() {
+  const { t } = useLanguage();
   // Static list of visa services for static export
   const staticVisas = [
     { country: 'uae', name: 'UAE Visa' },
@@ -49,8 +53,8 @@ export default async function ServicesPage() {
                 </svg>
               </div>
               <div>
-                <h2 className="text-3xl font-bold mb-2">Available Visa Services</h2>
-                <p className="text-blue-100">Select a destination to view visa requirements and information</p>
+                <h2 className="text-3xl font-bold mb-2">{t('services.availableVisaServices')}</h2>
+                <p className="text-blue-100">{t('services.selectDestination')}</p>
               </div>
             </div>
             
