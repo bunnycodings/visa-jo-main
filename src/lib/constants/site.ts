@@ -15,10 +15,14 @@ export const siteConfig = {
   contactAddress: process.env.CONTACT_ADDRESS || 'Al Qaherah, Abdoun, Building Number 24, Amman-Jordan',
   businessHours: process.env.BUSINESS_HOURS || 'Mon - Fri: 09:00 AM - 18:00 PM',
   
+  // Google Places Configuration
+  googlePlaceId: process.env.NEXT_PUBLIC_GOOGLE_PLACE_ID || 'ChIJdeupRGqhHBURVIFe6tsJobA',
+  googleApiKey: process.env.GOOGLE_PLACES_API_KEY || 'AIzaSyDtGagLe57lZB0QrLSknpyDhhjnF3lGVPs',
+  
   // Social Media Links
-  facebookUrl: process.env.FACEBOOK_URL || '#',
+  facebookUrl: process.env.FACEBOOK_URL || 'https://facebook.com/VisaJor/',
   twitterUrl: process.env.TWITTER_URL || '#',
-  instagramUrl: process.env.INSTAGRAM_URL || '#',
+  instagramUrl: process.env.INSTAGRAM_URL || 'https://www.instagram.com/visa_jo/',
   
   // Helper functions to format phone numbers
   getFormattedPhone: () => {

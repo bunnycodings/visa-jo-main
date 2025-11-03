@@ -1,12 +1,60 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 import { siteConfig } from '@/lib/constants';
 
+// Google Place ID and API Key
+const GOOGLE_PLACE_ID = 'ChIJdeupRGqhHBURVIFe6tsJobA';
+const GOOGLE_API_KEY = 'AIzaSyDtGagLe57lZB0QrLSknpyDhhjnF3lGVPs';
+
+interface PlaceDetails {
+  formattedAddress: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  name: string;
+}
+
 const Footer = () => {
   const { t } = useLanguage();
+  const [placeDetails, setPlaceDetails] = useState<PlaceDetails | null>(null);
+  
+  useEffect(() => {
+    // Fetch place details from Google Places API
+    const fetchPlaceDetails = async () => {
+      try {
+        const response = await fetch(
+          `/api/google-places/details?placeId=${GOOGLE_PLACE_ID}`
+        );
+        
+        if (response.ok) {
+          const data = await response.json();
+          setPlaceDetails(data);
+        }
+      } catch (error) {
+        console.error('Error fetching place details:', error);
+      }
+    };
+    
+    fetchPlaceDetails();
+  }, []);
+  
+  // Get map source URL using Place ID
+  const getMapUrl = () => {
+    return `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=place_id:${GOOGLE_PLACE_ID}&zoom=15`;
+  };
+  
+  // Get Google Maps link using Place ID
+  const getMapsLink = () => {
+    return `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`;
+  };
+  
+  const displayAddress = placeDetails?.formattedAddress || 'Al Qaherah, Abdoun, Building Number 24, Amman, Jordan';
+  
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -107,25 +155,27 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <a 
-                  href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
+                  href={getMapsLink()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300 hover:text-white transition-colors"
+                  aria-label="View office location on Google Maps"
                 >
-                  Al Qaherah, Abdoun, Building Number 24, Amman, Jordan
+                  {displayAddress}
                 </a>
               </div>
             </div>
-            {/* Small Map */}
+            {/* Small Map using Google Place ID */}
             <div className="mt-4 rounded-lg overflow-hidden shadow-lg border border-gray-700">
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
+                href={getMapsLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block relative group"
+                aria-label="View Visa Jo location on Google Maps"
               >
                 <iframe
-                  src="https://www.google.com/maps?q=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan&output=embed"
+                  src={getMapUrl()}
                   width="100%"
                   height="150"
                   style={{ border: 0 }}
@@ -133,7 +183,7 @@ const Footer = () => {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full"
-                  title="Visa Jo Location"
+                  title="Visa Jo Office Location"
                 ></iframe>
               </a>
             </div>
