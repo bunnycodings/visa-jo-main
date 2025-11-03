@@ -140,6 +140,38 @@
     "backToHome": "← Back to Home",
     "readyToStart": "Ready to Start Your Visa Journey?",
     "expertTeam": "Our expert team is here to guide you through every step of the process. Get in touch for personalized assistance.",
-    "applyNow": "Apply Now"
+    "applyNow": "Apply Now",
+    "professionalGuidance": "Professional visa solutions and expert guidance",
+    "importantNotes": "Important Notes"
+  },
+  "about": {
+    "ourStory": "Our Story",
+    "buildingTrust": "Building Trust Since Day One",
+    "trustedService": "Trusted Service",
+    "expertTeam": "Expert Team",
+    "successfulApplications": "Successful Visa Applications",
+    "ourCommitment": "Our Commitment",
+    "support247": "24/7 Support",
+    "fastProcessing": "Fast Processing"
+  },
+  "services": {
+    "availableVisaServices": "Available Visa Services",
+    "selectDestination": "Select a destination to view visa requirements and information"
+  },
+  "contact": {
+    "needImmediateHelp": "Need Immediate Help?",
+    "teamAvailable": "Our team is available 24/7 to assist you with your visa needs.",
+    "startWhatsAppChat": "Start WhatsApp Chat",
+    "callUsNow": "Call Us Now",
+    "contactConsultants": "Contact our Consultants for Inquiries...",
+    "leaveMessage": "Leave Us A Message",
+    "nameLabel": "Name",
+    "phoneLabel": "Phone Number",
+    "inquiriesLabel": "Your Inquiries....",
+    "emailLabel": "email...",
+    "send": "Send",
+    "thanksMessage": "Thanks! We'll get back to you soon.",
+    "visitOffice": "Visit Our Office",
+    "clickToView": "Click to view on Google Maps"
   }
 }
