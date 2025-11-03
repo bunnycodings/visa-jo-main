@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS visas (
   embassy_appointment TEXT NULL,
   main_requirements TEXT NULL,
   visa_types JSON NULL,
-  hero_image VARCHAR(500) NULL,
+  hero_image LONGTEXT NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -129,7 +129,19 @@ ADD COLUMN IF NOT EXISTS embassy_info TEXT NULL,
 ADD COLUMN IF NOT EXISTS embassy_appointment TEXT NULL,
 ADD COLUMN IF NOT EXISTS main_requirements TEXT NULL,
 ADD COLUMN IF NOT EXISTS visa_types JSON NULL,
-ADD COLUMN IF NOT EXISTS hero_image VARCHAR(500) NULL;
+ADD COLUMN IF NOT EXISTS hero_image LONGTEXT NULL;
+
+-- Create uploaded_images table if it doesn't exist
+CREATE TABLE IF NOT EXISTS uploaded_images (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  image_id VARCHAR(255) NOT NULL UNIQUE,
+  image_data LONGTEXT NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_image_id (image_id),
+  INDEX idx_category (category)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ===================================================================
 -- PART 3: INSERT INITIAL DATA

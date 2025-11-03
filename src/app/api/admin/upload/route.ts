@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import { join } from 'path';
 import jwt from 'jsonwebtoken';
+import { getConnectionPool } from '@/lib/utils/mysql';
 
 const JWT_SECRET = process.env.NEXTAUTH_SECRET || 'your-secret-key-here';
 
@@ -54,54 +53,55 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate unique filename with proper extension handling
+    // Convert file to base64
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const base64Image = buffer.toString('base64');
+    const dataUrl = `data:${file.type};base64,${base64Image}`;
+
+    // Store image in database
+    const pool = getConnectionPool();
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(7);
-    const originalName = file.name || 'image';
-    const ext = originalName.includes('.') 
-      ? originalName.split('.').pop()?.toLowerCase() || 'jpg'
-      : file.type.includes('jpeg') ? 'jpg' 
-      : file.type.includes('png') ? 'png'
-      : file.type.includes('webp') ? 'webp'
-      : file.type.includes('gif') ? 'gif'
-      : 'jpg';
-    const filename = `${timestamp}-${random}.${ext}`;
+    const imageId = `img_${timestamp}_${random}`;
 
-    // Ensure public directory exists first
-    const publicDir = join(process.cwd(), 'public');
     try {
-      await mkdir(publicDir, { recursive: true });
-    } catch (err: any) {
-      // Directory might already exist, that's okay
-      if (err.code !== 'EEXIST') {
-        console.error('Error creating public directory:', err);
+      // Insert image into database
+      await pool.execute(
+        'INSERT INTO uploaded_images (image_id, image_data, mime_type, category, created_at) VALUES (?, ?, ?, ?, NOW())',
+        [imageId, base64Image, file.type, category]
+      );
+    } catch (dbError: any) {
+      // If table doesn't exist, create it
+      if (dbError.code === 'ER_NO_SUCH_TABLE') {
+        await pool.execute(`
+          CREATE TABLE IF NOT EXISTS uploaded_images (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            image_id VARCHAR(255) NOT NULL UNIQUE,
+            image_data LONGTEXT NOT NULL,
+            mime_type VARCHAR(100) NOT NULL,
+            category VARCHAR(50) NOT NULL,
+            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            INDEX idx_image_id (image_id),
+            INDEX idx_category (category)
+          ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+        `);
+        
+        // Retry insert
+        await pool.execute(
+          'INSERT INTO uploaded_images (image_id, image_data, mime_type, category, created_at) VALUES (?, ?, ?, ?, NOW())',
+          [imageId, base64Image, file.type, category]
+        );
+      } else {
+        throw dbError;
       }
     }
 
-    // Ensure uploads directory exists
-    const uploadsDir = join(publicDir, 'uploads', category);
-    try {
-      await mkdir(uploadsDir, { recursive: true });
-    } catch (err: any) {
-      // Directory might already exist, that's okay
-      if (err.code !== 'EEXIST') {
-        console.error('Error creating uploads directory:', err);
-        throw new Error(`Failed to create uploads directory: ${err.message}`);
-      }
-    }
-
-    // Write file to disk
-    const filepath = join(uploadsDir, filename);
-    const bytes = await file.arrayBuffer();
-    await writeFile(filepath, Buffer.from(bytes));
-
-    // Return the public path
-    const publicPath = `/uploads/${category}/${filename}`;
-
+    // Return the image ID (we'll use this to fetch the image via API)
     return NextResponse.json({
       success: true,
-      url: publicPath,
-      filename: filename,
+      url: `/api/images/${imageId}`,
+      imageId: imageId,
       message: 'File uploaded successfully',
     });
   } catch (error: any) {
