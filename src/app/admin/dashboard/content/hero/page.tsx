@@ -366,6 +366,7 @@ export default function AdminHeroContentPage() {
             </form>
           )}
         </div>
+      </div>
     </DashboardLayout>
   );
 }
