@@ -55,15 +55,32 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
     );
   }
 
+  // Get hero image from first visa if available
+  const heroImage = visas.length > 0 && visas[0].heroImage ? visas[0].heroImage : null;
+
   return (
     <main className={`bg-white min-h-screen ${isRTL ? 'rtl' : ''}`}>
       {/* Hero Header - Matching index page style */}
       <header className="relative py-20 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/30 relative overflow-hidden">
+        {/* Hero Image Background */}
+        {heroImage && (
+          <div className="absolute inset-0 z-0">
+            <img
+              src={heroImage}
+              alt={`${getCountryName(country, locale)} visa hero`}
+              className="w-full h-full object-cover opacity-20"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-blue-50/50 to-indigo-50/50"></div>
+          </div>
+        )}
+        
         {/* Background decoration - matching WhyChooseUs */}
-        <div className="absolute inset-0 opacity-10" aria-hidden="true">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-400 rounded-full blur-3xl"></div>
-        </div>
+        {!heroImage && (
+          <div className="absolute inset-0 opacity-10" aria-hidden="true">
+            <div className="absolute top-0 right-0 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-400 rounded-full blur-3xl"></div>
+          </div>
+        )}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">

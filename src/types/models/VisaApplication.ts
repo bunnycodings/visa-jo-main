@@ -55,6 +55,7 @@ export interface VisaType {
   embassyAppointment?: string | null;
   mainRequirements?: string | null;
   visaTypes?: string[] | null;
+  heroImage?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -74,6 +75,7 @@ export interface VisaRow {
   embassy_appointment?: string | null;
   main_requirements?: string | null;
   visa_types?: string | null;
+  hero_image?: string | null;
   is_active: number;
   created_at: Date;
   updated_at: Date;

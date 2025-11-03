@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS visas (
   embassy_appointment TEXT NULL,
   main_requirements TEXT NULL,
   visa_types JSON NULL,
+  hero_image VARCHAR(500) NULL,
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
   created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -127,7 +128,8 @@ ALTER TABLE visas
 ADD COLUMN IF NOT EXISTS embassy_info TEXT NULL,
 ADD COLUMN IF NOT EXISTS embassy_appointment TEXT NULL,
 ADD COLUMN IF NOT EXISTS main_requirements TEXT NULL,
-ADD COLUMN IF NOT EXISTS visa_types JSON NULL;
+ADD COLUMN IF NOT EXISTS visa_types JSON NULL,
+ADD COLUMN IF NOT EXISTS hero_image VARCHAR(500) NULL;
 
 -- ===================================================================
 -- PART 3: INSERT INITIAL DATA
@@ -207,7 +209,7 @@ VALUES (
 ) ON DUPLICATE KEY UPDATE updated_at = NOW();
 
 -- Germany Schengen Visa
-INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at) 
+INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, is_active, created_at, updated_at) 
 VALUES (
   'Germany Schengen Visa',
   'germany',
@@ -218,10 +220,23 @@ VALUES (
   '{"consultation": 60, "government": 80, "total": 140}',
   'Short-stay Schengen visa for Germany for tourism or business.',
   'Processing times may vary during peak seasons.',
+  NULL,
+  NULL,
+  NULL,
+  NULL,
   1,
   NOW(),
   NOW()
-) ON DUPLICATE KEY UPDATE updated_at = NOW();
+) ON DUPLICATE KEY UPDATE 
+  country = VALUES(country),
+  category = VALUES(category),
+  requirements = VALUES(requirements),
+  processing_time = VALUES(processing_time),
+  validity = VALUES(validity),
+  fees = VALUES(fees),
+  description = VALUES(description),
+  notes = VALUES(notes),
+  updated_at = NOW();
 
 -- France Schengen Visa
 INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at) 

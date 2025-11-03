@@ -31,14 +31,93 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     embassyInfo: null,
     embassyAppointment: null,
     mainRequirements: null,
-    visaTypes: null
+    visaTypes: null,
+    heroImage: null
   });
+  const [heroImageFile, setHeroImageFile] = useState<File | null>(null);
+  const [heroImagePreview, setHeroImagePreview] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     if (visaData && isEditing) {
       setFormData(visaData);
+      if (visaData.heroImage) {
+        setHeroImagePreview(visaData.heroImage);
+      }
     }
   }, [visaData, isEditing]);
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      setError('Invalid file type. Please upload JPEG, PNG, WebP, or GIF images only.');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('File size exceeds 5MB. Please upload a smaller image.');
+      return;
+    }
+
+    setHeroImageFile(file);
+    setUploadingImage(true);
+    setError('');
+
+    try {
+      // Create preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setHeroImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+
+      // Upload to server
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('category', 'visas');
+
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: uploadFormData
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+
+      const data = await response.json();
+      setFormData(prev => ({
+        ...prev,
+        heroImage: data.url
+      }));
+      setSuccess('Hero image uploaded successfully!');
+    } catch (err) {
+      console.error('Upload error:', err);
+      setError('Failed to upload image. Please try again.');
+      setHeroImageFile(null);
+      setHeroImagePreview(null);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const removeHeroImage = () => {
+    setHeroImageFile(null);
+    setHeroImagePreview(null);
+    setFormData(prev => ({
+      ...prev,
+      heroImage: null
+    }));
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -270,6 +349,70 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
               placeholder="Brief overview of this visa"
               rows={4}
             />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-bold text-gray-900 mb-2">
+              Hero Image
+            </label>
+            <div className="space-y-4">
+              {heroImagePreview && (
+                <div className="relative w-full max-w-md">
+                  <img
+                    src={heroImagePreview}
+                    alt="Hero preview"
+                    className="w-full h-64 object-cover rounded-lg border-2 border-gray-300"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeHeroImage}
+                    className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors"
+                    aria-label="Remove image"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+              <div className="flex items-center gap-4">
+                <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    {uploadingImage ? (
+                      <>
+                        <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-4 border-b-4 border-blue-600"></div>
+                        <p className="mt-2 text-sm text-gray-600">Uploading...</p>
+                      </>
+                    ) : (
+                      <>
+                        <svg className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                        </svg>
+                        <p className="mb-2 text-sm text-gray-500">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500">PNG, JPG, WEBP or GIF (MAX. 5MB)</p>
+                      </>
+                    )}
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    onChange={handleImageChange}
+                    disabled={uploadingImage}
+                  />
+                </label>
+              </div>
+              {formData.heroImage && !heroImagePreview && (
+                <p className="text-sm text-gray-600">
+                  Current image: <span className="font-semibold">{formData.heroImage}</span>
+                </p>
+              )}
+              <p className="text-xs text-gray-500">
+                Upload a hero image that will be displayed at the top of the visa page. Recommended size: 1920x600px
+              </p>
+            </div>
           </div>
 
           <div>

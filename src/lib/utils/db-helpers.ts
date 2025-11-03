@@ -88,6 +88,7 @@ export async function getAllVisas(): Promise<VisaType[]> {
     embassyAppointment: row.embassy_appointment || null,
     mainRequirements: row.main_requirements || null,
     visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
+    heroImage: row.hero_image || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -110,6 +111,11 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
     fees: JSON.parse(row.fees),
     description: row.description,
     notes: row.notes,
+    embassyInfo: row.embassy_info || null,
+    embassyAppointment: row.embassy_appointment || null,
+    mainRequirements: row.main_requirements || null,
+    visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
+    heroImage: row.hero_image || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -137,6 +143,7 @@ export async function getVisasByCountry(country: string): Promise<VisaType[]> {
     embassyAppointment: row.embassy_appointment || null,
     mainRequirements: row.main_requirements || null,
     visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
+    heroImage: row.hero_image || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -146,8 +153,8 @@ export async function getVisasByCountry(country: string): Promise<VisaType[]> {
 export async function createVisa(visa: VisaType): Promise<number> {
   const pool = getConnectionPool();
   const [result]: any = await pool.execute(
-    `INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, is_active)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, hero_image, is_active)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       visa.name,
       visa.country,
@@ -162,6 +169,7 @@ export async function createVisa(visa: VisaType): Promise<number> {
       visa.embassyAppointment || null,
       visa.mainRequirements || null,
       visa.visaTypes ? JSON.stringify(visa.visaTypes) : null,
+      visa.heroImage || null,
       visa.isActive ? 1 : 0,
     ]
   );
@@ -224,6 +232,10 @@ export async function updateVisaByName(originalName: string, visa: Partial<VisaT
   if (visa.visaTypes !== undefined) {
     updates.push('visa_types = ?');
     values.push(JSON.stringify(visa.visaTypes));
+  }
+  if (visa.heroImage !== undefined) {
+    updates.push('hero_image = ?');
+    values.push(visa.heroImage);
   }
   if (visa.isActive !== undefined) {
     updates.push('is_active = ?');
