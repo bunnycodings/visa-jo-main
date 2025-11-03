@@ -416,7 +416,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
                 </p>
               )}
               <p className="text-xs text-gray-500">
-                Upload a hero image that will be displayed at the top of the visa page. Recommended size: 1920x600px
+                Upload a hero image that will be displayed at the top of the visa page. Recommended size: 1920x600px. Maximum file size: 2MB.
               </p>
             </div>
           </div>

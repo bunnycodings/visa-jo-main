@@ -17,6 +17,10 @@ async function verifyAdmin(request: NextRequest) {
   }
 }
 
+// Increase body size limit for file uploads
+export const runtime = 'nodejs';
+export const maxDuration = 30;
+
 export async function POST(request: NextRequest) {
   try {
     const admin = await verifyAdmin(request);
