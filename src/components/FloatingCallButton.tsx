@@ -37,11 +37,11 @@ const FloatingCallButton = () => {
                 title="Chat with us on WhatsApp"
                 onClick={() => setIsExpanded(false)}
               >
-                <div className="relative w-16 h-16 bg-green-500 hover:bg-green-600 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 overflow-hidden rounded-lg">
+                <div className="relative w-16 h-16 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110">
                   <img
                     src="/img/icons/whatapp.png"
                     alt="WhatsApp"
-                    className="w-10 h-10 object-contain"
+                    className="w-16 h-16 object-contain"
                   />
                 </div>
               </a>
@@ -58,11 +58,11 @@ const FloatingCallButton = () => {
                 title="Call us"
                 onClick={() => setIsExpanded(false)}
               >
-                <div className="relative w-16 h-16 bg-[#145EFF] hover:bg-blue-700 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 overflow-hidden rounded-lg">
+                <div className="relative w-16 h-16 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110">
                   <img
                     src="/img/icons/call.png"
                     alt="Call"
-                    className="w-10 h-10 object-contain"
+                    className="w-16 h-16 object-contain"
                   />
                 </div>
               </a>
@@ -76,16 +76,16 @@ const FloatingCallButton = () => {
           className="group relative flex items-center justify-center flex-shrink-0"
           title={isExpanded ? "Close" : "Contact us"}
         >
-          <div className="relative w-16 h-16 bg-[#145EFF] hover:bg-blue-700 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110 overflow-hidden rounded-lg border-2 border-white">
+          <div className="relative w-16 h-16 flex items-center justify-center shadow-2xl transition-all duration-300 transform hover:scale-110">
             {isExpanded ? (
-              <svg className="w-8 h-8 text-white transition-transform duration-300 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-8 h-8 text-gray-700 transition-transform duration-300 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
               <img
                 src="/img/icons/call.png"
                 alt="Contact"
-                className="w-10 h-10 object-contain"
+                className="w-16 h-16 object-contain"
               />
             )}
           </div>
