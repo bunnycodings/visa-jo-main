@@ -4,7 +4,13 @@
 
 ### ⚠️ IMPORTANT: Fix Sitemap URL Issue
 
-The sitemap is currently showing an incorrect URL (`rhananiacars.com`). To fix this, you **MUST** set the correct environment variables during deployment.
+The sitemap may be showing an incorrect URL (`rhananiacars.com`). This happens when:
+1. An environment variable is set to the wrong domain
+2. The environment variable is missing the `https://` protocol
+
+**The code now automatically adds `https://` if it's missing**, but you still need to set the correct domain.
+
+See `ROBOTS_TXT_FIX.md` for detailed troubleshooting steps.
 
 ### Required Environment Variables
 

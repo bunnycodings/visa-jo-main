@@ -2,8 +2,16 @@ import { MetadataRoute } from 'next';
 import { getAllVisas, getSiteContent } from '@/lib/utils/db-helpers';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Use NEXT_PUBLIC_SITE_URL for client-side access or fallback to production URL
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://visa-jo.com';
+  // Get the base URL from environment variables
+  let baseUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL || 'https://visa-jo.com';
+  
+  // Ensure the URL has a protocol (https://)
+  if (!baseUrl.startsWith('http://') && !baseUrl.startsWith('https://')) {
+    baseUrl = `https://${baseUrl}`;
+  }
+  
+  // Remove trailing slash if present
+  baseUrl = baseUrl.replace(/\/$/, '');
 
   try {
     // Fetch all visas from database dynamically
