@@ -140,6 +140,38 @@
     "backToHome": "← العودة إلى الرئيسية",
     "readyToStart": "هل أنت مستعد لبدء رحلة التأشيرة الخاصة بك؟",
     "expertTeam": "فريقنا الخبير هنا لإرشادك في كل خطوة من العملية. تواصل معنا للحصول على مساعدة مخصصة.",
-    "applyNow": "تقديم طلب الآن"
+    "applyNow": "تقديم طلب الآن",
+    "professionalGuidance": "حلول تأشيرة احترافية وإرشادات خبيرة",
+    "importantNotes": "ملاحظات مهمة"
+  },
+  "about": {
+    "ourStory": "قصتنا",
+    "buildingTrust": "بناء الثقة منذ اليوم الأول",
+    "trustedService": "خدمة موثوقة",
+    "expertTeam": "فريق خبير",
+    "successfulApplications": "طلبات التأشيرة الناجحة",
+    "ourCommitment": "التزامنا",
+    "support247": "دعم على مدار الساعة",
+    "fastProcessing": "معالجة سريعة"
+  },
+  "services": {
+    "availableVisaServices": "خدمات التأشيرة المتاحة",
+    "selectDestination": "اختر وجهة لعرض متطلبات التأشيرة والمعلومات"
+  },
+  "contact": {
+    "needImmediateHelp": "تحتاج مساعدة فورية؟",
+    "teamAvailable": "فريقنا متاح على مدار الساعة لمساعدتك في احتياجات التأشيرة الخاصة بك.",
+    "startWhatsAppChat": "بدء محادثة واتساب",
+    "callUsNow": "اتصل بنا الآن",
+    "contactConsultants": "تواصل مع مستشارينا للاستفسارات...",
+    "leaveMessage": "اترك لنا رسالة",
+    "nameLabel": "الاسم",
+    "phoneLabel": "رقم الهاتف",
+    "inquiriesLabel": "استفساراتك....",
+    "emailLabel": "البريد الإلكتروني...",
+    "send": "إرسال",
+    "thanksMessage": "شكرًا! سنعود إليك قريبًا.",
+    "visitOffice": "زيارة مكتبنا",
+    "clickToView": "انقر لعرض على خرائط جوجل"
   }
 }

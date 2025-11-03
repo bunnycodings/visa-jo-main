@@ -52,7 +52,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
             </div>
             <div>
               <h1 className="text-4xl md:text-5xl font-bold">{title || t('visas.title')}</h1>
-              <p className="text-blue-100 text-lg mt-2">Professional visa solutions and expert guidance</p>
+              <p className="text-blue-100 text-lg mt-2">{t('visas.professionalGuidance')}</p>
             </div>
           </div>
         </div>
@@ -224,7 +224,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                           <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                         </svg>
                         <div>
-                          <div className="font-bold text-amber-900 mb-2">Important Notes</div>
+                          <div className="font-bold text-amber-900 mb-2">{t('visas.importantNotes')}</div>
                           <p className="text-amber-800 leading-relaxed">{visa.notes}</p>
                         </div>
                       </div>

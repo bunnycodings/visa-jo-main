@@ -312,7 +312,7 @@ const Contact = () => {
         {/* Map Section */}
         <div className="mt-16">
           <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-            Visit Our Office
+            {t('contact.visitOffice')}
           </h3>
           <a 
             href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
@@ -322,7 +322,7 @@ const Contact = () => {
           >
             <div className="text-center">
               <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4 group-hover:text-[#145EFF] transition-colors" />
-              <p className="text-gray-600 group-hover:text-[#145EFF] transition-colors">Click to view on Google Maps</p>
+              <p className="text-gray-600 group-hover:text-[#145EFF] transition-colors">{t('contact.clickToView')}</p>
               <p className="text-sm text-gray-500 mt-2 group-hover:text-gray-600 transition-colors">Al Qaherah, Abdoun, Building Number 24, Amman, Jordan</p>
             </div>
           </a>
