@@ -97,7 +97,51 @@ const Footer = () => {
                   {siteConfig.email}
                 </a>
               </div>
+              <div className="flex items-start">
+                <svg className="h-5 w-5 mr-2 text-blue-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Al Qaherah, Abdoun, Building Number 24, Amman, Jordan
+                </a>
+              </div>
             </div>
+          </div>
+        </div>
+
+        {/* Map Location Section */}
+        <div className="mt-12">
+          <h3 className="text-lg font-semibold mb-4 text-center">{t('footer.visitUs') || 'Visit Our Location'}</h3>
+          <div className="rounded-lg overflow-hidden shadow-xl border border-gray-700">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block relative group"
+            >
+              <iframe
+                src="https://www.google.com/maps?q=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan&output=embed"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full"
+                title="Visa Jo Location"
+              ></iframe>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <div className="bg-white/95 px-4 py-2 rounded-lg shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                  <span className="text-gray-900 font-semibold text-sm">{t('contact.clickToView') || 'Click to view on Google Maps'}</span>
+                </div>
+              </div>
+            </a>
           </div>
         </div>
 
