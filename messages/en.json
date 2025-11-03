@@ -127,6 +127,19 @@
     "validity": "Visa Validity",
     "fees": "Visa Fees",
     "apply": "Apply for",
-    "visa": "Visa"
+    "visa": "Visa",
+    "visaFee": "Visa Fee",
+    "feeBreakdown": "Fee Breakdown",
+    "totalCost": "Total Cost",
+    "embassyInfo": "Embassy Information",
+    "embassyAppointment": "Embassy Appointment",
+    "mainRequirements": "Main Requirements and Conditions",
+    "visaTypes": "Types of Visa",
+    "noVisasAvailable": "No Visas Available",
+    "noVisasMessage": "We don't currently have visa information for this country. Please check back soon!",
+    "backToHome": "← Back to Home",
+    "readyToStart": "Ready to Start Your Visa Journey?",
+    "expertTeam": "Our expert team is here to guide you through every step of the process. Get in touch for personalized assistance.",
+    "applyNow": "Apply Now"
   }
 }

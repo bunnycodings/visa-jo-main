@@ -1,9 +1,9 @@
-import VisaDetails from '../../../components/VisaDetails';
+import { getVisasForCountryPage } from '@/lib/utils/get-visas-for-page';
+import VisaDetails from '@/components/VisaDetails';
 
-// Force dynamic rendering to avoid database calls during static export
 export const dynamic = 'force-dynamic';
 
-export default function GermanyVisaPage() {
-  return <VisaDetails country="germany" title="Germany Visa Services" />;
+export default async function GermanyVisaPage() {
+  const visas = await getVisasForCountryPage('germany');
+  return <VisaDetails country="germany" title="Germany Visa Services" visas={visas} />;
 }
-

@@ -24,11 +24,14 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     processingTime: '',
     validity: '',
     fees: {
-      consultation: 0,
       government: 0,
       total: 0
     },
-    isActive: true
+    isActive: true,
+    embassyInfo: null,
+    embassyAppointment: null,
+    mainRequirements: null,
+    visaTypes: null
   });
 
   useEffect(() => {
@@ -108,8 +111,8 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     setSuccess('');
 
     try {
-      // Calculate total fees
-      const totalFees = formData.fees.consultation + formData.fees.government;
+      // Calculate total fees (only visa fee now, no service fee)
+      const totalFees = formData.fees.government;
       const updatedFormData = {
         ...formData,
         fees: {
@@ -307,28 +310,12 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
             <svg className="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
               <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" />
             </svg>
-            Fees
+            Visa Fees
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-2">
-                Services Fee (JOD) *
-              </label>
-              <input
-                type="number"
-                name="fees.consultation"
-                value={formData.fees.consultation}
-                onChange={handleNumberChange}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                min="0"
-                step="0.01"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-bold text-gray-900 mb-2">
-                Government Fee (JOD) *
+                Visa Fee (JOD) *
               </label>
               <input
                 type="number"
@@ -340,6 +327,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
                 step="0.01"
                 required
               />
+              <p className="text-sm text-gray-600 mt-2">Official visa processing fee</p>
             </div>
 
             <div>
@@ -349,12 +337,129 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
               <input
                 type="number"
                 name="fees.total"
-                value={formData.fees.consultation + formData.fees.government}
+                value={formData.fees.government}
                 className="w-full px-4 py-3 border-2 border-gray-400 rounded-lg text-gray-900 bg-gray-100 font-semibold"
                 disabled
               />
             </div>
           </div>
+        </div>
+
+        <div className="mb-8 bg-green-50 p-6 rounded-lg border border-green-200">
+          <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z" />
+            </svg>
+            Embassy Information
+          </h3>
+          <div className="space-y-6">
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                Embassy Information (e.g., "The German Embassy in Jordan")
+              </label>
+              <textarea
+                name="embassyInfo"
+                value={formData.embassyInfo || ''}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholder="Enter embassy information..."
+                rows={4}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                Embassy Appointment Information (e.g., "German Embassy Appointment in Jordan")
+              </label>
+              <textarea
+                name="embassyAppointment"
+                value={formData.embassyAppointment || ''}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholder="Enter embassy appointment information..."
+                rows={4}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-gray-900 mb-2">
+                Main Requirements and Conditions
+              </label>
+              <textarea
+                name="mainRequirements"
+                value={formData.mainRequirements || ''}
+                onChange={handleInputChange}
+                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                placeholder="Enter main requirements and conditions..."
+                rows={6}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8 bg-orange-50 p-6 rounded-lg border border-orange-200">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <svg className="w-6 h-6 text-orange-600" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19,6H17V4A1,1 0 0,0 16,3H8A1,1 0 0,0 7,4V6H5A3,3 0 0,0 2,9V19A3,3 0 0,0 5,22H19A3,3 0 0,0 22,19V9A3,3 0 0,0 19,6M9,6H15V5H9V6Z" />
+              </svg>
+              Types of Visa
+            </h3>
+            <button
+              type="button"
+              onClick={() => {
+                setFormData({
+                  ...formData,
+                  visaTypes: [...(formData.visaTypes || []), '']
+                });
+              }}
+              className="flex items-center gap-2 px-4 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors shadow-md"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add Visa Type
+            </button>
+          </div>
+
+          {formData.visaTypes && formData.visaTypes.length > 0 ? (
+            formData.visaTypes.map((type, index) => (
+              <div key={index} className="flex items-center gap-3 mb-4">
+                <input
+                  type="text"
+                  value={type}
+                  onChange={(e) => {
+                    const updatedTypes = [...(formData.visaTypes || [])];
+                    updatedTypes[index] = e.target.value;
+                    setFormData({
+                      ...formData,
+                      visaTypes: updatedTypes
+                    });
+                  }}
+                  className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                  placeholder="Enter visa type"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    const updatedTypes = [...(formData.visaTypes || [])];
+                    updatedTypes.splice(index, 1);
+                    setFormData({
+                      ...formData,
+                      visaTypes: updatedTypes.length > 0 ? updatedTypes : null
+                    });
+                  }}
+                  className="p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-600 text-sm">No visa types added yet. Click "Add Visa Type" to add one.</p>
+          )}
         </div>
 
         <div className="mb-8 bg-gray-50 p-6 rounded-lg border border-gray-200">

@@ -314,13 +314,18 @@ const Contact = () => {
           <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
             Visit Our Office
           </h3>
-          <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center">
+          <a 
+            href="https://www.google.com/maps/search/?api=1&query=Al+Qaherah,+Abdoun,+Building+Number+24,+Amman+Jordan"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gray-200 rounded-lg h-96 flex items-center justify-center hover:bg-gray-300 transition-colors cursor-pointer group"
+          >
             <div className="text-center">
-              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">Interactive map will be integrated here</p>
-              <p className="text-sm text-gray-500 mt-2">Amman, Jordan</p>
+              <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4 group-hover:text-[#145EFF] transition-colors" />
+              <p className="text-gray-600 group-hover:text-[#145EFF] transition-colors">Click to view on Google Maps</p>
+              <p className="text-sm text-gray-500 mt-2 group-hover:text-gray-600 transition-colors">Al Qaherah, Abdoun, Building Number 24, Amman, Jordan</p>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </section>

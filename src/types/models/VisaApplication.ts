@@ -44,13 +44,17 @@ export interface VisaType {
   processingTime: string;
   validity: string;
   fees: {
-    consultation: number;
-    government: number;
+    consultation?: number; // Deprecated, not shown in UI
+    government: number; // Will be displayed as "Visa Fee"
     total: number;
   };
   isActive: boolean;
   description?: string | null;
   notes?: string | null;
+  embassyInfo?: string | null;
+  embassyAppointment?: string | null;
+  mainRequirements?: string | null;
+  visaTypes?: string[] | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -66,6 +70,10 @@ export interface VisaRow {
   fees: string;
   description: string | null;
   notes: string | null;
+  embassy_info?: string | null;
+  embassy_appointment?: string | null;
+  main_requirements?: string | null;
+  visa_types?: string | null;
   is_active: number;
   created_at: Date;
   updated_at: Date;
