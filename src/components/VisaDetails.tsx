@@ -34,11 +34,11 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
   }
 
   return (
-    <div className={`bg-white min-h-screen ${isRTL ? 'rtl' : ''}`}>
+    <main className={`bg-white min-h-screen ${isRTL ? 'rtl' : ''}`}>
       {/* Hero Header - Matching index page style */}
-      <section className="relative py-20 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/30 relative overflow-hidden">
+      <header className="relative py-20 bg-gradient-to-br from-white via-blue-50/30 to-indigo-50/30 relative overflow-hidden">
         {/* Background decoration - matching WhyChooseUs */}
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 opacity-10" aria-hidden="true">
           <div className="absolute top-0 right-0 w-72 h-72 bg-blue-400 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-72 h-72 bg-indigo-400 rounded-full blur-3xl"></div>
         </div>
@@ -46,49 +46,49 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-200 shadow-sm">
-              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
               </svg>
               <span className="text-blue-600 font-semibold text-sm">{t('visas.title')}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent leading-tight">
               {title || t('visas.title')}
             </h1>
-            <p className="max-w-2xl mx-auto text-base text-gray-600 leading-relaxed">
+            <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-700 leading-relaxed">
               {t('visas.professionalGuidance')}
             </p>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* Visas Container - Matching index page sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="space-y-12">
           {visas.map((visa) => (
-            <div key={visa.name} className="group">
+            <article key={visa.name} className="group">
               {/* Main Visa Card - Matching WhyChooseUs card style */}
-              <div className="bg-white rounded-xl shadow-lg p-8 border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:border-blue-300 overflow-hidden">
+              <div className="bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:border-blue-300 overflow-hidden">
                 
                 {/* Card Header */}
-                <div className="mb-8 pb-6 border-b border-gray-200">
+                <header className="mb-8 pb-6 border-b border-gray-200">
                   <div className={`flex items-start justify-between gap-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
                     <div className="flex-1">
-                      <h2 className="text-3xl font-bold text-gray-900 mb-3">{visa.name}</h2>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">{visa.name}</h2>
                       {visa.description && (
-                        <p className="text-gray-600 leading-relaxed text-base">{visa.description}</p>
+                        <p className="text-gray-700 leading-relaxed text-lg">{visa.description}</p>
                       )}
                     </div>
                   </div>
-                </div>
+                </header>
 
                 {/* Card Body */}
                 <div>
                   
                   {/* Embassy Information */}
                   {visa.embassyInfo && (
-                    <div className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <div className="relative">
+                    <section className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200" aria-labelledby={`embassy-info-${visa.name}`}>
+                      <h3 id={`embassy-info-${visa.name}`} className="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                        <div className="relative" aria-hidden="true">
                           <div className="absolute -inset-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                           <div className="relative w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
                             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -98,15 +98,15 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.embassyInfo')}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed whitespace-pre-line ml-20 text-base">{visa.embassyInfo}</p>
-                    </div>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.embassyInfo}</p>
+                    </section>
                   )}
 
                   {/* Embassy Appointment */}
                   {visa.embassyAppointment && (
-                    <div className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <div className="relative">
+                    <section className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200" aria-labelledby={`embassy-appointment-${visa.name}`}>
+                      <h3 id={`embassy-appointment-${visa.name}`} className="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                        <div className="relative" aria-hidden="true">
                           <div className="absolute -inset-2 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                           <div className="relative w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
                             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -116,15 +116,15 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.embassyAppointment')}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed whitespace-pre-line ml-20 text-base">{visa.embassyAppointment}</p>
-                    </div>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.embassyAppointment}</p>
+                    </section>
                   )}
 
                   {/* Main Requirements */}
                   {visa.mainRequirements && (
-                    <div className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <div className="relative">
+                    <section className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200" aria-labelledby={`main-requirements-${visa.name}`}>
+                      <h3 id={`main-requirements-${visa.name}`} className="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                        <div className="relative" aria-hidden="true">
                           <div className="absolute -inset-2 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                           <div className="relative w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg">
                             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -134,15 +134,15 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.mainRequirements')}
                       </h3>
-                      <p className="text-gray-600 leading-relaxed whitespace-pre-line ml-20 text-base">{visa.mainRequirements}</p>
-                    </div>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.mainRequirements}</p>
+                    </section>
                   )}
 
                   {/* Visa Types */}
                   {visa.visaTypes && visa.visaTypes.length > 0 && (
-                    <div className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-                        <div className="relative">
+                    <section className="mb-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200" aria-labelledby={`visa-types-${visa.name}`}>
+                      <h3 id={`visa-types-${visa.name}`} className="text-xl md:text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                        <div className="relative" aria-hidden="true">
                           <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl blur-lg opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
                           <div className="relative w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                             <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -155,16 +155,16 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                       <ul className="space-y-3 ml-20">
                         {visa.visaTypes.map((type, idx) => (
                           <li key={idx} className="flex items-start gap-3">
-                            <div className="flex-shrink-0 mt-1">
+                            <div className="flex-shrink-0 mt-1" aria-hidden="true">
                               <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
                               </svg>
                             </div>
-                            <span className="text-gray-600 font-medium text-base">{type}</span>
+                            <span className="text-gray-700 font-medium text-lg">{type}</span>
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </section>
                   )}
                   
                   {/* Key Details Grid - Matching WhyChooseUs style */}
@@ -219,60 +219,61 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
 
                   {/* Requirements Section - Matching index page style */}
                   {visa.requirements && visa.requirements.length > 0 && (
-                    <div className="mb-12">
+                    <section className="mb-12" aria-labelledby={`requirements-${visa.name}`}>
                       <div className="text-center mb-8">
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 mb-4 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 border border-blue-200 shadow-sm">
-                          <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                           </svg>
                           <span className="text-blue-600 font-semibold text-sm">{t('visas.requirements')}</span>
                         </div>
-                        <h3 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent">
+                        <h3 id={`requirements-${visa.name}`} className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-gray-900 via-blue-900 to-indigo-900 bg-clip-text text-transparent leading-tight">
                           {t('visas.requirements')} ({visa.requirements.length})
                         </h3>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {visa.requirements.map((req: string, idx: number) => (
                           <div key={idx} className={`flex items-start gap-4 bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                            <div className="flex-shrink-0 mt-1">
+                            <div className="flex-shrink-0 mt-1" aria-hidden="true">
                               <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                                   <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
                                 </svg>
                               </div>
                             </div>
-                            <span className="text-gray-900 font-medium leading-relaxed flex-1 text-base">{req}</span>
+                            <span className="text-gray-900 font-medium leading-relaxed flex-1 text-lg">{req}</span>
                           </div>
                         ))}
                       </div>
-                    </div>
+                    </section>
                   )}
 
                   {/* Notes Section - Matching index page style */}
                   {visa.notes && (
-                    <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-t-4 border-blue-600 rounded-lg shadow-sm p-8 mb-8">
+                    <aside className="bg-gradient-to-r from-gray-50 to-blue-50 border-t-4 border-blue-600 rounded-lg shadow-sm p-8 mb-8" aria-labelledby={`notes-${visa.name}`}>
                       <div className={`flex items-start gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                        <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0" aria-hidden="true">
                           <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
                           </svg>
                         </div>
                         <div className="flex-1">
-                          <div className="font-bold text-gray-900 mb-2 text-lg">{t('visas.importantNotes')}</div>
-                          <p className="text-gray-600 leading-relaxed text-base">{visa.notes}</p>
+                          <h4 id={`notes-${visa.name}`} className="font-bold text-gray-900 mb-2 text-xl">{t('visas.importantNotes')}</h4>
+                          <p className="text-gray-800 leading-relaxed text-lg">{visa.notes}</p>
                         </div>
                       </div>
-                    </div>
+                    </aside>
                   )}
 
                   {/* Apply Button - Matching HowItWorks CTA style */}
                   <div className="pt-6 border-t border-gray-200">
                     <a 
                       href="/contact" 
-                      className="inline-flex items-center justify-center w-full md:w-auto px-8 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-sm"
+                      className="inline-flex items-center justify-center w-full md:w-auto px-8 py-4 bg-[#145EFF] text-white text-lg rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                      aria-label={`Apply now for ${visa.name}`}
                     >
                       {t('visas.applyNow')}
-                      <svg className={`ml-2 h-5 w-5 ${isRTL ? 'mr-2 ml-0 rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`ml-2 h-5 w-5 ${isRTL ? 'mr-2 ml-0 rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                       </svg>
                     </a>
@@ -280,32 +281,34 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
 
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         {/* CTA Section - Matching HowItWorks CTA style */}
-        <div className="mt-16">
+        <section className="mt-16" aria-labelledby="cta-heading">
           <div className="bg-gradient-to-r from-gray-50 to-blue-50 border-t-4 border-blue-600 rounded-lg shadow-sm p-10 max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('visas.readyToStart')}</h3>
-            <p className="text-gray-600 mb-6 text-base">{t('visas.expertTeam')}</p>
+            <h2 id="cta-heading" className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{t('visas.readyToStart')}</h2>
+            <p className="text-gray-700 mb-6 text-lg leading-relaxed">{t('visas.expertTeam')}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="/contact" 
-                className="px-6 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-sm"
+                className="px-6 py-3 bg-[#145EFF] text-white text-lg rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl"
+                aria-label="Contact us to apply for a visa"
               >
                 {t('common.contactUs')}
               </a>
               <a 
                 href="/" 
-                className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-900 rounded-lg hover:bg-gray-50 transition-all duration-300 font-semibold"
+                className="px-6 py-3 bg-white border-2 border-gray-300 text-gray-900 text-lg rounded-lg hover:bg-gray-50 transition-all duration-300 font-semibold"
+                aria-label="Return to home page"
               >
                 {t('visas.backToHome')}
               </a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </section>
+    </main>
   );
 }

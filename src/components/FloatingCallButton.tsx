@@ -34,12 +34,13 @@ const FloatingCallButton = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative flex items-center justify-center flex-shrink-0"
+                aria-label="Chat with us on WhatsApp"
                 title="Chat with us on WhatsApp"
                 onClick={() => setIsExpanded(false)}
               >
                 <img
                   src="/img/icons/whatapp.png"
-                  alt="WhatsApp"
+                  alt="Chat with us on WhatsApp"
                   className="w-16 h-16 object-contain transition-all duration-300 transform hover:scale-110"
                 />
               </a>
@@ -53,12 +54,13 @@ const FloatingCallButton = () => {
               <a
                 href={telLink}
                 className="group relative flex items-center justify-center flex-shrink-0"
-                title="Call us"
+                aria-label="Call us directly"
+                title="Call us directly"
                 onClick={() => setIsExpanded(false)}
               >
                 <img
                   src="/img/icons/call.png"
-                  alt="Call"
+                  alt="Call us directly"
                   className="w-16 h-16 object-contain transition-all duration-300 transform hover:scale-110"
                 />
               </a>
@@ -70,16 +72,17 @@ const FloatingCallButton = () => {
         <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="group relative flex items-center justify-center flex-shrink-0 bg-transparent border-none p-0"
-          title={isExpanded ? "Close" : "Contact us"}
+          aria-label={isExpanded ? "Close contact options" : "Open contact options"}
+          title={isExpanded ? "Close contact options" : "Open contact options"}
         >
           {isExpanded ? (
-            <svg className="w-8 h-8 text-gray-700 transition-transform duration-300 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-8 h-8 text-gray-700 transition-transform duration-300 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
             <img
               src="/img/icons/call.png"
-              alt="Contact"
+              alt="Contact options"
               className="w-16 h-16 object-contain transition-all duration-300 transform hover:scale-110"
             />
           )}
