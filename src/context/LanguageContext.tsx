@@ -13,13 +13,63 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocale] = useState<Locale>('en');
+  // Initialize locale based on pathname if available
+  const getInitialLocale = (): Locale => {
+    if (typeof window !== 'undefined') {
+      const path = window.location.pathname;
+      return path.startsWith('/ar') ? 'ar' : 'en';
+    }
+    return 'en';
+  };
+
+  const [locale, setLocale] = useState<Locale>(getInitialLocale);
   const [messages, setMessages] = useState<Record<string, any>>({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Set document attributes immediately on first render
+  useEffect(() => {
+    const initialLocale = getInitialLocale();
+    if (typeof document !== 'undefined') {
+      document.documentElement.dir = initialLocale === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = initialLocale;
+    }
+  }, []);
 
   useEffect(() => {
-    import(`../../messages/${locale}.json`).then((msgs) => {
-      setMessages(msgs.default);
+    setIsLoading(true);
+    // Preload both languages for faster switching
+    Promise.all([
+      import(`../../messages/${locale}.json`),
+      import(`../../messages/${locale === 'ar' ? 'en' : 'ar'}.json`)
+    ]).then(([currentMsgs]) => {
+      setMessages(currentMsgs.default);
+      setIsLoading(false);
+      // Update document direction and lang
+      if (typeof document !== 'undefined') {
+        document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = locale;
+      }
+    }).catch((err) => {
+      console.error('Failed to load messages:', err);
+      setIsLoading(false);
     });
+  }, [locale]);
+
+  // Sync with pathname changes
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const checkPathname = () => {
+        const pathLocale = window.location.pathname.startsWith('/ar') ? 'ar' : 'en';
+        if (pathLocale !== locale) {
+          setLocale(pathLocale);
+        }
+      };
+      
+      checkPathname();
+      // Listen for navigation events
+      window.addEventListener('popstate', checkPathname);
+      return () => window.removeEventListener('popstate', checkPathname);
+    }
   }, [locale]);
 
   const t = (key: string): string => {
