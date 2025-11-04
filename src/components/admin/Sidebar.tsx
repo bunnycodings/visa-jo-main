@@ -18,15 +18,23 @@ export default function Sidebar() {
   const { locale } = useLanguage();
   const isRTL = locale === 'ar';
 
+  // Helper function to add language prefix to admin routes
+  const getAdminPath = (path: string) => {
+    if (locale === 'ar') {
+      return path.startsWith('/ar/') ? path : `/ar${path}`;
+    }
+    return path.startsWith('/ar/') ? path.replace('/ar', '') : path;
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     const loginPath = locale === 'ar' ? '/ar/admin/login' : '/admin/login';
     router.push(loginPath);
   };
 
-  const navItems: NavItem[] = [
+  const baseNavItems: NavItem[] = [
     {
-      href: locale === 'ar' ? '/ar/admin/dashboard' : '/admin/dashboard',
+      href: '/admin/dashboard',
       label: { en: 'Dashboard', ar: 'لوحة التحكم' },
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -140,7 +148,7 @@ export default function Sidebar() {
     <div className={`fixed ${isRTL ? 'right-0' : 'left-0'} top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col z-40 shadow-lg`}>
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-200">
-        <Link href="/admin/dashboard" className="flex items-center gap-3">
+        <Link href={getAdminPath('/admin/dashboard')} className="flex items-center gap-3">
           <div className="bg-gradient-to-br from-blue-600 to-blue-700 w-10 h-10 rounded-lg flex items-center justify-center shadow-md">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
