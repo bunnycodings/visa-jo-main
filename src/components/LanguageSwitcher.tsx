@@ -4,6 +4,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { getArabicVisaUrl, getCountryFromArabicSlug } from '@/lib/utils/arabic-slugs';
+import { getAlternateLanguageRoute } from '@/lib/utils/route-mapping';
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLanguage();
@@ -21,15 +22,6 @@ export function LanguageSwitcher() {
     }
   }, [pathname, locale, setLocale]);
 
-  // Route mapping between English and Arabic pages
-  // This ensures each Arabic page maps to its corresponding English page
-  const routeMap: Record<string, { en: string; ar: string }> = {
-    '/': { en: '/', ar: '/ar' },
-    '/about': { en: '/about', ar: '/ar/about' },
-    '/contact': { en: '/contact', ar: '/ar/contact' },
-    '/services': { en: '/services', ar: '/ar/services' },
-  };
-  
   // Helper function to get clean path without query params or hash
   const getCleanPath = (path: string): string => {
     return path.split('?')[0].split('#')[0];
@@ -44,114 +36,48 @@ export function LanguageSwitcher() {
       return;
     }
     
-    if (newLocale === 'ar') {
-      // Navigate to Arabic page
-      
-      // Handle visa routes - convert to Arabic URLs
-      if (currentPath.startsWith('/visa/')) {
-        const country = currentPath.split('/visa/')[1]?.split('/')[0] || '';
-        if (country) {
-          const arabicPath = getArabicVisaUrl(country);
-          setLocale(newLocale);
-          document.documentElement.dir = 'rtl';
-          document.documentElement.lang = 'ar';
-          window.location.href = arabicPath;
-          return;
-        }
+    // Use the route mapping utility to get the alternate language route
+    let targetPath: string | null = null;
+    
+    // Handle visa routes separately
+    if (newLocale === 'ar' && currentPath.startsWith('/visa/')) {
+      // English visa to Arabic visa
+      const country = currentPath.split('/visa/')[1]?.split('/')[0] || '';
+      if (country) {
+        targetPath = getArabicVisaUrl(country);
       }
+    } else if (newLocale === 'en' && (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/') || currentPath.startsWith('/ar/visa/'))) {
+      // Arabic visa to English visa
+      let countryCode: string = '';
       
-      // Handle Arabic visa routes - already on Arabic visa route
-      if (currentPath.includes('فيزا-السفر') || currentPath.includes('فيزا-شنغن') || currentPath.startsWith('/ar/visa/')) {
-        setLocale(newLocale);
-        document.documentElement.dir = 'rtl';
-        document.documentElement.lang = 'ar';
-        return;
-      }
-      
-      // Check route map first for exact matches
-      if (routeMap[currentPath]) {
-        const targetPath = routeMap[currentPath].ar;
-        setLocale(newLocale);
-        document.documentElement.dir = 'rtl';
-        document.documentElement.lang = 'ar';
-        window.location.href = targetPath;
-        return;
-      }
-      
-      // For other routes, add /ar prefix to get Arabic page
-      const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace(/^\/ar/, '') : currentPath;
-      const arabicPath = pathWithoutAr === '/' ? '/ar' : `/ar${pathWithoutAr}`;
-      setLocale(newLocale);
-      document.documentElement.dir = 'rtl';
-      document.documentElement.lang = 'ar';
-      window.location.href = arabicPath;
-    } else {
-      // Navigate to English page
-      
-      // Handle Arabic visa routes - convert to English
-      if (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/') || currentPath.startsWith('/ar/visa/')) {
-        let countryCode: string = '';
-        
-        if (currentPath.startsWith('/ar/visa/')) {
-          // Direct /ar/visa/{country} format
-          const country = currentPath.split('/ar/visa/')[1]?.split('/')[0] || '';
-          countryCode = getCountryFromArabicSlug(country);
-        } else {
-          // Arabic category format: /ar/فيزا-السفر/{slug} or /ar/فيزا-شنغن/{slug}
-          const parts = currentPath.split('/');
-          const arabicSlug = parts[parts.length - 1] || '';
-          countryCode = getCountryFromArabicSlug(arabicSlug);
-        }
-        
-        if (countryCode) {
-          const englishPath = `/visa/${countryCode}`;
-          setLocale(newLocale);
-          document.documentElement.dir = 'ltr';
-          document.documentElement.lang = 'en';
-          window.location.href = englishPath;
-          return;
-        }
-      }
-      
-      // Check route map first for Arabic pages mapping to English pages
-      const routeKey = Object.keys(routeMap).find(key => {
-        const arPath = routeMap[key].ar;
-        return currentPath === arPath || currentPath.startsWith(arPath + '/');
-      });
-      if (routeKey) {
-        const targetPath = routeMap[routeKey].en;
-        setLocale(newLocale);
-        document.documentElement.dir = 'ltr';
-        document.documentElement.lang = 'en';
-        window.location.href = targetPath;
-        return;
-      }
-      
-      // For other Arabic routes, remove /ar prefix to get English page
-      if (currentPath.startsWith('/ar')) {
-        // Remove /ar prefix, handle edge case where path is exactly /ar
-        let englishPath = currentPath === '/ar' ? '/' : currentPath.replace(/^\/ar/, '');
-        
-        // Ensure we have a valid path
-        if (!englishPath || englishPath.trim() === '') {
-          englishPath = '/';
-        }
-        
-        // Ensure path starts with /
-        if (!englishPath.startsWith('/')) {
-          englishPath = '/' + englishPath;
-        }
-        
-        setLocale(newLocale);
-        document.documentElement.dir = 'ltr';
-        document.documentElement.lang = 'en';
-        window.location.href = englishPath;
+      if (currentPath.startsWith('/ar/visa/')) {
+        const country = currentPath.split('/ar/visa/')[1]?.split('/')[0] || '';
+        countryCode = getCountryFromArabicSlug(country);
       } else {
-        // Already on English route, just update locale
-        setLocale(newLocale);
-        document.documentElement.dir = 'ltr';
-        document.documentElement.lang = 'en';
+        const parts = currentPath.split('/');
+        const arabicSlug = parts[parts.length - 1] || '';
+        countryCode = getCountryFromArabicSlug(arabicSlug);
       }
+      
+      if (countryCode) {
+        targetPath = `/visa/${countryCode}`;
+      }
+    } else {
+      // For regular pages, use the route mapping
+      targetPath = getAlternateLanguageRoute(currentPath, newLocale);
+    }
+    
+    // If we found a target path, navigate to it
+    if (targetPath) {
+      setLocale(newLocale);
+      document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = newLocale;
+      window.location.href = targetPath;
+    } else {
+      // Fallback: just update locale if already on the correct route
+      setLocale(newLocale);
+      document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = newLocale;
     }
   };
 
