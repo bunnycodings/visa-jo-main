@@ -5,8 +5,8 @@ import { getCountryFromArabicSlug, decodeArabicSlug } from '@/lib/utils/arabic-s
 // Force dynamic rendering to avoid database calls during static export
 export const dynamic = 'force-dynamic';
 
-export default async function ArabicVisaCountryPage({ params }: { params: { country: string } }) {
-  const { country } = params;
+export default async function ArabicVisaCountryPage({ params }: { params: Promise<{ country: string }> }) {
+  const { country } = await params;
   
   // The middleware should have already converted Arabic slugs to country codes
   // But handle both cases: Arabic slug or English country code

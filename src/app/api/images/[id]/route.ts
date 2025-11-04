@@ -3,10 +3,11 @@ import { getConnectionPool } from '@/lib/utils/mysql';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const imageId = params.id;
+    const { id } = await params;
+    const imageId = id;
 
     if (!imageId) {
       return NextResponse.json({ error: 'Image ID required' }, { status: 400 });
