@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import DashboardLayout from '@/components/admin/DashboardLayout';
-import DashboardContent from '@/components/admin/DashboardContent';
+import TabNavigation from '@/components/admin/TabNavigation';
+import { adminTabs } from '@/lib/admin-tabs';
 
-const AdminDashboard = () => {
+export default function DashboardContent() {
   const router = useRouter();
   const [username, setUsername] = useState('Admin');
   const [stats, setStats] = useState({
@@ -153,14 +153,10 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <DashboardLayout>
-      <DashboardContent />
-    </DashboardLayout>
-  );
-};
+    <>
+      <TabNavigation tabs={adminTabs} />
 
-// Export the content component separately for use in Arabic admin
-export { DashboardContent };
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Hero Section with Welcome */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 shadow-2xl">
           <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -240,97 +236,88 @@ export { DashboardContent };
                   </div>
                 </div>
                 
-                <div>
-                  <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
-                  <p className={`text-3xl font-bold ${typeof stat.value === 'number' ? 'text-gray-900' : stat.textColor}`}>
-                    {stat.value}
-                  </p>
-                  <p className="text-xs text-gray-500 mt-2">{stat.changeLabel}</p>
+                <div className="space-y-1">
+                  <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-sm font-medium text-gray-600">{stat.title}</p>
+                  <p className="text-xs text-gray-500">{stat.changeLabel}</p>
                 </div>
-
-                {/* Decorative Line */}
-                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${stat.gradient} transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left`}></div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Quick Actions & Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Quick Actions and System Status */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Quick Actions */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-              <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
-                <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
-                  <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-full"></div>
-                  Quick Actions
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">Quick access to common tasks</p>
-              </div>
-              
-              <div className="p-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {quickActions.map((action, index) => {
-                    const getColorClasses = (color: string) => {
-                      switch (color) {
-                        case 'blue':
-                          return {
-                            hover: 'hover:border-blue-300 hover:from-blue-50 hover:to-blue-100',
-                            icon: 'bg-blue-100 group-hover:bg-blue-200 text-blue-600',
-                            arrow: 'group-hover:text-blue-600'
-                          };
-                        case 'purple':
-                          return {
-                            hover: 'hover:border-purple-300 hover:from-purple-50 hover:to-purple-100',
-                            icon: 'bg-purple-100 group-hover:bg-purple-200 text-purple-600',
-                            arrow: 'group-hover:text-purple-600'
-                          };
-                        case 'green':
-                          return {
-                            hover: 'hover:border-green-300 hover:from-green-50 hover:to-green-100',
-                            icon: 'bg-green-100 group-hover:bg-green-200 text-green-600',
-                            arrow: 'group-hover:text-green-600'
-                          };
-                        case 'orange':
-                          return {
-                            hover: 'hover:border-orange-300 hover:from-orange-50 hover:to-orange-100',
-                            icon: 'bg-orange-100 group-hover:bg-orange-200 text-orange-600',
-                            arrow: 'group-hover:text-orange-600'
-                          };
-                        default:
-                          return {
-                            hover: 'hover:border-blue-300 hover:from-blue-50 hover:to-blue-100',
-                            icon: 'bg-blue-100 group-hover:bg-blue-200 text-blue-600',
-                            arrow: 'group-hover:text-blue-600'
-                          };
-                      }
-                    };
-                    
-                    const colors = getColorClasses(action.color);
-                    
-                    return (
-                      <Link
-                        key={index}
-                        href={action.href}
-                        className={`group relative p-5 rounded-xl border-2 border-gray-200 ${colors.hover} bg-gradient-to-br from-white to-gray-50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
-                      >
-                        <div className="flex items-center gap-4">
-                          <div className={`w-12 h-12 rounded-xl ${colors.icon} flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
-                            {action.icon}
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-semibold text-gray-900 group-hover:text-gray-900">
-                              {typeof action.label === 'string' ? action.label : action.label.en}
-                            </p>
-                          </div>
-                          <svg className={`w-5 h-5 text-gray-400 ${colors.arrow} transition-colors ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+            <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
+                <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-full"></div>
+                Quick Actions
+              </h2>
+              <p className="text-sm text-gray-600 mt-1">Quick access to common tasks</p>
+            </div>
+            
+            <div className="p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {quickActions.map((action, index) => {
+                  const getColorClasses = (color: string) => {
+                    switch (color) {
+                      case 'blue':
+                        return {
+                          hover: 'hover:border-blue-300 hover:from-blue-50 hover:to-blue-100',
+                          icon: 'bg-blue-100 group-hover:bg-blue-200 text-blue-600',
+                          arrow: 'group-hover:text-blue-600'
+                        };
+                      case 'purple':
+                        return {
+                          hover: 'hover:border-purple-300 hover:from-purple-50 hover:to-purple-100',
+                          icon: 'bg-purple-100 group-hover:bg-purple-200 text-purple-600',
+                          arrow: 'group-hover:text-purple-600'
+                        };
+                      case 'green':
+                        return {
+                          hover: 'hover:border-green-300 hover:from-green-50 hover:to-green-100',
+                          icon: 'bg-green-100 group-hover:bg-green-200 text-green-600',
+                          arrow: 'group-hover:text-green-600'
+                        };
+                      case 'orange':
+                        return {
+                          hover: 'hover:border-orange-300 hover:from-orange-50 hover:to-orange-100',
+                          icon: 'bg-orange-100 group-hover:bg-orange-200 text-orange-600',
+                          arrow: 'group-hover:text-orange-600'
+                        };
+                      default:
+                        return {
+                          hover: 'hover:border-gray-300 hover:from-gray-50 hover:to-gray-100',
+                          icon: 'bg-gray-100 group-hover:bg-gray-200 text-gray-600',
+                          arrow: 'group-hover:text-gray-600'
+                        };
+                    }
+                  };
+                  const colors = getColorClasses(action.color);
+                  return (
+                    <Link
+                      key={index}
+                      href={action.href}
+                      className={`group relative p-5 rounded-xl border-2 border-gray-200 ${colors.hover} bg-gradient-to-br from-white to-gray-50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-xl ${colors.icon} flex items-center justify-center transition-all duration-300 group-hover:scale-110`}>
+                          {action.icon}
                         </div>
-                      </Link>
-                    );
-                  })}
-                </div>
+                        <div className="flex-1">
+                          <p className="font-semibold text-gray-900 group-hover:text-gray-900">
+                            {typeof action.label === 'string' ? action.label : action.label.en}
+                          </p>
+                        </div>
+                        <svg className={`w-5 h-5 text-gray-400 ${colors.arrow} transition-colors ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -411,28 +398,7 @@ export { DashboardContent };
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes blob {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -50px) scale(1.1); }
-          66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
-          background-size: 20px 20px;
-        }
-      `}</style>
-    </DashboardLayout>
+    </>
   );
-};
+}
 
-export default AdminDashboard;
