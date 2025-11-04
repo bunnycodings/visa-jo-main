@@ -62,11 +62,28 @@ export function LanguageSwitcher() {
       // Navigate to English version
       const currentPath = pathname || '/';
       
+      // Skip admin routes - they are separate for each language
+      if (currentPath.startsWith('/ar/admin/') || currentPath.startsWith('/admin/')) {
+        // Admin routes don't switch languages
+        return;
+      }
+      
       // Handle Arabic visa routes - convert to English
-      if (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/')) {
-        const parts = currentPath.split('/');
-        const arabicSlug = parts[parts.length - 1];
-        const countryCode = getCountryFromArabicSlug(arabicSlug);
+      // Check for Arabic visa category patterns
+      if (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/') || currentPath.startsWith('/ar/visa/')) {
+        let countryCode: string;
+        
+        if (currentPath.startsWith('/ar/visa/')) {
+          // Direct /ar/visa/{country} format
+          const country = currentPath.split('/ar/visa/')[1];
+          countryCode = getCountryFromArabicSlug(country);
+        } else {
+          // Arabic category format: /ar/فيزا-السفر/{slug} or /ar/فيزا-شنغن/{slug}
+          const parts = currentPath.split('/');
+          const arabicSlug = parts[parts.length - 1];
+          countryCode = getCountryFromArabicSlug(arabicSlug);
+        }
+        
         const englishPath = `/visa/${countryCode}`;
         router.push(englishPath);
         setLocale(newLocale);
@@ -75,21 +92,38 @@ export function LanguageSwitcher() {
         return;
       }
       
-      // Skip admin routes - they are separate for each language
-      if (currentPath.startsWith('/ar/admin/')) {
-        // Admin routes don't switch languages
-        return;
+      // For other routes, remove /ar prefix
+      if (currentPath.startsWith('/ar')) {
+        // Remove /ar prefix, handle edge case where path is exactly /ar
+        let englishPath = currentPath === '/ar' ? '/' : currentPath.replace('/ar', '');
+        
+        // Ensure we have a valid path (should never be empty, but just in case)
+        if (!englishPath || englishPath.trim() === '') {
+          englishPath = '/';
+        }
+        
+        // Ensure path starts with /
+        if (!englishPath.startsWith('/')) {
+          englishPath = '/' + englishPath;
+        }
+        
+        try {
+          router.push(englishPath);
+          setLocale(newLocale);
+          document.documentElement.dir = 'ltr';
+          document.documentElement.lang = 'en';
+        } catch (error) {
+          console.error('Navigation error:', error);
+          // Fallback to window.location if router.push fails
+          window.location.href = englishPath;
+        }
+      } else {
+        // Already on English route, just update locale
+        setLocale(newLocale);
+        document.documentElement.dir = 'ltr';
+        document.documentElement.lang = 'en';
       }
-      
-      // Remove /ar prefix for other routes
-      const englishPath = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') || '/' : currentPath;
-      router.push(englishPath);
     }
-    
-    // Update locale and document direction
-    setLocale(newLocale);
-    document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLocale;
   };
 
   return (
