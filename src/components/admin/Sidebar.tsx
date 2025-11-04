@@ -26,7 +26,7 @@ export default function Sidebar() {
 
   const navItems: NavItem[] = [
     {
-      href: '/admin/dashboard',
+      href: locale === 'ar' ? '/ar/admin/dashboard' : '/admin/dashboard',
       label: { en: 'Dashboard', ar: 'لوحة التحكم' },
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
