@@ -41,30 +41,30 @@ const Navbar = () => {
   }, [activeDropdown]);
 
   const travelVisaItems = [
-    { name: 'UAE Visa', href: `${prefix}/visa/uae` },
-    { name: 'UK Visa', href: `${prefix}/visa/uk` },
-    { name: 'US Visa', href: `${prefix}/visa/us` },
-    { name: 'Canada Visa', href: `${prefix}/visa/canada` },
-    { name: 'Australia Visa', href: `${prefix}/visa/australia` },
-    { name: 'India Visa', href: `${prefix}/visa/india` },
+    { country: 'uae', href: `${prefix}/visa/uae` },
+    { country: 'uk', href: `${prefix}/visa/uk` },
+    { country: 'us', href: `${prefix}/visa/us` },
+    { country: 'canada', href: `${prefix}/visa/canada` },
+    { country: 'australia', href: `${prefix}/visa/australia` },
+    { country: 'india', href: `${prefix}/visa/india` },
   ];
 
   const schengenVisaItems = [
-    { name: 'Germany Visa', href: `${prefix}/visa/germany` },
-    { name: 'France Visa', href: `${prefix}/visa/france` },
-    { name: 'Netherlands Visa', href: `${prefix}/visa/netherlands` },
-    { name: 'Spain Visa', href: `${prefix}/visa/spain` },
-    { name: 'Italy Visa', href: `${prefix}/visa/italy` },
-    { name: 'Austria Visa', href: `${prefix}/visa/austria` },
+    { country: 'germany', href: `${prefix}/visa/germany` },
+    { country: 'france', href: `${prefix}/visa/france` },
+    { country: 'netherlands', href: `${prefix}/visa/netherlands` },
+    { country: 'spain', href: `${prefix}/visa/spain` },
+    { country: 'italy', href: `${prefix}/visa/italy` },
+    { country: 'austria', href: `${prefix}/visa/austria` },
   ];
 
   const servicesItems = [
-    { name: 'Visa Consultations', href: `${prefix}/services#consultations` },
-    { name: 'Certification Translation', href: `${prefix}/services#translation` },
-    { name: 'Insurance', href: `${prefix}/services#insurance` },
-    { name: 'Hotel Bookings', href: `${prefix}/services#hotels` },
-    { name: 'Flight Bookings', href: `${prefix}/services#flights` },
-    { name: 'Trip Plans', href: `${prefix}/services#trip-plans` },
+    { key: 'visaConsultations', href: `${prefix}/services#consultations` },
+    { key: 'translation', href: `${prefix}/services#translation` },
+    { key: 'insurance', href: `${prefix}/services#insurance` },
+    { key: 'hotelBookings', href: `${prefix}/services#hotels` },
+    { key: 'flightBookings', href: `${prefix}/services#flights` },
+    { key: 'tripPlans', href: `${prefix}/services#trip-plans` },
   ];
 
   const toggleDropdown = (dropdown: string) => {
@@ -142,17 +142,19 @@ const Navbar = () => {
                   <div className="px-4 py-3 border-b border-gray-700">
                     <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider flex items-center">
                       <span className="mr-2">🌍</span>
-                      {t('navbar.travelVisa')}s
+                      {t('navbar.travelVisa')}
                     </h3>
                   </div>
                   {travelVisaItems.map((item) => {
-                    const countryName = item.name.split(' ')[0];
-                    const flagPath = getFlagPath(countryName);
-                    const fallbackUrl = `https://flagcdn.com/w40/${countryName === 'UK' ? 'gb' : countryName.toLowerCase()}.png`;
+                    const countryKey = item.country === 'uk' ? 'UK' : item.country.charAt(0).toUpperCase() + item.country.slice(1);
+                    const flagPath = getFlagPath(countryKey);
+                    const fallbackUrl = `https://flagcdn.com/w40/${item.country === 'uk' ? 'gb' : item.country}.png`;
+                    const countryName = t(`countries.${item.country}`);
+                    const visaName = `${t('visas.visa')} ${countryName}`;
                     
                     return (
                       <Link
-                        key={item.name}
+                        key={item.country}
                         href={item.href}
                         className="block px-4 py-3 text-sm text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white transition-all duration-200 flex items-center group/item"
                         onClick={() => setActiveDropdown(null)}
@@ -165,7 +167,7 @@ const Navbar = () => {
                             (e.target as HTMLImageElement).src = fallbackUrl;
                           }}
                         />
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium">{visaName}</span>
                         <svg className="ml-auto h-4 w-4 opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
@@ -210,13 +212,15 @@ const Navbar = () => {
                     </h3>
                   </div>
                   {schengenVisaItems.map((item) => {
-                    const countryName = item.name.split(' ')[0];
-                    const flagPath = getFlagPath(countryName);
-                    const fallbackUrl = `https://flagcdn.com/w40/${countryName === 'UK' ? 'gb' : countryName.toLowerCase()}.png`;
+                    const countryKey = item.country.charAt(0).toUpperCase() + item.country.slice(1);
+                    const flagPath = getFlagPath(countryKey);
+                    const fallbackUrl = `https://flagcdn.com/w40/${item.country}.png`;
+                    const countryName = t(`countries.${item.country}`);
+                    const visaName = `${t('visas.visa')} ${countryName}`;
                     
                     return (
                       <Link
-                        key={item.name}
+                        key={item.country}
                         href={item.href}
                         className="block px-4 py-3 text-sm text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white transition-all duration-200 flex items-center group/item"
                         onClick={() => setActiveDropdown(null)}
@@ -229,7 +233,7 @@ const Navbar = () => {
                             (e.target as HTMLImageElement).src = fallbackUrl;
                           }}
                         />
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium">{visaName}</span>
                         <svg className="ml-auto h-4 w-4 opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
@@ -274,11 +278,29 @@ const Navbar = () => {
                     </h3>
                   </div>
                   {servicesItems.map((item) => {
-                    const iconPath = getServiceIcon(item.name);
+                    // Map translation keys to English names for icon lookup
+                    const iconNameMap: Record<string, string> = {
+                      'visaConsultations': 'Visa Consultations',
+                      'translation': 'Certification Translation',
+                      'insurance': 'Insurance',
+                      'hotelBookings': 'Hotel Bookings',
+                      'flightBookings': 'Flight Bookings',
+                      'tripPlans': 'Trip Plans',
+                    };
+                    const iconPath = getServiceIcon(iconNameMap[item.key]);
+                    const serviceName = t(`services.${item.key}`);
+                    const fallbackIconMap: Record<string, string> = {
+                      'visaConsultations': '/img/icons/consultation.svg',
+                      'translation': '/img/icons/translation.svg',
+                      'insurance': '/img/icons/insurance.svg',
+                      'hotelBookings': '/img/icons/hotel.svg',
+                      'flightBookings': '/img/icons/flight.svg',
+                      'tripPlans': '/img/icons/trip-plan.svg'
+                    };
                     
                     return (
                       <Link
-                        key={item.name}
+                        key={item.key}
                         href={item.href}
                         className="block px-4 py-3 text-sm text-gray-300 hover:bg-gradient-to-r hover:from-gray-800 hover:to-gray-700 hover:text-white transition-all duration-200 flex items-center group/item"
                         onClick={() => setActiveDropdown(null)}
@@ -286,23 +308,14 @@ const Navbar = () => {
                         <div className="w-8 h-8 mr-3 rounded-lg bg-gray-700 flex items-center justify-center group-hover/item:bg-gray-600 transition-colors duration-200">
                           <img 
                             src={iconPath} 
-                            alt={`${item.name} icon`}
+                            alt={`${serviceName} icon`}
                             className="w-5 h-5 object-contain"
                             onError={(e) => {
-                              // Fallback to SVG if PNG doesn't exist
-                              const fallbackMap: Record<string, string> = {
-                                'Visa Consultations': '/img/icons/consultation.svg',
-                                'Certification Translation': '/img/icons/translation.svg',
-                                'Insurance': '/img/icons/insurance.svg',
-                                'Hotel Bookings': '/img/icons/hotel.svg',
-                                'Flight Bookings': '/img/icons/flight.svg',
-                                'Trip Plans': '/img/icons/trip-plan.svg'
-                              };
-                              (e.target as HTMLImageElement).src = fallbackMap[item.name] || '/img/icons/consultation.svg';
+                              (e.target as HTMLImageElement).src = fallbackIconMap[item.key] || '/img/icons/consultation.svg';
                             }}
                           />
                         </div>
-                        <span className="font-medium">{item.name}</span>
+                        <span className="font-medium">{serviceName}</span>
                         <svg className="ml-auto h-4 w-4 opacity-0 group-hover/item:opacity-100 transition-opacity duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
@@ -373,16 +386,20 @@ const Navbar = () => {
                   <span className="mr-2">🌍</span>
                   {t('navbar.travelVisa')}
                 </div>
-                {travelVisaItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {travelVisaItems.map((item) => {
+                  const countryName = t(`countries.${item.country}`);
+                  const visaName = `${t('visas.visa')} ${countryName}`;
+                  return (
+                    <Link
+                      key={item.country}
+                      href={item.href}
+                      className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {visaName}
+                    </Link>
+                  );
+                })}
               </div>
 
               <div className="space-y-1">
@@ -390,16 +407,20 @@ const Navbar = () => {
                   <span className="mr-2">🇪🇺</span>
                   {t('navbar.schengenVisa')}
                 </div>
-                {schengenVisaItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {schengenVisaItems.map((item) => {
+                  const countryName = t(`countries.${item.country}`);
+                  const visaName = `${t('visas.visa')} ${countryName}`;
+                  return (
+                    <Link
+                      key={item.country}
+                      href={item.href}
+                      className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {visaName}
+                    </Link>
+                  );
+                })}
               </div>
 
               <div className="space-y-1">
@@ -407,16 +428,19 @@ const Navbar = () => {
                   <span className="mr-2">⚙️</span>
                   {t('navbar.ourServices')}
                 </div>
-                {servicesItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
+                {servicesItems.map((item) => {
+                  const serviceName = t(`services.${item.key}`);
+                  return (
+                    <Link
+                      key={item.key}
+                      href={item.href}
+                      className="text-gray-400 hover:text-white block px-8 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {serviceName}
+                    </Link>
+                  );
+                })}
               </div>
 
               <Link
