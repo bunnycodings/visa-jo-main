@@ -15,14 +15,14 @@ export default function EditHowItWorksPage() {
   const router = useRouter();
   const { token } = useAdminAuth();
   const { triggerRefresh } = useContentRefresh();
-  const { locale } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [steps, setSteps] = useState<StepInput[]>(Array(5).fill({ title: '' }));
 
-  const isRTL = locale === 'ar';
+  // English admin - force English only
+  const isRTL = false;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -73,7 +73,7 @@ export default function EditHowItWorksPage() {
       });
       if (!res.ok) throw new Error('Failed to save');
       triggerRefresh();
-      alert(locale === 'ar' ? 'تم الحفظ بنجاح' : 'Saved successfully');
+      alert('Saved successfully');
     } catch (e: any) {
       setError(e.message);
     } finally {
@@ -100,8 +100,8 @@ export default function EditHowItWorksPage() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{locale === 'ar' ? 'كيفية العمل' : 'How It Works'}</h1>
-                <p className="text-sm text-gray-600">{locale === 'ar' ? 'تحرير خطوات العملية' : 'Edit process steps'}</p>
+                <h1 className="text-2xl font-bold text-gray-900">How It Works</h1>
+                <p className="text-sm text-gray-600">Edit process steps</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
