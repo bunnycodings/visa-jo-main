@@ -27,14 +27,14 @@ export default function ArabicContactPage() {
     run();
   }, []);
 
-  const title = content?.title || 'Contact Us';
-  const intro = content?.intro || 'We would love to hear from you. Reach out to us any time!';
-  const infoTitle = content?.infoTitle || 'Contact Information';
+  const title = content?.title || t('contact.title');
+  const intro = content?.intro || t('contact.description');
+  const infoTitle = content?.infoTitle || t('contact.findUs');
   const infoItems = content?.infoItems || [
-    { label: 'Phone', value: siteConfig.getFormattedPhone() },
-    { label: 'Email', value: siteConfig.contactEmail },
-    { label: 'Address', value: siteConfig.contactAddress },
-    { label: 'Office Hours', value: siteConfig.businessHours },
+    { label: t('common.phone'), value: siteConfig.getFormattedPhone() },
+    { label: t('common.email'), value: siteConfig.contactEmail },
+    { label: t('common.address'), value: siteConfig.contactAddress },
+    { label: t('common.workingHours'), value: siteConfig.businessHours },
   ];
 
   interface InfoItem {
@@ -71,7 +71,7 @@ export default function ArabicContactPage() {
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-            <span className="text-cyan-300 font-medium">Get In Touch</span>
+            <span className="text-cyan-300 font-medium">{t('common.getInTouch')}</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">{title}</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">{intro}</p>
@@ -153,7 +153,7 @@ export default function ArabicContactPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-2">{t('contact.nameLabel')} *</label>
                   <input 
                     className="w-full border-2 border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" 
-                    placeholder="Your full name"
+                    placeholder={t('contact.namePlaceholder')}
                     value={form.name} 
                     onChange={(e) => setForm({ ...form, name: e.target.value })} 
                     required 
@@ -174,7 +174,7 @@ export default function ArabicContactPage() {
                   <textarea 
                     rows={4}
                     className="w-full border-2 border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" 
-                    placeholder="Tell us about your inquiry..."
+                    placeholder={t('contact.messagePlaceholder')}
                     value={form.message} 
                     onChange={(e) => setForm({ ...form, message: e.target.value })} 
                     required 
@@ -185,7 +185,7 @@ export default function ArabicContactPage() {
                   <input 
                     type="email" 
                     className="w-full border-2 border-gray-300 text-gray-900 rounded-xl px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" 
-                    placeholder="your@email.com"
+                    placeholder={t('contact.emailPlaceholder')}
                     value={form.email} 
                     onChange={(e) => setForm({ ...form, email: e.target.value })} 
                     required 

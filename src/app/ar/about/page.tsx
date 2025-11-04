@@ -1,18 +1,21 @@
-import type { AboutContent } from '@/types/models/SiteContent';
+'use client';
 
-export default async function ArabicAboutPage() {
-  // Use default content for static export
-  const title = 'About Us';
-  const intro = 'We are dedicated to making visa applications simple, fast, and stress-free.';
-  const story = 'Founded with the mission to simplify travel, our team provides expert guidance and end-to-end support for visa applications across the globe.';
-  const whyTitle = 'Why Choose Us?';
+import { useLanguage } from '@/context/LanguageContext';
+
+export default function ArabicAboutPage() {
+  const { t } = useLanguage();
+  
+  const title = t('about.title');
+  const intro = t('about.intro');
+  const story = t('about.story');
+  const whyTitle = t('about.whyTitle');
   const whyItems = [
-    { title: 'Quality Service', description: 'Expert consultants ensuring accurate applications and reliable support.' },
-    { title: 'Fast Processing', description: 'Streamlined workflows to help you get approvals quickly.' },
-    { title: 'Customer Care', description: 'Friendly assistance throughout your journey with 24/7 availability.' },
+    { title: t('about.qualityTitle'), description: t('about.qualityDesc') },
+    { title: t('about.fastTitle'), description: t('about.fastDesc') },
+    { title: t('about.careTitle'), description: t('about.careDesc') },
   ];
-  const missionTitle = 'Our Mission';
-  const missionText = 'To deliver reliable, efficient, and personalized visa services that empower seamless global travel.';
+  const missionTitle = t('about.missionTitle');
+  const missionText = t('about.missionText');
 
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -20,7 +23,7 @@ export default async function ArabicAboutPage() {
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block px-4 py-2 mb-6 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-            <span className="text-cyan-300 font-medium">About Us</span>
+            <span className="text-cyan-300 font-medium">{t('about.title')}</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6">{title}</h1>
           <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">{intro}</p>
@@ -31,21 +34,21 @@ export default async function ArabicAboutPage() {
         {/* Our Story Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
           <div className="order-2 lg:order-1">
-            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 font-medium">Our Story</div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Building Trust Since Day One</h2>
+            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-blue-100 text-blue-600 font-medium">{t('about.ourStory')}</div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">{t('about.buildingTrust')}</h2>
             <p className="text-lg text-gray-700 leading-relaxed mb-6">{story}</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 text-cyan-600">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span className="font-semibold">Trusted Service</span>
+                <span className="font-semibold">{t('about.trustedService')}</span>
               </div>
               <div className="flex items-center gap-2 text-blue-600">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span className="font-semibold">Expert Team</span>
+                <span className="font-semibold">{t('about.expertTeam')}</span>
               </div>
             </div>
           </div>
@@ -65,7 +68,7 @@ export default async function ArabicAboutPage() {
                 </div>
                 <div className="text-white/90">
                   <div className="text-5xl font-bold mb-2">10,000+</div>
-                  <div className="text-lg">Successful Visa Applications</div>
+                  <div className="text-lg">{t('about.successfulApplications')}</div>
                 </div>
               </div>
               {/* Decorative circles */}
@@ -78,7 +81,7 @@ export default async function ArabicAboutPage() {
         {/* Why Choose Us Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-100 text-indigo-600 font-medium">Why Choose Us</div>
+            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-100 text-indigo-600 font-medium">{t('about.whyTitle')}</div>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{whyTitle}</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -110,7 +113,7 @@ export default async function ArabicAboutPage() {
             <div className="flex items-center gap-4 mb-6">
               <div className="w-1 h-16 bg-cyan-300 rounded-full"></div>
               <div>
-                <div className="text-sm text-cyan-300 mb-2 uppercase tracking-wide font-semibold">Our Commitment</div>
+                <div className="text-sm text-cyan-300 mb-2 uppercase tracking-wide font-semibold">{t('about.ourCommitment')}</div>
                 <h2 className="text-4xl font-bold">{missionTitle}</h2>
               </div>
             </div>
@@ -120,19 +123,19 @@ export default async function ArabicAboutPage() {
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span>24/7 Support</span>
+                <span>{t('about.support247')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span>Expert Team</span>
+                <span>{t('about.expertTeam')}</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-lg">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                 </svg>
-                <span>Fast Processing</span>
+                <span>{t('about.fastProcessing')}</span>
               </div>
             </div>
           </div>
