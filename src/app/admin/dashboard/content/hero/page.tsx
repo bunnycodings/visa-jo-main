@@ -222,7 +222,7 @@ export default function AdminHeroContentPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'العنوان' : 'Title'}</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Title</label>
                 <input
                   type="text"
                   name="title"
@@ -230,12 +230,12 @@ export default function AdminHeroContentPage() {
                   onChange={onChange}
                   required
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder={locale === 'ar' ? 'خدمات التأشيرات السريعة والموثوقة' : 'Fast, Easy, and Reliable Visa Services from Jordan'}
+                  placeholder="Fast, Easy, and Reliable Visa Services from Jordan"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'الوصف الفرعي' : 'Subtitle'}</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Subtitle</label>
                 <textarea
                   name="subtitle"
                   value={form.subtitle}
@@ -243,7 +243,7 @@ export default function AdminHeroContentPage() {
                   required
                   rows={3}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder={locale === 'ar' ? 'قدم طلبك للحصول على التأشيرة...' : 'Apply for your travel visa online...'}
+                  placeholder="Apply for your travel visa online..."
                 />
               </div>
 
