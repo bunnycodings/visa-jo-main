@@ -49,8 +49,16 @@ export default function DashboardContent() {
     fetchStats();
   }, [router]);
 
-  // English admin - force English only
-  const isRTL = false;
+  // Determine RTL based on admin route
+  const isRTL = isArabicAdmin;
+  
+  // Helper to get admin path
+  const getAdminPath = (path: string) => {
+    if (isArabicAdmin) {
+      return path.startsWith('/ar/') ? path : `/ar${path}`;
+    }
+    return path.startsWith('/ar/') ? path.replace('/ar', '') : path;
+  };
 
   const statCards = [
     {
@@ -113,7 +121,7 @@ export default function DashboardContent() {
 
   const quickActions = [
     {
-      href: '/admin/dashboard/visas/new',
+      href: getAdminPath('/admin/dashboard/visas/new'),
       label: 'Add New Visa',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +131,7 @@ export default function DashboardContent() {
       color: 'blue'
     },
     {
-      href: '/admin/dashboard/content/hero',
+      href: getAdminPath('/admin/dashboard/content/hero'),
       label: { en: 'Edit Hero Section', ar: 'تحرير البانر الرئيسي' },
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,7 +141,7 @@ export default function DashboardContent() {
       color: 'purple'
     },
     {
-      href: '/admin/dashboard/visas',
+      href: getAdminPath('/admin/dashboard/visas'),
       label: { en: 'Manage Visas', ar: 'إدارة التأشيرات' },
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
