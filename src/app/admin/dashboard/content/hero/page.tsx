@@ -349,7 +349,7 @@ export default function AdminHeroContentPage() {
                   onChange={onToggle}
                   className="h-5 w-5 text-blue-600 border-gray-300 rounded"
                 />
-                <label htmlFor="isActive" className="text-sm font-medium text-gray-900">{locale === 'ar' ? 'عرض هذا القسم على الصفحة الرئيسية' : 'Show this section on the homepage'}</label>
+                <label htmlFor="isActive" className="text-sm font-medium text-gray-900">Show this section on the homepage</label>
               </div>
 
               <div className="flex justify-end gap-4 pt-6 border-t-2 border-gray-200">
@@ -358,7 +358,7 @@ export default function AdminHeroContentPage() {
                   className="px-8 py-3 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 font-semibold shadow-md hover:shadow-lg transition-all"
                   disabled={saving}
                 >
-                  {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
+                  {saving ? 'Saving...' : 'Save Changes'}
                 </button>
               </div>
             </form>
