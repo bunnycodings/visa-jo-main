@@ -46,6 +46,11 @@ function getCountryFromArabicSlug(slug: string): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
+  // Skip middleware for admin routes - let Next.js handle them normally
+  if (pathname.startsWith('/admin/') || pathname.startsWith('/ar/admin/')) {
+    return NextResponse.next();
+  }
+  
   // Redirect old /visas/ routes to /visa/ (both English and Arabic)
   if (pathname.startsWith('/visas/')) {
     const country = pathname.replace('/visas/', '');
