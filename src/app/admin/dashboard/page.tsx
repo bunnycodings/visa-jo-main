@@ -367,7 +367,7 @@ const AdminDashboard = () => {
               </div>
 
               <div className="pt-4 border-t border-gray-200">
-                <p className="text-xs text-gray-500 mb-2">{locale === 'ar' ? 'آخر تحديث' : 'Last Updated'}</p>
+                <p className="text-xs text-gray-500 mb-2">Last Updated</p>
                 <p className="text-sm font-semibold text-gray-900">{stats.lastUpdated}</p>
               </div>
             </div>
@@ -379,9 +379,9 @@ const AdminDashboard = () => {
           <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
               <div className="w-1 h-6 bg-gradient-to-b from-purple-500 to-pink-600 rounded-full"></div>
-              {locale === 'ar' ? 'روابط الصفحات' : 'Page Links'}
+              Page Links
             </h2>
-            <p className="text-sm text-gray-600 mt-1">{locale === 'ar' ? 'الوصول السريع لصفحات الموقع' : 'Quick access to your website pages'}</p>
+            <p className="text-sm text-gray-600 mt-1">Quick access to your website pages</p>
           </div>
           
           <div className="p-6">
