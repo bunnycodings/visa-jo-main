@@ -18,17 +18,22 @@ export default function Sidebar() {
   const { locale } = useLanguage();
   const isRTL = locale === 'ar';
 
-  // Helper function to add language prefix to admin routes
+  // Determine if we're in Arabic admin based on pathname
+  const isArabicAdmin = pathname?.startsWith('/ar/admin/') || false;
+  
+  // Helper function to get admin path - always use current language, no switching
   const getAdminPath = (path: string) => {
-    if (locale === 'ar') {
+    if (isArabicAdmin) {
+      // If we're in Arabic admin, ensure path has /ar prefix
       return path.startsWith('/ar/') ? path : `/ar${path}`;
     }
+    // If we're in English admin, remove /ar prefix if present
     return path.startsWith('/ar/') ? path.replace('/ar', '') : path;
   };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    const loginPath = locale === 'ar' ? '/ar/admin/login' : '/admin/login';
+    const loginPath = isArabicAdmin ? '/ar/admin/login' : '/admin/login';
     router.push(loginPath);
   };
 

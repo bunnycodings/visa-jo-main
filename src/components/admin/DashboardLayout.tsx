@@ -19,12 +19,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      // Redirect to login in the same language
-      const loginPath = locale === 'ar' ? '/ar/admin/login' : '/admin/login';
+      // Redirect to login in the same language based on current path
+      const currentPath = window.location.pathname;
+      const loginPath = currentPath.startsWith('/ar/admin/') ? '/ar/admin/login' : '/admin/login';
       router.push(loginPath);
       return;
     }
-  }, [router, locale]);
+  }, [router]);
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>
@@ -64,7 +65,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 </h2>
               </div>
               <div className="flex items-center gap-4">
-                <LanguageSwitcher />
                 {/* View site button */}
                 <a
                   href="/"

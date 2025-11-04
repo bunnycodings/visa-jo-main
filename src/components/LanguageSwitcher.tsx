@@ -48,13 +48,9 @@ export function LanguageSwitcher() {
         return;
       }
       
-      // Handle admin routes - add /ar prefix
+      // Skip admin routes - they are separate for each language
       if (currentPath.startsWith('/admin/')) {
-        const adminPath = currentPath.replace('/admin/', '/ar/admin/');
-        router.push(adminPath);
-        setLocale(newLocale);
-        document.documentElement.dir = 'rtl';
-        document.documentElement.lang = 'ar';
+        // Admin routes don't switch languages
         return;
       }
       
@@ -79,13 +75,9 @@ export function LanguageSwitcher() {
         return;
       }
       
-      // Handle admin routes - remove /ar prefix
+      // Skip admin routes - they are separate for each language
       if (currentPath.startsWith('/ar/admin/')) {
-        const adminPath = currentPath.replace('/ar/admin/', '/admin/');
-        router.push(adminPath);
-        setLocale(newLocale);
-        document.documentElement.dir = 'ltr';
-        document.documentElement.lang = 'en';
+        // Admin routes don't switch languages
         return;
       }
       
