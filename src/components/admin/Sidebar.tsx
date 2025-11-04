@@ -138,10 +138,13 @@ export default function Sidebar() {
   ];
 
   const isActive = (href: string) => {
-    if (href === '/admin/dashboard') {
-      return pathname === href;
+    if (href === '#' || href === '/admin/dashboard' || href === '/ar/admin/dashboard') {
+      return pathname === href || pathname === '/admin/dashboard' || pathname === '/ar/admin/dashboard';
     }
-    return pathname?.startsWith(href);
+    // Check if pathname matches href or its language variant
+    const normalizedPathname = pathname?.replace('/ar', '') || '';
+    const normalizedHref = href.replace('/ar', '');
+    return pathname?.startsWith(href) || normalizedPathname.startsWith(normalizedHref);
   };
 
   return (
