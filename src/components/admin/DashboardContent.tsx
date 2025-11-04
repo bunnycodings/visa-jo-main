@@ -19,6 +19,17 @@ export default function DashboardContent() {
   });
   const [loading, setLoading] = useState(true);
 
+  // Determine RTL based on admin route
+  const isRTL = isArabicAdmin;
+  
+  // Helper to get admin path
+  const getAdminPath = (path: string) => {
+    if (isArabicAdmin) {
+      return path.startsWith('/ar/') ? path : `/ar${path}`;
+    }
+    return path.startsWith('/ar/') ? path.replace('/ar', '') : path;
+  };
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -48,18 +59,7 @@ export default function DashboardContent() {
     };
 
     fetchStats();
-  }, [router]);
-
-  // Determine RTL based on admin route
-  const isRTL = isArabicAdmin;
-  
-  // Helper to get admin path
-  const getAdminPath = (path: string) => {
-    if (isArabicAdmin) {
-      return path.startsWith('/ar/') ? path : `/ar${path}`;
-    }
-    return path.startsWith('/ar/') ? path.replace('/ar', '') : path;
-  };
+  }, [router, isArabicAdmin]);
 
   const statCards = [
     {
