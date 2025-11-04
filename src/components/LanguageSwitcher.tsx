@@ -21,86 +21,118 @@ export function LanguageSwitcher() {
     }
   }, [pathname, locale, setLocale]);
 
+  // Route mapping between English and Arabic pages
+  // This ensures each Arabic page maps to its corresponding English page
+  const routeMap: Record<string, { en: string; ar: string }> = {
+    '/': { en: '/', ar: '/ar' },
+    '/about': { en: '/about', ar: '/ar/about' },
+    '/contact': { en: '/contact', ar: '/ar/contact' },
+    '/services': { en: '/services', ar: '/ar/services' },
+  };
+  
+  // Helper function to get clean path without query params or hash
+  const getCleanPath = (path: string): string => {
+    return path.split('?')[0].split('#')[0];
+  };
+
   const switchLanguage = (newLocale: 'en' | 'ar') => {
     setIsOpen(false);
+    const currentPath = getCleanPath(pathname || '/');
+    
+    // Skip admin routes - they are separate for each language
+    if (currentPath.startsWith('/admin/') || currentPath.startsWith('/ar/admin/')) {
+      return;
+    }
     
     if (newLocale === 'ar') {
-      // Navigate to Arabic version
-      const currentPath = pathname || '/';
+      // Navigate to Arabic page
       
       // Handle visa routes - convert to Arabic URLs
       if (currentPath.startsWith('/visa/')) {
-        const country = currentPath.split('/visa/')[1];
-        const arabicPath = getArabicVisaUrl(country);
+        const country = currentPath.split('/visa/')[1]?.split('/')[0] || '';
+        if (country) {
+          const arabicPath = getArabicVisaUrl(country);
+          setLocale(newLocale);
+          document.documentElement.dir = 'rtl';
+          document.documentElement.lang = 'ar';
+          window.location.href = arabicPath;
+          return;
+        }
+      }
+      
+      // Handle Arabic visa routes - already on Arabic visa route
+      if (currentPath.includes('فيزا-السفر') || currentPath.includes('فيزا-شنغن') || currentPath.startsWith('/ar/visa/')) {
         setLocale(newLocale);
         document.documentElement.dir = 'rtl';
         document.documentElement.lang = 'ar';
-        window.location.href = arabicPath;
         return;
       }
       
-      // Handle Arabic visa routes - keep as is
-      if (currentPath.includes('فيزا-السفر') || currentPath.includes('فيزا-شنغن')) {
-        // Already on Arabic visa route, just update locale
+      // Check route map first for exact matches
+      if (routeMap[currentPath]) {
+        const targetPath = routeMap[currentPath].ar;
         setLocale(newLocale);
         document.documentElement.dir = 'rtl';
         document.documentElement.lang = 'ar';
+        window.location.href = targetPath;
         return;
       }
       
-      // Skip admin routes - they are separate for each language
-      if (currentPath.startsWith('/admin/')) {
-        // Admin routes don't switch languages
-        return;
-      }
-      
-      // For other routes, add /ar prefix
-      const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') : currentPath;
+      // For other routes, add /ar prefix to get Arabic page
+      const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace(/^\/ar/, '') : currentPath;
       const arabicPath = pathWithoutAr === '/' ? '/ar' : `/ar${pathWithoutAr}`;
       setLocale(newLocale);
       document.documentElement.dir = 'rtl';
       document.documentElement.lang = 'ar';
       window.location.href = arabicPath;
     } else {
-      // Navigate to English version
-      const currentPath = pathname || '/';
-      
-      // Skip admin routes - they are separate for each language
-      if (currentPath.startsWith('/ar/admin/') || currentPath.startsWith('/admin/')) {
-        // Admin routes don't switch languages
-        return;
-      }
+      // Navigate to English page
       
       // Handle Arabic visa routes - convert to English
-      // Check for Arabic visa category patterns
       if (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/') || currentPath.startsWith('/ar/visa/')) {
-        let countryCode: string;
+        let countryCode: string = '';
         
         if (currentPath.startsWith('/ar/visa/')) {
           // Direct /ar/visa/{country} format
-          const country = currentPath.split('/ar/visa/')[1];
+          const country = currentPath.split('/ar/visa/')[1]?.split('/')[0] || '';
           countryCode = getCountryFromArabicSlug(country);
         } else {
           // Arabic category format: /ar/فيزا-السفر/{slug} or /ar/فيزا-شنغن/{slug}
           const parts = currentPath.split('/');
-          const arabicSlug = parts[parts.length - 1];
+          const arabicSlug = parts[parts.length - 1] || '';
           countryCode = getCountryFromArabicSlug(arabicSlug);
         }
         
-        const englishPath = `/visa/${countryCode}`;
+        if (countryCode) {
+          const englishPath = `/visa/${countryCode}`;
+          setLocale(newLocale);
+          document.documentElement.dir = 'ltr';
+          document.documentElement.lang = 'en';
+          window.location.href = englishPath;
+          return;
+        }
+      }
+      
+      // Check route map first for Arabic pages mapping to English pages
+      const routeKey = Object.keys(routeMap).find(key => {
+        const arPath = routeMap[key].ar;
+        return currentPath === arPath || currentPath.startsWith(arPath + '/');
+      });
+      if (routeKey) {
+        const targetPath = routeMap[routeKey].en;
         setLocale(newLocale);
         document.documentElement.dir = 'ltr';
         document.documentElement.lang = 'en';
-        window.location.href = englishPath;
+        window.location.href = targetPath;
         return;
       }
       
-      // For other routes, remove /ar prefix
+      // For other Arabic routes, remove /ar prefix to get English page
       if (currentPath.startsWith('/ar')) {
         // Remove /ar prefix, handle edge case where path is exactly /ar
-        let englishPath = currentPath === '/ar' ? '/' : currentPath.replace('/ar', '');
+        let englishPath = currentPath === '/ar' ? '/' : currentPath.replace(/^\/ar/, '');
         
-        // Ensure we have a valid path (should never be empty, but just in case)
+        // Ensure we have a valid path
         if (!englishPath || englishPath.trim() === '') {
           englishPath = '/';
         }
@@ -110,8 +142,6 @@ export function LanguageSwitcher() {
           englishPath = '/' + englishPath;
         }
         
-        // Use window.location for more reliable navigation
-        // This ensures the page actually reloads and middleware processes correctly
         setLocale(newLocale);
         document.documentElement.dir = 'ltr';
         document.documentElement.lang = 'en';
