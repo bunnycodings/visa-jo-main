@@ -23,7 +23,11 @@ export async function GET(request: NextRequest) {
     const decoded = verifyAdmin(request);
     if (!decoded) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const doc = await getSiteContent<WhyChooseUsContent>('why');
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    const doc = await getSiteContent<WhyChooseUsContent>('why', locale);
     const content = doc || defaultWhyChooseUsContent;
     return NextResponse.json(content);
   } catch (error) {
@@ -36,6 +40,10 @@ export async function PUT(request: NextRequest) {
   try {
     const decoded = verifyAdmin(request);
     if (!decoded) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
 
     const payload = await request.json();
 
@@ -53,7 +61,7 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date(),
     };
 
-    await upsertSiteContent('why', update);
+    await upsertSiteContent('why', update, locale);
 
     return NextResponse.json(update);
   } catch (error) {
