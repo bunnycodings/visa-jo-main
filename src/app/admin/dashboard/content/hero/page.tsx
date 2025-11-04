@@ -119,19 +119,19 @@ export default function AdminHeroContentPage() {
 
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || (locale === 'ar' ? 'فشل تحميل الصورة' : 'Failed to upload image'));
+        throw new Error(err.error || 'Failed to upload image');
       }
 
       const data = await res.json();
       setForm((prev) => ({ ...prev, backgroundImage: data.url }));
       setFileInput(null);
-      setSuccess(locale === 'ar' ? 'تم تحميل الصورة بنجاح' : 'Image uploaded successfully');
+      setSuccess('Image uploaded successfully');
       
       // Reset file input
       const input = document.getElementById('image-upload') as HTMLInputElement;
       if (input) input.value = '';
     } catch (err: any) {
-      setError(err.message || (locale === 'ar' ? 'فشل تحميل الصورة' : 'Failed to upload image'));
+      setError(err.message || 'Failed to upload image');
     } finally {
       setUploading(false);
     }
