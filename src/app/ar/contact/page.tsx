@@ -15,7 +15,7 @@ export default function ArabicContactPage() {
   useEffect(() => {
     const run = async () => {
       try {
-        const res = await fetch('/api/content/contact', { cache: 'no-store' });
+        const res = await fetch('/api/content/contact?locale=ar', { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           setContent(data);

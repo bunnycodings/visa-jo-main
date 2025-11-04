@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSiteContent } from '@/lib/utils/db-helpers';
 import { autoInitializeDatabase } from '@/lib/utils/auto-init';
-import { HeroContent, defaultHeroContent } from '@/types/models/SiteContent';
+import { AboutContent, defaultAboutContent } from '@/types/models/SiteContent';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,9 +15,9 @@ export async function GET(request: NextRequest) {
     const referer = request.headers.get('referer') || '';
     const locale: 'en' | 'ar' = localeParam === 'ar' || (!localeParam && referer.includes('/ar/')) ? 'ar' : 'en';
 
-    const doc = await getSiteContent<HeroContent>('hero', locale);
-    const hero = doc || defaultHeroContent;
-    return NextResponse.json(hero, {
+    const doc = await getSiteContent<AboutContent>('about', locale);
+    const content = doc || defaultAboutContent;
+    return NextResponse.json(content, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
@@ -25,8 +25,8 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Hero content GET error:', error);
-    return NextResponse.json(defaultHeroContent, {
+    console.error('Public about content GET error:', error);
+    return NextResponse.json(defaultAboutContent, {
       status: 200,
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',

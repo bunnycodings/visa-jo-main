@@ -1,9 +1,27 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import type { AboutContent } from '@/types/models/SiteContent';
 
 export default function ArabicAboutPage() {
   const { t } = useLanguage();
+  const [content, setContent] = useState<AboutContent | null>(null);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch('/api/content/about?locale=ar', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          setContent(data);
+        }
+      } catch (e) {
+        console.error('Failed to load about content', e);
+      }
+    };
+    fetchContent();
+  }, []);
   
   const title = t('about.title');
   const intro = t('about.intro');

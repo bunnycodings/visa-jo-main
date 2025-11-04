@@ -5,12 +5,17 @@ import { WhyChooseUsContent, defaultWhyChooseUsContent } from '@/types/models/Si
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(_request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     // Auto-initialize database if needed
     await autoInitializeDatabase();
 
-    const doc = await getSiteContent<WhyChooseUsContent>('why');
+    // Detect locale from query parameter or referer header
+    const localeParam = request.nextUrl.searchParams.get('locale');
+    const referer = request.headers.get('referer') || '';
+    const locale: 'en' | 'ar' = localeParam === 'ar' || (!localeParam && referer.includes('/ar/')) ? 'ar' : 'en';
+
+    const doc = await getSiteContent<WhyChooseUsContent>('why', locale);
     const content = doc || defaultWhyChooseUsContent;
     return NextResponse.json(content, {
       headers: {

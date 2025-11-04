@@ -36,12 +36,12 @@ export default function ArabicHome() {
     // Fetch all content from API
     const fetchContent = async () => {
       try {
-        // Fetch all content in parallel
+        // Fetch all content in parallel with Arabic locale
         const [heroRes, whyRes, popularRes, howRes] = await Promise.all([
-          fetch('/api/content/hero', { cache: 'no-store' }),
-          fetch('/api/content/why', { cache: 'no-store' }),
-          fetch('/api/content/popular', { cache: 'no-store' }),
-          fetch('/api/content/how', { cache: 'no-store' }),
+          fetch('/api/content/hero?locale=ar', { cache: 'no-store' }),
+          fetch('/api/content/why?locale=ar', { cache: 'no-store' }),
+          fetch('/api/content/popular?locale=ar', { cache: 'no-store' }),
+          fetch('/api/content/how?locale=ar', { cache: 'no-store' }),
         ]);
 
         if (heroRes.ok) {
