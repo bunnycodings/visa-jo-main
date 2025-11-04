@@ -24,10 +24,14 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
     // Try to fetch from database, fallback to defaults
     let metadata;
     try {
-      metadata = await getSiteContent('page-metadata');
+      metadata = await getSiteContent('page-metadata', locale);
     } catch {
       metadata = null;
     }
@@ -60,8 +64,12 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
     // Fetch existing metadata
-    let existingMetadata = await getSiteContent('page-metadata');
+    let existingMetadata = await getSiteContent('page-metadata', locale);
     if (!existingMetadata) {
       existingMetadata = {
         key: 'page-metadata',
@@ -87,7 +95,7 @@ export async function PUT(request: NextRequest) {
     await upsertSiteContent('page-metadata', {
       content: updatedContent,
       updatedAt: new Date(),
-    });
+    }, locale);
 
     return NextResponse.json(pageMetadata);
   } catch (error) {
