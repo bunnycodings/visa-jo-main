@@ -21,20 +21,20 @@ export const APP_CONFIG = {
 // Visa types and countries
 export const VISA_TYPES = {
   TRAVEL: [
-    { name: 'UAE Visa', code: 'uae', href: '/visas/uae' },
-    { name: 'UK Visa', code: 'uk', href: '/visas/uk' },
-    { name: 'US Visa', code: 'us', href: '/visas/us' },
-    { name: 'Canada Visa', code: 'canada', href: '/visas/canada' },
-    { name: 'Australia Visa', code: 'australia', href: '/visas/australia' },
-    { name: 'India Visa', code: 'india', href: '/visas/india' },
+    { name: 'UAE Visa', code: 'uae', href: '/visa/uae' },
+    { name: 'UK Visa', code: 'uk', href: '/visa/uk' },
+    { name: 'US Visa', code: 'us', href: '/visa/us' },
+    { name: 'Canada Visa', code: 'canada', href: '/visa/canada' },
+    { name: 'Australia Visa', code: 'australia', href: '/visa/australia' },
+    { name: 'India Visa', code: 'india', href: '/visa/india' },
   ],
   SCHENGEN: [
-    { name: 'Germany Visa', code: 'germany', href: '/visas/germany' },
-    { name: 'France Visa', code: 'france', href: '/visas/france' },
-    { name: 'Netherlands Visa', code: 'netherlands', href: '/visas/netherlands' },
-    { name: 'Spain Visa', code: 'spain', href: '/visas/spain' },
-    { name: 'Italy Visa', code: 'italy', href: '/visas/italy' },
-    { name: 'Austria Visa', code: 'austria', href: '/visas/austria' },
+    { name: 'Germany Visa', code: 'germany', href: '/visa/germany' },
+    { name: 'France Visa', code: 'france', href: '/visa/france' },
+    { name: 'Netherlands Visa', code: 'netherlands', href: '/visa/netherlands' },
+    { name: 'Spain Visa', code: 'spain', href: '/visa/spain' },
+    { name: 'Italy Visa', code: 'italy', href: '/visa/italy' },
+    { name: 'Austria Visa', code: 'austria', href: '/visa/austria' },
   ],
 } as const;
 

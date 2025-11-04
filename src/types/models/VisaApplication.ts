@@ -56,6 +56,17 @@ export interface VisaType {
   mainRequirements?: string | null;
   visaTypes?: string[] | null;
   heroImage?: string | null;
+  // Arabic fields
+  nameAr?: string | null;
+  descriptionAr?: string | null;
+  notesAr?: string | null;
+  embassyInfoAr?: string | null;
+  embassyAppointmentAr?: string | null;
+  mainRequirementsAr?: string | null;
+  requirementsAr?: string[] | null;
+  visaTypesAr?: string[] | null;
+  processingTimeAr?: string | null;
+  validityAr?: string | null;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -76,6 +87,17 @@ export interface VisaRow {
   main_requirements?: string | null;
   visa_types?: string | null;
   hero_image?: string | null;
+  // Arabic fields
+  name_ar?: string | null;
+  description_ar?: string | null;
+  notes_ar?: string | null;
+  embassy_info_ar?: string | null;
+  embassy_appointment_ar?: string | null;
+  main_requirements_ar?: string | null;
+  requirements_ar?: string | null;
+  visa_types_ar?: string | null;
+  processing_time_ar?: string | null;
+  validity_ar?: string | null;
   is_active: number;
   created_at: Date;
   updated_at: Date;

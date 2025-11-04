@@ -13,7 +13,7 @@ const WorldMap = () => {
       nameThai: 'อังกฤษ',
       image: getFlagPath('United Kingdom'),
       position: { top: '25%', left: '45%' },
-      href: '/visas/uk'
+      href: '/visa/uk'
     },
     {
       id: 'belgium',
@@ -21,7 +21,7 @@ const WorldMap = () => {
       nameThai: 'เบลเยียม',
       image: getFlagPath('Belgium'),
       position: { top: '28%', left: '48%' },
-      href: '/visas/belgium'
+      href: '/visa/belgium'
     },
     {
       id: 'italy',
@@ -29,7 +29,7 @@ const WorldMap = () => {
       nameThai: 'อิตาลี',
       image: getFlagPath('Italy'),
       position: { top: '35%', left: '50%' },
-      href: '/visas/italy'
+      href: '/visa/italy'
     },
     {
       id: 'france',
@@ -37,7 +37,7 @@ const WorldMap = () => {
       nameThai: 'ฝรั่งเศษ',
       image: getFlagPath('France'),
       position: { top: '30%', left: '47%' },
-      href: '/visas/france'
+      href: '/visa/france'
     },
     {
       id: 'usa',
@@ -45,7 +45,7 @@ const WorldMap = () => {
       nameThai: 'สหรัฐอเมริกา',
       image: getFlagPath('United States'),
       position: { top: '32%', left: '20%' },
-      href: '/visas/us'
+      href: '/visa/us'
     },
     {
       id: 'mexico',
@@ -53,7 +53,7 @@ const WorldMap = () => {
       nameThai: 'เม็กซิโก',
       image: getFlagPath('Mexico'),
       position: { top: '40%', left: '18%' },
-      href: '/visas/mexico'
+      href: '/visa/mexico'
     },
     {
       id: 'canada',
@@ -61,7 +61,7 @@ const WorldMap = () => {
       nameThai: 'แคนนาดา',
       image: getFlagPath('Canada'),
       position: { top: '20%', left: '18%' },
-      href: '/visas/canada'
+      href: '/visa/canada'
     },
     {
       id: 'panama',
@@ -69,7 +69,7 @@ const WorldMap = () => {
       nameThai: 'ปานามา',
       image: getFlagPath('Panama'),
       position: { top: '45%', left: '22%' },
-      href: '/visas/panama'
+      href: '/visa/panama'
     },
     {
       id: 'russia',
@@ -77,7 +77,7 @@ const WorldMap = () => {
       nameThai: 'รัสเซีย',
       image: getFlagPath('Russia'),
       position: { top: '15%', left: '65%' },
-      href: '/visas/russia'
+      href: '/visa/russia'
     },
     {
       id: 'sweden',
@@ -85,7 +85,7 @@ const WorldMap = () => {
       nameThai: 'สวีเดน',
       image: getFlagPath('Sweden'),
       position: { top: '18%', left: '52%' },
-      href: '/visas/sweden'
+      href: '/visa/sweden'
     },
     {
       id: 'india',
@@ -93,7 +93,7 @@ const WorldMap = () => {
       nameThai: 'อินเดีย',
       image: getFlagPath('India'),
       position: { top: '45%', left: '70%' },
-      href: '/visas/india'
+      href: '/visa/india'
     },
     {
       id: 'china',
@@ -101,7 +101,7 @@ const WorldMap = () => {
       nameThai: 'จีน',
       image: getFlagPath('China'),
       position: { top: '35%', left: '75%' },
-      href: '/visas/china'
+      href: '/visa/china'
     },
     {
       id: 'australia',
@@ -109,7 +109,7 @@ const WorldMap = () => {
       nameThai: 'ออสเตรเลีย',
       image: getFlagPath('Australia'),
       position: { top: '70%', left: '80%' },
-      href: '/visas/australia'
+      href: '/visa/australia'
     },
     {
       id: 'newzealand',
@@ -117,7 +117,7 @@ const WorldMap = () => {
       nameThai: 'นิวซีแลนด์',
       image: getFlagPath('New Zealand'),
       position: { top: '75%', left: '90%' },
-      href: '/visas/newzealand'
+      href: '/visa/newzealand'
     }
   ];
 

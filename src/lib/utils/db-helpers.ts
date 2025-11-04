@@ -89,6 +89,17 @@ export async function getAllVisas(): Promise<VisaType[]> {
     mainRequirements: row.main_requirements || null,
     visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
     heroImage: row.hero_image || null,
+    // Arabic fields
+    nameAr: row.name_ar || null,
+    descriptionAr: row.description_ar || null,
+    notesAr: row.notes_ar || null,
+    embassyInfoAr: row.embassy_info_ar || null,
+    embassyAppointmentAr: row.embassy_appointment_ar || null,
+    mainRequirementsAr: row.main_requirements_ar || null,
+    requirementsAr: row.requirements_ar ? JSON.parse(row.requirements_ar) : null,
+    visaTypesAr: row.visa_types_ar ? JSON.parse(row.visa_types_ar) : null,
+    processingTimeAr: row.processing_time_ar || null,
+    validityAr: row.validity_ar || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -116,6 +127,17 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
     mainRequirements: row.main_requirements || null,
     visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
     heroImage: row.hero_image || null,
+    // Arabic fields
+    nameAr: row.name_ar || null,
+    descriptionAr: row.description_ar || null,
+    notesAr: row.notes_ar || null,
+    embassyInfoAr: row.embassy_info_ar || null,
+    embassyAppointmentAr: row.embassy_appointment_ar || null,
+    mainRequirementsAr: row.main_requirements_ar || null,
+    requirementsAr: row.requirements_ar ? JSON.parse(row.requirements_ar) : null,
+    visaTypesAr: row.visa_types_ar ? JSON.parse(row.visa_types_ar) : null,
+    processingTimeAr: row.processing_time_ar || null,
+    validityAr: row.validity_ar || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -144,6 +166,17 @@ export async function getVisasByCountry(country: string): Promise<VisaType[]> {
     mainRequirements: row.main_requirements || null,
     visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
     heroImage: row.hero_image || null,
+    // Arabic fields
+    nameAr: row.name_ar || null,
+    descriptionAr: row.description_ar || null,
+    notesAr: row.notes_ar || null,
+    embassyInfoAr: row.embassy_info_ar || null,
+    embassyAppointmentAr: row.embassy_appointment_ar || null,
+    mainRequirementsAr: row.main_requirements_ar || null,
+    requirementsAr: row.requirements_ar ? JSON.parse(row.requirements_ar) : null,
+    visaTypesAr: row.visa_types_ar ? JSON.parse(row.visa_types_ar) : null,
+    processingTimeAr: row.processing_time_ar || null,
+    validityAr: row.validity_ar || null,
     isActive: Boolean(row.is_active),
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -153,8 +186,9 @@ export async function getVisasByCountry(country: string): Promise<VisaType[]> {
 export async function createVisa(visa: VisaType): Promise<number> {
   const pool = getConnectionPool();
   const [result]: any = await pool.execute(
-    `INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, hero_image, is_active)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, embassy_info, embassy_appointment, main_requirements, visa_types, hero_image, is_active,
+     name_ar, description_ar, notes_ar, embassy_info_ar, embassy_appointment_ar, main_requirements_ar, requirements_ar, visa_types_ar, processing_time_ar, validity_ar)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       visa.name,
       visa.country,
@@ -171,6 +205,17 @@ export async function createVisa(visa: VisaType): Promise<number> {
       visa.visaTypes ? JSON.stringify(visa.visaTypes) : null,
       visa.heroImage || null,
       visa.isActive ? 1 : 0,
+      // Arabic fields
+      visa.nameAr || null,
+      visa.descriptionAr || null,
+      visa.notesAr || null,
+      visa.embassyInfoAr || null,
+      visa.embassyAppointmentAr || null,
+      visa.mainRequirementsAr || null,
+      visa.requirementsAr ? JSON.stringify(visa.requirementsAr) : null,
+      visa.visaTypesAr ? JSON.stringify(visa.visaTypesAr) : null,
+      visa.processingTimeAr || null,
+      visa.validityAr || null,
     ]
   );
 
@@ -240,6 +285,47 @@ export async function updateVisaByName(originalName: string, visa: Partial<VisaT
   if (visa.isActive !== undefined) {
     updates.push('is_active = ?');
     values.push(visa.isActive ? 1 : 0);
+  }
+  // Arabic fields
+  if (visa.nameAr !== undefined) {
+    updates.push('name_ar = ?');
+    values.push(visa.nameAr);
+  }
+  if (visa.descriptionAr !== undefined) {
+    updates.push('description_ar = ?');
+    values.push(visa.descriptionAr);
+  }
+  if (visa.notesAr !== undefined) {
+    updates.push('notes_ar = ?');
+    values.push(visa.notesAr);
+  }
+  if (visa.embassyInfoAr !== undefined) {
+    updates.push('embassy_info_ar = ?');
+    values.push(visa.embassyInfoAr);
+  }
+  if (visa.embassyAppointmentAr !== undefined) {
+    updates.push('embassy_appointment_ar = ?');
+    values.push(visa.embassyAppointmentAr);
+  }
+  if (visa.mainRequirementsAr !== undefined) {
+    updates.push('main_requirements_ar = ?');
+    values.push(visa.mainRequirementsAr);
+  }
+  if (visa.requirementsAr !== undefined) {
+    updates.push('requirements_ar = ?');
+    values.push(visa.requirementsAr ? JSON.stringify(visa.requirementsAr) : null);
+  }
+  if (visa.visaTypesAr !== undefined) {
+    updates.push('visa_types_ar = ?');
+    values.push(visa.visaTypesAr ? JSON.stringify(visa.visaTypesAr) : null);
+  }
+  if (visa.processingTimeAr !== undefined) {
+    updates.push('processing_time_ar = ?');
+    values.push(visa.processingTimeAr);
+  }
+  if (visa.validityAr !== undefined) {
+    updates.push('validity_ar = ?');
+    values.push(visa.validityAr);
   }
 
   if (updates.length === 0) return false;

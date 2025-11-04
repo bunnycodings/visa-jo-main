@@ -65,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Dynamic visa pages from database
     const visaPages: MetadataRoute.Sitemap = visas.map((visa: any) => ({
-      url: `${baseUrl}/visas/${visa.country.toLowerCase()}`,
+      url: `${baseUrl}/visa/${visa.country.toLowerCase()}`,
       lastModified: visa.updatedAt ? new Date(visa.updatedAt) : new Date(),
       changeFrequency: 'weekly' as const,
       priority: 0.8,
@@ -94,7 +94,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     return [...staticPages, ...visaPages, ...categoryPages].map(page => ({
       ...page,
-      lastModified: page.url.includes('/visas/') 
+      lastModified: page.url.includes('/visa/') 
         ? (visas.find((v: any) => v.country.toLowerCase() === page.url.split('/').pop())?.updatedAt || page.lastModified)
         : page.lastModified,
     }));

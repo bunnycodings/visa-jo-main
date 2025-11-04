@@ -2,6 +2,7 @@
 
 import { VisaType } from '@/types/models/VisaApplication';
 import { useLanguage } from '@/context/LanguageContext';
+import { useEffect, useState } from 'react';
 
 interface VisaDetailsProps {
   country: string;
@@ -35,6 +36,24 @@ const getCountryName = (countryCode: string, locale: string): string => {
 export default function VisaDetails({ country, title, visas }: VisaDetailsProps) {
   const { locale, t } = useLanguage();
   const isRTL = locale === 'ar';
+
+  // Helper function to get translated content from visa data Arabic fields
+  const getTranslatedContent = (visa: VisaType, field: string, defaultValue: string): string => {
+    if (locale === 'ar') {
+      switch (field) {
+        case 'name': return visa.nameAr || defaultValue;
+        case 'description': return visa.descriptionAr || defaultValue;
+        case 'embassyInfo': return visa.embassyInfoAr || defaultValue;
+        case 'embassyAppointment': return visa.embassyAppointmentAr || defaultValue;
+        case 'mainRequirements': return visa.mainRequirementsAr || defaultValue;
+        case 'notes': return visa.notesAr || defaultValue;
+        case 'processingTime': return visa.processingTimeAr || defaultValue;
+        case 'validity': return visa.validityAr || defaultValue;
+        default: return defaultValue;
+      }
+    }
+    return defaultValue;
+  };
 
   if (!visas.length) {
     return (
@@ -125,9 +144,13 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                           />
                         </div>
                       )}
-                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight relative z-10">{visa.name}</h2>
+                      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight relative z-10">
+                        {getTranslatedContent(visa, 'name', visa.name)}
+                      </h2>
                       {visa.description && (
-                        <p className="text-gray-700 leading-relaxed text-lg relative z-10">{visa.description}</p>
+                        <p className="text-gray-700 leading-relaxed text-lg relative z-10">
+                          {getTranslatedContent(visa, 'description', visa.description)}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -150,7 +173,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.embassyInfo')}
                       </h3>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.embassyInfo}</p>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">
+                        {getTranslatedContent(visa, 'embassyInfo', visa.embassyInfo)}
+                      </p>
                     </section>
                   )}
 
@@ -168,7 +193,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.embassyAppointment')}
                       </h3>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.embassyAppointment}</p>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">
+                        {getTranslatedContent(visa, 'embassyAppointment', visa.embassyAppointment)}
+                      </p>
                     </section>
                   )}
 
@@ -186,7 +213,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         {t('visas.mainRequirements')}
                       </h3>
-                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">{visa.mainRequirements}</p>
+                      <p className="text-gray-700 leading-relaxed whitespace-pre-line ml-20 text-lg">
+                        {getTranslatedContent(visa, 'mainRequirements', visa.mainRequirements)}
+                      </p>
                     </section>
                   )}
 
@@ -205,16 +234,21 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         {t('visas.visaTypes')}
                       </h3>
                       <ul className="space-y-3 ml-20">
-                        {visa.visaTypes.map((type, idx) => (
-                          <li key={idx} className="flex items-start gap-3">
-                            <div className="flex-shrink-0 mt-1" aria-hidden="true">
-                              <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
-                              </svg>
-                            </div>
-                            <span className="text-gray-700 font-medium text-lg">{type}</span>
-                          </li>
-                        ))}
+                        {visa.visaTypes.map((type, idx) => {
+                          const translatedType = (locale === 'ar' && visa.visaTypesAr && visa.visaTypesAr[idx]) 
+                            ? visa.visaTypesAr[idx] 
+                            : type;
+                          return (
+                            <li key={idx} className="flex items-start gap-3">
+                              <div className="flex-shrink-0 mt-1" aria-hidden="true">
+                                <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
+                                </svg>
+                              </div>
+                              <span className="text-gray-700 font-medium text-lg">{translatedType}</span>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </section>
                   )}
@@ -233,7 +267,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                       </div>
                       <div className="text-xs text-gray-600 uppercase tracking-wide font-semibold mb-2">{t('visas.processingTime')}</div>
-                      <div className="text-2xl font-bold text-gray-900">{visa.processingTime}</div>
+                      <div className="text-2xl font-bold text-gray-900">{getTranslatedContent(visa, 'processingTime', visa.processingTime)}</div>
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500 transform scale-x-0 group-hover/card:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
 
@@ -248,7 +282,7 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                       </div>
                       <div className="text-xs text-gray-600 uppercase tracking-wide font-semibold mb-2">{t('visas.validity')}</div>
-                      <div className="text-2xl font-bold text-gray-900">{visa.validity}</div>
+                      <div className="text-2xl font-bold text-gray-900">{getTranslatedContent(visa, 'validity', visa.validity)}</div>
                       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 transform scale-x-0 group-hover/card:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>
 
@@ -293,18 +327,23 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </h3>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        {visa.requirements.map((req: string, idx: number) => (
-                          <div key={idx} className={`flex items-start gap-4 bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 ${isRTL ? 'flex-row-reverse' : ''}`}>
-                            <div className="flex-shrink-0 mt-1" aria-hidden="true">
-                              <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
-                                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                  <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
-                                </svg>
+                        {visa.requirements.map((req: string, idx: number) => {
+                          const translatedReq = (locale === 'ar' && visa.requirementsAr && visa.requirementsAr[idx]) 
+                            ? visa.requirementsAr[idx] 
+                            : req;
+                          return (
+                            <div key={idx} className={`flex items-start gap-4 bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 ${isRTL ? 'flex-row-reverse' : ''}`}>
+                              <div className="flex-shrink-0 mt-1" aria-hidden="true">
+                                <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
+                                  <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
+                                  </svg>
+                                </div>
                               </div>
+                              <span className="text-gray-900 font-medium leading-relaxed flex-1 text-lg">{translatedReq}</span>
                             </div>
-                            <span className="text-gray-900 font-medium leading-relaxed flex-1 text-lg">{req}</span>
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
                     </section>
                   )}
@@ -320,7 +359,9 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
                         </div>
                         <div className="flex-1">
                           <h4 id={`notes-${visa.name}`} className="font-bold text-gray-900 mb-2 text-xl">{t('visas.importantNotes')}</h4>
-                          <p className="text-gray-800 leading-relaxed text-lg">{visa.notes}</p>
+                          <p className="text-gray-800 leading-relaxed text-lg">
+                            {getTranslatedContent(visa, 'notes', visa.notes || '')}
+                          </p>
                         </div>
                       </div>
                     </aside>

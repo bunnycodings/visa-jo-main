@@ -15,6 +15,7 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'ar'>('en');
 
   const [formData, setFormData] = useState<VisaType>({
     name: '',
@@ -32,14 +33,31 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
     embassyAppointment: null,
     mainRequirements: null,
     visaTypes: null,
-    heroImage: null
+    heroImage: null,
+    // Arabic fields
+    nameAr: null,
+    descriptionAr: null,
+    notesAr: null,
+    embassyInfoAr: null,
+    embassyAppointmentAr: null,
+    mainRequirementsAr: null,
+    requirementsAr: null,
+    visaTypesAr: null,
+    processingTimeAr: null,
+    validityAr: null
   });
   const [feeInput, setFeeInput] = useState<string>('');
   const [heroImageUrl, setHeroImageUrl] = useState<string>('');
 
   useEffect(() => {
     if (visaData && isEditing) {
-      setFormData(visaData);
+      // Ensure Arabic arrays are initialized
+      const initializedData = {
+        ...visaData,
+        requirementsAr: visaData.requirementsAr || null,
+        visaTypesAr: visaData.visaTypesAr || null,
+      };
+      setFormData(initializedData);
       if (visaData.heroImage) {
         setHeroImageUrl(visaData.heroImage);
       }
@@ -126,28 +144,53 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
   };
 
   const handleRequirementChange = (index: number, value: string) => {
-    const updatedRequirements = [...formData.requirements];
-    updatedRequirements[index] = value;
-    setFormData({
-      ...formData,
-      requirements: updatedRequirements
-    });
+    if (currentLanguage === 'en') {
+      const updatedRequirements = [...formData.requirements];
+      updatedRequirements[index] = value;
+      setFormData({
+        ...formData,
+        requirements: updatedRequirements
+      });
+    } else {
+      const updatedRequirements = [...(formData.requirementsAr || [])];
+      updatedRequirements[index] = value;
+      setFormData({
+        ...formData,
+        requirementsAr: updatedRequirements
+      });
+    }
   };
 
   const addRequirement = () => {
-    setFormData({
-      ...formData,
-      requirements: [...formData.requirements, '']
-    });
+    if (currentLanguage === 'en') {
+      setFormData({
+        ...formData,
+        requirements: [...formData.requirements, '']
+      });
+    } else {
+      setFormData({
+        ...formData,
+        requirementsAr: [...(formData.requirementsAr || []), '']
+      });
+    }
   };
 
   const removeRequirement = (index: number) => {
-    const updatedRequirements = [...formData.requirements];
-    updatedRequirements.splice(index, 1);
-    setFormData({
-      ...formData,
-      requirements: updatedRequirements
-    });
+    if (currentLanguage === 'en') {
+      const updatedRequirements = [...formData.requirements];
+      updatedRequirements.splice(index, 1);
+      setFormData({
+        ...formData,
+        requirements: updatedRequirements.length > 0 ? updatedRequirements : ['']
+      });
+    } else {
+      const updatedRequirements = [...(formData.requirementsAr || [])];
+      updatedRequirements.splice(index, 1);
+      setFormData({
+        ...formData,
+        requirementsAr: updatedRequirements.length > 0 ? updatedRequirements : []
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -211,9 +254,36 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-8">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b-2 border-gray-200 pb-4">
+      <h2 className="text-3xl font-bold text-gray-900 mb-4 border-b-2 border-gray-200 pb-4">
         {isEditing ? 'Edit Visa Information' : 'Add New Visa'}
       </h2>
+
+      {/* Language Switcher */}
+      <div className="mb-6 flex gap-2 p-2 bg-gray-100 rounded-lg inline-flex">
+        <button
+          type="button"
+          onClick={() => setCurrentLanguage('en')}
+          className={`px-6 py-2 rounded-lg font-semibold transition-all ${
+            currentLanguage === 'en'
+              ? 'bg-[#145EFF] text-white shadow-md'
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+        >
+          English
+        </button>
+        <button
+          type="button"
+          onClick={() => setCurrentLanguage('ar')}
+          className={`px-6 py-2 rounded-lg font-semibold transition-all ${
+            currentLanguage === 'ar'
+              ? 'bg-[#145EFF] text-white shadow-md'
+              : 'bg-white text-gray-700 hover:bg-gray-50'
+          }`}
+          dir="rtl"
+        >
+          العربية
+        </button>
+      </div>
 
       {error && (
         <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-600 text-red-800 rounded-md flex items-center gap-2">
@@ -237,15 +307,23 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-2">
-              Visa Name *
+              Visa Name {currentLanguage === 'en' ? '*' : '(English)'} {currentLanguage === 'ar' && formData.nameAr && <span className="text-blue-600">(Arabic: {formData.nameAr})</span>}
             </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleInputChange}
+              name={currentLanguage === 'en' ? 'name' : 'nameAr'}
+              value={currentLanguage === 'en' ? formData.name : (formData.nameAr || '')}
+              onChange={(e) => {
+                if (currentLanguage === 'en') {
+                  handleInputChange(e);
+                } else {
+                  setFormData({ ...formData, nameAr: e.target.value || null });
+                }
+              }}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              required
+              placeholder={currentLanguage === 'en' ? "e.g. UAE Tourist Visa" : "مثال: تأشيرة سياحية لدولة الإمارات"}
+              required={currentLanguage === 'en'}
+              dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
 
@@ -287,45 +365,66 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
 
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-2">
-              Processing Time *
+              Processing Time {currentLanguage === 'en' ? '*' : '(English)'} {currentLanguage === 'ar' && formData.processingTimeAr && <span className="text-blue-600">(Arabic: {formData.processingTimeAr})</span>}
             </label>
             <input
               type="text"
-              name="processingTime"
-              value={formData.processingTime}
-              onChange={handleInputChange}
+              name={currentLanguage === 'en' ? 'processingTime' : 'processingTimeAr'}
+              value={currentLanguage === 'en' ? formData.processingTime : (formData.processingTimeAr || '')}
+              onChange={(e) => {
+                if (currentLanguage === 'en') {
+                  handleInputChange(e);
+                } else {
+                  setFormData({ ...formData, processingTimeAr: e.target.value || null });
+                }
+              }}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              placeholder="e.g. 3-5 business days"
-              required
+              placeholder={currentLanguage === 'en' ? "e.g. 3-5 business days" : "مثال: 3-5 أيام عمل"}
+              required={currentLanguage === 'en'}
+              dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
 
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-2">
-              Validity *
+              Validity {currentLanguage === 'en' ? '*' : '(English)'} {currentLanguage === 'ar' && formData.validityAr && <span className="text-blue-600">(Arabic: {formData.validityAr})</span>}
             </label>
             <input
               type="text"
-              name="validity"
-              value={formData.validity}
-              onChange={handleInputChange}
+              name={currentLanguage === 'en' ? 'validity' : 'validityAr'}
+              value={currentLanguage === 'en' ? formData.validity : (formData.validityAr || '')}
+              onChange={(e) => {
+                if (currentLanguage === 'en') {
+                  handleInputChange(e);
+                } else {
+                  setFormData({ ...formData, validityAr: e.target.value || null });
+                }
+              }}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              placeholder="e.g. 6 months"
-              required
+              placeholder={currentLanguage === 'en' ? "e.g. 6 months" : "مثال: 6 أشهر"}
+              required={currentLanguage === 'en'}
+              dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
 
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-2">
-              Description
+              Description {currentLanguage === 'ar' && formData.descriptionAr && <span className="text-blue-600">(Arabic set)</span>}
             </label>
             <textarea
-              name="description"
-              value={formData.description || ''}
-              onChange={handleInputChange}
+              name={currentLanguage === 'en' ? 'description' : 'descriptionAr'}
+              value={currentLanguage === 'en' ? (formData.description || '') : (formData.descriptionAr || '')}
+              onChange={(e) => {
+                if (currentLanguage === 'en') {
+                  handleInputChange(e);
+                } else {
+                  setFormData({ ...formData, descriptionAr: e.target.value || null });
+                }
+              }}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              placeholder="Brief overview of this visa"
+              placeholder={currentLanguage === 'en' ? "Brief overview of this visa" : "نظرة عامة موجزة عن هذه التأشيرة"}
               rows={4}
+              dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
 
@@ -380,15 +479,22 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
 
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-2">
-              Notes
+              Notes {currentLanguage === 'ar' && formData.notesAr && <span className="text-blue-600">(Arabic set)</span>}
             </label>
             <textarea
-              name="notes"
-              value={formData.notes || ''}
-              onChange={handleInputChange}
+              name={currentLanguage === 'en' ? 'notes' : 'notesAr'}
+              value={currentLanguage === 'en' ? (formData.notes || '') : (formData.notesAr || '')}
+              onChange={(e) => {
+                if (currentLanguage === 'en') {
+                  handleInputChange(e);
+                } else {
+                  setFormData({ ...formData, notesAr: e.target.value || null });
+                }
+              }}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-              placeholder="Additional details, tips, or warnings"
+              placeholder={currentLanguage === 'en' ? "Additional details, tips, or warnings" : "تفاصيل إضافية، نصائح، أو تحذيرات"}
               rows={4}
+              dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
             />
           </div>
 
@@ -463,43 +569,64 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-2">
-                Embassy Information (e.g., "The German Embassy in Jordan")
+                Embassy Information {currentLanguage === 'ar' && formData.embassyInfoAr && <span className="text-blue-600">(Arabic set)</span>}
               </label>
               <textarea
-                name="embassyInfo"
-                value={formData.embassyInfo || ''}
-                onChange={handleInputChange}
+                name={currentLanguage === 'en' ? 'embassyInfo' : 'embassyInfoAr'}
+                value={currentLanguage === 'en' ? (formData.embassyInfo || '') : (formData.embassyInfoAr || '')}
+                onChange={(e) => {
+                  if (currentLanguage === 'en') {
+                    handleInputChange(e);
+                  } else {
+                    setFormData({ ...formData, embassyInfoAr: e.target.value || null });
+                  }
+                }}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter embassy information..."
+                placeholder={currentLanguage === 'en' ? "Enter embassy information..." : "أدخل معلومات السفارة..."}
                 rows={4}
+                dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
               />
             </div>
 
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-2">
-                Embassy Appointment Information (e.g., "German Embassy Appointment in Jordan")
+                Embassy Appointment Information {currentLanguage === 'ar' && formData.embassyAppointmentAr && <span className="text-blue-600">(Arabic set)</span>}
               </label>
               <textarea
-                name="embassyAppointment"
-                value={formData.embassyAppointment || ''}
-                onChange={handleInputChange}
+                name={currentLanguage === 'en' ? 'embassyAppointment' : 'embassyAppointmentAr'}
+                value={currentLanguage === 'en' ? (formData.embassyAppointment || '') : (formData.embassyAppointmentAr || '')}
+                onChange={(e) => {
+                  if (currentLanguage === 'en') {
+                    handleInputChange(e);
+                  } else {
+                    setFormData({ ...formData, embassyAppointmentAr: e.target.value || null });
+                  }
+                }}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter embassy appointment information..."
+                placeholder={currentLanguage === 'en' ? "Enter embassy appointment information..." : "أدخل معلومات موعد السفارة..."}
                 rows={4}
+                dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
               />
             </div>
 
             <div>
               <label className="block text-sm font-bold text-gray-900 mb-2">
-                Main Requirements and Conditions
+                Main Requirements and Conditions {currentLanguage === 'ar' && formData.mainRequirementsAr && <span className="text-blue-600">(Arabic set)</span>}
               </label>
               <textarea
-                name="mainRequirements"
-                value={formData.mainRequirements || ''}
-                onChange={handleInputChange}
+                name={currentLanguage === 'en' ? 'mainRequirements' : 'mainRequirementsAr'}
+                value={currentLanguage === 'en' ? (formData.mainRequirements || '') : (formData.mainRequirementsAr || '')}
+                onChange={(e) => {
+                  if (currentLanguage === 'en') {
+                    handleInputChange(e);
+                  } else {
+                    setFormData({ ...formData, mainRequirementsAr: e.target.value || null });
+                  }
+                }}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter main requirements and conditions..."
+                placeholder={currentLanguage === 'en' ? "Enter main requirements and conditions..." : "أدخل المتطلبات والشروط الرئيسية..."}
                 rows={6}
+                dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
               />
             </div>
           </div>
@@ -516,46 +643,72 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
             <button
               type="button"
               onClick={() => {
-                setFormData({
-                  ...formData,
-                  visaTypes: [...(formData.visaTypes || []), '']
-                });
+                if (currentLanguage === 'en') {
+                  setFormData({
+                    ...formData,
+                    visaTypes: [...(formData.visaTypes || []), '']
+                  });
+                } else {
+                  setFormData({
+                    ...formData,
+                    visaTypesAr: [...(formData.visaTypesAr || []), '']
+                  });
+                }
               }}
               className="flex items-center gap-2 px-4 py-2 bg-[#145EFF] text-white rounded-lg hover:bg-[#145EFF] transition-colors shadow-md"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              Add Visa Type
+              {currentLanguage === 'ar' ? 'إضافة نوع التأشيرة' : 'Add Visa Type'}
             </button>
           </div>
 
-          {formData.visaTypes && formData.visaTypes.length > 0 ? (
-            formData.visaTypes.map((type, index) => (
+          {(currentLanguage === 'en' ? formData.visaTypes : formData.visaTypesAr) && (currentLanguage === 'en' ? formData.visaTypes : formData.visaTypesAr)!.length > 0 ? (
+            (currentLanguage === 'en' ? formData.visaTypes : formData.visaTypesAr)!.map((type, index) => (
               <div key={index} className="flex items-center gap-3 mb-4">
                 <input
                   type="text"
                   value={type}
                   onChange={(e) => {
-                    const updatedTypes = [...(formData.visaTypes || [])];
-                    updatedTypes[index] = e.target.value;
-                    setFormData({
-                      ...formData,
-                      visaTypes: updatedTypes
-                    });
+                    if (currentLanguage === 'en') {
+                      const updatedTypes = [...(formData.visaTypes || [])];
+                      updatedTypes[index] = e.target.value;
+                      setFormData({
+                        ...formData,
+                        visaTypes: updatedTypes
+                      });
+                    } else {
+                      const updatedTypes = [...(formData.visaTypesAr || [])];
+                      updatedTypes[index] = e.target.value;
+                      setFormData({
+                        ...formData,
+                        visaTypesAr: updatedTypes
+                      });
+                    }
                   }}
                   className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder="Enter visa type"
+                  placeholder={currentLanguage === 'en' ? "Enter visa type" : "أدخل نوع التأشيرة"}
+                  dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
                 />
                 <button
                   type="button"
                   onClick={() => {
-                    const updatedTypes = [...(formData.visaTypes || [])];
-                    updatedTypes.splice(index, 1);
-                    setFormData({
-                      ...formData,
-                      visaTypes: updatedTypes.length > 0 ? updatedTypes : null
-                    });
+                    if (currentLanguage === 'en') {
+                      const updatedTypes = [...(formData.visaTypes || [])];
+                      updatedTypes.splice(index, 1);
+                      setFormData({
+                        ...formData,
+                        visaTypes: updatedTypes.length > 0 ? updatedTypes : null
+                      });
+                    } else {
+                      const updatedTypes = [...(formData.visaTypesAr || [])];
+                      updatedTypes.splice(index, 1);
+                      setFormData({
+                        ...formData,
+                        visaTypesAr: updatedTypes.length > 0 ? updatedTypes : null
+                      });
+                    }
                   }}
                   className="p-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
                 >
@@ -566,7 +719,9 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
               </div>
             ))
           ) : (
-            <p className="text-gray-600 text-sm">No visa types added yet. Click "Add Visa Type" to add one.</p>
+            <p className="text-gray-600 text-sm">
+              {currentLanguage === 'ar' ? 'لم تتم إضافة أنواع التأشيرة بعد. انقر على "إضافة نوع التأشيرة" لإضافة واحد.' : 'No visa types added yet. Click "Add Visa Type" to add one.'}
+            </p>
           )}
         </div>
 
@@ -586,21 +741,22 @@ const VisaEditForm = ({ visaData, isEditing = false }: VisaEditFormProps) => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              Add Requirement
+              {currentLanguage === 'ar' ? 'إضافة متطلب' : 'Add Requirement'}
             </button>
           </div>
 
-          {formData.requirements.map((req, index) => (
+          {(currentLanguage === 'en' ? formData.requirements : (formData.requirementsAr || [])).map((req, index) => (
             <div key={index} className="flex items-center gap-3 mb-4">
               <input
                 type="text"
                 value={req}
                 onChange={(e) => handleRequirementChange(index, e.target.value)}
                 className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Enter requirement"
-                required
+                placeholder={currentLanguage === 'ar' ? "أدخل المتطلب" : "Enter requirement"}
+                required={currentLanguage === 'en'}
+                dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
               />
-              {formData.requirements.length > 1 && (
+              {(currentLanguage === 'en' ? formData.requirements : (formData.requirementsAr || [])).length > 1 && (
                 <button
                   type="button"
                   onClick={() => removeRequirement(index)}

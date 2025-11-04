@@ -46,6 +46,19 @@ function getCountryFromArabicSlug(slug: string): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
+  // Redirect old /visas/ routes to /visa/ (both English and Arabic)
+  if (pathname.startsWith('/visas/')) {
+    const country = pathname.replace('/visas/', '');
+    const redirectUrl = new URL(`/visa/${country}`, request.url);
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+  
+  if (pathname.startsWith('/ar/visas/')) {
+    const country = pathname.replace('/ar/visas/', '');
+    const redirectUrl = new URL(`/ar/visa/${country}`, request.url);
+    return NextResponse.redirect(redirectUrl, 301);
+  }
+  
   // Handle Arabic visa URLs with category structure
   // Pattern: /ar/فيزا-السفر/{country-slug} or /ar/فيزا-شنغن/{country-slug}
   // Also handle: /ar/فيزا-شنغن/germany (English country code fallback)
@@ -96,6 +109,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    '/visas/:path*',
     '/ar/:path*',
   ],
 };

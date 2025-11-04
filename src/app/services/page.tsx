@@ -62,7 +62,7 @@ export default function ServicesPage() {
               {staticVisas.map((visa) => (
                 <Link
                   key={visa.name}
-                  href={`/visas/${visa.country}`}
+                  href={`/visa/${visa.country}`}
                   className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center transition-all border border-white/20 hover:border-white/40"
                 >
                   <div className="text-3xl mb-2">{getCountryFlag(visa.country)}</div>

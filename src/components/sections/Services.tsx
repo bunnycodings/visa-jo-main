@@ -35,21 +35,21 @@ const ServiceIcon = ({ serviceName }: { serviceName: string }) => {
 
 const Services = () => {
   const travelVisas = [
-    { name: 'UAE Visa', description: 'Tourist, business, and work visas for UAE', href: '/visas/uae', flag: getFlagPath('UAE') },
-    { name: 'UK Visa', description: 'Visit, work, and study visas for United Kingdom', href: '/visas/uk', flag: getFlagPath('United Kingdom') },
-    { name: 'US Visa', description: 'Tourist, business, and immigrant visas for USA', href: '/visas/us', flag: getFlagPath('United States') },
-    { name: 'Canada Visa', description: 'Visitor, work, and study permits for Canada', href: '/visas/canada', flag: getFlagPath('Canada') },
-    { name: 'Australia Visa', description: 'Tourist, work, and student visas for Australia', href: '/visas/australia', flag: getFlagPath('Australia') },
-    { name: 'India Visa', description: 'Tourist, business, and medical visas for India', href: '/visas/india', flag: getFlagPath('India') },
+    { name: 'UAE Visa', description: 'Tourist, business, and work visas for UAE', href: '/visa/uae', flag: getFlagPath('UAE') },
+    { name: 'UK Visa', description: 'Visit, work, and study visas for United Kingdom', href: '/visa/uk', flag: getFlagPath('United Kingdom') },
+    { name: 'US Visa', description: 'Tourist, business, and immigrant visas for USA', href: '/visa/us', flag: getFlagPath('United States') },
+    { name: 'Canada Visa', description: 'Visitor, work, and study permits for Canada', href: '/visa/canada', flag: getFlagPath('Canada') },
+    { name: 'Australia Visa', description: 'Tourist, work, and student visas for Australia', href: '/visa/australia', flag: getFlagPath('Australia') },
+    { name: 'India Visa', description: 'Tourist, business, and medical visas for India', href: '/visa/india', flag: getFlagPath('India') },
   ];
 
   const schengenVisas = [
-    { name: 'Germany Visa', description: 'Schengen visa for Germany', href: '/visas/germany' },
-    { name: 'France Visa', description: 'Schengen visa for France', href: '/visas/france' },
-    { name: 'Netherlands Visa', description: 'Schengen visa for Netherlands', href: '/visas/netherlands' },
-    { name: 'Spain Visa', description: 'Schengen visa for Spain', href: '/visas/spain' },
-    { name: 'Italy Visa', description: 'Schengen visa for Italy', href: '/visas/italy' },
-    { name: 'Austria Visa', description: 'Schengen visa for Austria', href: '/visas/austria' },
+    { name: 'Germany Visa', description: 'Schengen visa for Germany', href: '/visa/germany' },
+    { name: 'France Visa', description: 'Schengen visa for France', href: '/visa/france' },
+    { name: 'Netherlands Visa', description: 'Schengen visa for Netherlands', href: '/visa/netherlands' },
+    { name: 'Spain Visa', description: 'Schengen visa for Spain', href: '/visa/spain' },
+    { name: 'Italy Visa', description: 'Schengen visa for Italy', href: '/visa/italy' },
+    { name: 'Austria Visa', description: 'Schengen visa for Austria', href: '/visa/austria' },
   ];
 
   const ourServices = [

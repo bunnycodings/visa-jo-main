@@ -1,0 +1,56 @@
+'use client';
+
+import { useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
+import Link from 'next/link';
+
+export default function NotFound() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const { locale, t } = useLanguage();
+  const isArabic = pathname?.startsWith('/ar');
+
+  useEffect(() => {
+    // Try to redirect old /visas/ routes to /visa/
+    if (pathname?.startsWith('/visas/')) {
+      const country = pathname.replace('/visas/', '');
+      router.replace(`/visa/${country}`);
+      return;
+    }
+  }, [pathname, router]);
+
+  return (
+    <div className={`min-h-screen flex items-center justify-center px-4 bg-gradient-to-br from-gray-50 to-blue-50 ${isArabic ? 'rtl' : ''}`}>
+      <div className="text-center max-w-2xl">
+        <div className="mb-8">
+          <h1 className="text-9xl font-bold text-gray-300 mb-4">404</h1>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            {locale === 'ar' ? 'الصفحة غير موجودة' : 'Page Not Found'}
+          </h2>
+          <p className="text-xl text-gray-600 mb-8">
+            {locale === 'ar' 
+              ? 'عذراً، الصفحة التي تبحث عنها غير موجودة.'
+              : "Sorry, the page you're looking for doesn't exist."}
+          </p>
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href={isArabic ? '/ar' : '/'}
+            className="px-8 py-3 bg-[#145EFF] text-white font-semibold rounded-lg hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl"
+          >
+            {locale === 'ar' ? 'العودة إلى الصفحة الرئيسية' : 'Back to Home'}
+          </Link>
+          <button
+            onClick={() => router.back()}
+            className="px-8 py-3 bg-white border-2 border-gray-300 text-gray-900 font-semibold rounded-lg hover:bg-gray-50 transition-all"
+          >
+            {locale === 'ar' ? 'رجوع' : 'Go Back'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
