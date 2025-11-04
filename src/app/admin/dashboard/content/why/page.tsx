@@ -182,7 +182,7 @@ export default function EditWhyChooseUsPage() {
                     </div>
                     <input
                       type="text"
-                      placeholder={locale === 'ar' ? 'عنوان الميزة' : 'Feature title'}
+                      placeholder="Feature title"
                       value={feature.title}
                       onChange={(e) => updateFeature(idx, 'title', e.target.value)}
                       className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md mb-2 focus:ring-2 focus:ring-blue-500"
