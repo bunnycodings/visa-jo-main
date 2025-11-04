@@ -186,15 +186,15 @@ export default function AdminHeroContentPage() {
               </svg>
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">{locale === 'ar' ? 'تحرير البانر الرئيسي' : 'Edit Homepage Hero'}</h1>
-              <p className="text-gray-600 mt-1">{locale === 'ar' ? 'تحديث قسم البانر الرئيسي' : 'Update the main banner section'}</p>
+              <h1 className="text-3xl font-bold text-gray-900">Edit Homepage Hero</h1>
+              <p className="text-gray-600 mt-1">Update the main banner section</p>
             </div>
           </div>
 
           {loading ? (
             <div className="text-center py-8">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-              <p className="mt-4 text-gray-600">{locale === 'ar' ? 'جاري تحميل المحتوى...' : 'Loading content...'}</p>
+              <p className="mt-4 text-gray-600">Loading content...</p>
             </div>
           ) : (
             <form onSubmit={onSubmit} className="space-y-6">
@@ -210,14 +210,14 @@ export default function AdminHeroContentPage() {
               )}
 
               <div>
-                <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'نص البانر (صغير)' : 'Banner Text (small)'}</label>
+                <label className="block text-sm font-bold text-gray-900 mb-2">Banner Text (small)</label>
                 <input
                   type="text"
                   name="bannerText"
                   value={form.bannerText}
                   onChange={onChange}
                   className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                  placeholder={locale === 'ar' ? 'موثوق به من قبل آلاف المسافرين' : 'Trusted by thousands of travelers'}
+                  placeholder="Trusted by thousands of travelers"
                 />
               </div>
 
