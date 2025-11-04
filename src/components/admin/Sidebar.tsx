@@ -137,6 +137,16 @@ export default function Sidebar() {
     },
   ];
 
+  // Map nav items to include language-aware paths
+  const navItems = baseNavItems.map(item => ({
+    ...item,
+    href: item.href === '#' ? '#' : getAdminPath(item.href),
+    children: item.children?.map(child => ({
+      ...child,
+      href: getAdminPath(child.href),
+    })),
+  }));
+
   const isActive = (href: string) => {
     if (href === '#' || href === '/admin/dashboard' || href === '/ar/admin/dashboard') {
       return pathname === href || pathname === '/admin/dashboard' || pathname === '/ar/admin/dashboard';
