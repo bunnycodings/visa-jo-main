@@ -20,7 +20,8 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    router.push('/admin/login');
+    const loginPath = locale === 'ar' ? '/ar/admin/login' : '/admin/login';
+    router.push(loginPath);
   };
 
   const navItems: NavItem[] = [

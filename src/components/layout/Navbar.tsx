@@ -347,11 +347,11 @@ const Navbar = () => {
               </div>
               {isAdminLoggedIn && (
                 <Link
-                  href="/admin/dashboard"
+                  href={isArabic ? '/ar/admin/dashboard' : '/admin/dashboard'}
                   className="ml-2 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-gray-700"
-                  title="Admin Dashboard"
+                  title={locale === 'ar' ? 'لوحة التحكم' : 'Admin Dashboard'}
                 >
-                  Admin
+                  {locale === 'ar' ? 'لوحة التحكم' : 'Admin'}
                 </Link>
               )}
             </div>
