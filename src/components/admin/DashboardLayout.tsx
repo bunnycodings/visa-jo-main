@@ -51,7 +51,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className={`lg:${isRTL ? 'pr-64' : 'pl-64'} transition-all duration-300`}>
+      <div className={`${isRTL ? 'lg:pr-64' : 'lg:pl-64'} transition-all duration-300`}>
         {/* Top bar */}
         <header className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
           <div className="px-4 sm:px-6 lg:px-8 py-4">
