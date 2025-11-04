@@ -3,6 +3,7 @@
 import { useLanguage } from '@/context/LanguageContext';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { getArabicVisaUrl, getCountryFromArabicSlug } from '@/lib/utils/arabic-slugs';
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useLanguage();
@@ -26,14 +27,49 @@ export function LanguageSwitcher() {
     if (newLocale === 'ar') {
       // Navigate to Arabic version
       const currentPath = pathname || '/';
-      // Remove /ar prefix if it exists, then add it
+      
+      // Handle visa routes - convert to Arabic URLs
+      if (currentPath.startsWith('/visa/')) {
+        const country = currentPath.split('/visa/')[1];
+        const arabicPath = getArabicVisaUrl(country);
+        router.push(arabicPath);
+        setLocale(newLocale);
+        document.documentElement.dir = 'rtl';
+        document.documentElement.lang = 'ar';
+        return;
+      }
+      
+      // Handle Arabic visa routes - keep as is
+      if (currentPath.includes('فيزا-السفر') || currentPath.includes('فيزا-شنغن')) {
+        // Already on Arabic visa route, just update locale
+        setLocale(newLocale);
+        document.documentElement.dir = 'rtl';
+        document.documentElement.lang = 'ar';
+        return;
+      }
+      
+      // For other routes, add /ar prefix
       const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') : currentPath;
       const arabicPath = pathWithoutAr === '/' ? '/ar' : `/ar${pathWithoutAr}`;
       router.push(arabicPath);
     } else {
       // Navigate to English version
       const currentPath = pathname || '/';
-      // Remove /ar prefix if it exists
+      
+      // Handle Arabic visa routes - convert to English
+      if (currentPath.includes('فيزا-السفر/') || currentPath.includes('فيزا-شنغن/')) {
+        const parts = currentPath.split('/');
+        const arabicSlug = parts[parts.length - 1];
+        const countryCode = getCountryFromArabicSlug(arabicSlug);
+        const englishPath = `/visa/${countryCode}`;
+        router.push(englishPath);
+        setLocale(newLocale);
+        document.documentElement.dir = 'ltr';
+        document.documentElement.lang = 'en';
+        return;
+      }
+      
+      // Remove /ar prefix for other routes
       const englishPath = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') || '/' : currentPath;
       router.push(englishPath);
     }

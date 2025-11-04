@@ -9,6 +9,7 @@ import { useLanguage } from '@/context/LanguageContext';
 import { getFlagPath } from '@/lib/utils/flags';
 import { getServiceIcon } from '@/lib/utils/service-icons';
 import { siteConfig } from '@/lib/constants';
+import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,22 +41,30 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [activeDropdown]);
 
+  // Generate URLs based on language
+  const getVisaUrl = (country: string) => {
+    if (isArabic) {
+      return getArabicVisaUrl(country);
+    }
+    return `${prefix}/visa/${country}`;
+  };
+
   const travelVisaItems = [
-    { country: 'uae', href: `${prefix}/visa/uae` },
-    { country: 'uk', href: `${prefix}/visa/uk` },
-    { country: 'us', href: `${prefix}/visa/us` },
-    { country: 'canada', href: `${prefix}/visa/canada` },
-    { country: 'australia', href: `${prefix}/visa/australia` },
-    { country: 'india', href: `${prefix}/visa/india` },
+    { country: 'uae', href: getVisaUrl('uae') },
+    { country: 'uk', href: getVisaUrl('uk') },
+    { country: 'us', href: getVisaUrl('us') },
+    { country: 'canada', href: getVisaUrl('canada') },
+    { country: 'australia', href: getVisaUrl('australia') },
+    { country: 'india', href: getVisaUrl('india') },
   ];
 
   const schengenVisaItems = [
-    { country: 'germany', href: `${prefix}/visa/germany` },
-    { country: 'france', href: `${prefix}/visa/france` },
-    { country: 'netherlands', href: `${prefix}/visa/netherlands` },
-    { country: 'spain', href: `${prefix}/visa/spain` },
-    { country: 'italy', href: `${prefix}/visa/italy` },
-    { country: 'austria', href: `${prefix}/visa/austria` },
+    { country: 'germany', href: getVisaUrl('germany') },
+    { country: 'france', href: getVisaUrl('france') },
+    { country: 'netherlands', href: getVisaUrl('netherlands') },
+    { country: 'spain', href: getVisaUrl('spain') },
+    { country: 'italy', href: getVisaUrl('italy') },
+    { country: 'austria', href: getVisaUrl('austria') },
   ];
 
   const servicesItems = [

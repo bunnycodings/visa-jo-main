@@ -4,6 +4,7 @@ import type { ServicesContent } from '@/types/models/SiteContent';
 import { defaultServicesContent } from '@/types/models/SiteContent';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
 
 export default function ArabicServicesPage() {
   const { t } = useLanguage();
@@ -61,10 +62,11 @@ export default function ArabicServicesPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {staticVisas.map((visa) => {
                 const countryName = t(`countries.${visa.country}`);
+                const arabicUrl = getArabicVisaUrl(visa.country);
                 return (
                   <Link
                     key={visa.name}
-                    href={`/ar/visa/${visa.country}`}
+                    href={arabicUrl}
                     className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center transition-all border border-white/20 hover:border-white/40 hover:scale-105"
                   >
                     <div className="text-4xl mb-3">{getCountryFlag(visa.country)}</div>
