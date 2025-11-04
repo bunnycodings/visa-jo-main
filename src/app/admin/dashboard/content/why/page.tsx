@@ -188,7 +188,7 @@ export default function EditWhyChooseUsPage() {
                       className="w-full px-4 py-2 bg-gray-700 text-white border border-gray-600 rounded-md mb-2 focus:ring-2 focus:ring-blue-500"
                     />
                     <textarea
-                      placeholder={locale === 'ar' ? 'وصف الميزة' : 'Feature description'}
+                      placeholder="Feature description"
                       value={feature.description}
                       onChange={(e) => updateFeature(idx, 'description', e.target.value)}
                       rows={2}
@@ -205,9 +205,9 @@ export default function EditWhyChooseUsPage() {
                 disabled={saving}
                 className="px-4 py-2 bg-[#145EFF] text-white rounded disabled:opacity-50 hover:bg-[#145EFF]"
               >
-                {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
+                {saving ? 'Saving...' : 'Save Changes'}
               </button>
-              <Link href="/" className="text-gray-400 hover:text-white underline">{locale === 'ar' ? 'عرض الصفحة الرئيسية' : 'View Homepage'}</Link>
+              <Link href="/" className="text-gray-400 hover:text-white underline">View Homepage</Link>
             </div>
           </div>
         )}

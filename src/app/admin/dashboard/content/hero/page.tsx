@@ -37,9 +37,8 @@ export default function AdminHeroContentPage() {
   const [fileInput, setFileInput] = useState<File | null>(null);
   const router = useRouter();
   const { triggerRefresh } = useContentRefresh();
-  const { locale } = useLanguage();
-
-  const isRTL = locale === 'ar';
+  // English admin - force English only
+  const isRTL = false;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
