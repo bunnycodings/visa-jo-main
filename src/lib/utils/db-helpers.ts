@@ -349,10 +349,11 @@ export async function deleteVisaByName(name: string): Promise<boolean> {
 }
 
 // Site content helpers
-export async function getSiteContent<T>(contentKey: string): Promise<T | null> {
+export async function getSiteContent<T>(contentKey: string, locale?: 'en' | 'ar'): Promise<T | null> {
+  const key = locale === 'ar' ? `${contentKey}_ar` : contentKey;
   const row = await queryOne<{ content_data: string; is_active: number }>(
     'SELECT content_data, is_active FROM site_content WHERE content_key = ?',
-    [contentKey]
+    [key]
   );
 
   if (!row || !row.is_active) return null;
@@ -360,12 +361,13 @@ export async function getSiteContent<T>(contentKey: string): Promise<T | null> {
   return JSON.parse(row.content_data) as T;
 }
 
-export async function upsertSiteContent(contentKey: string, contentData: any): Promise<void> {
+export async function upsertSiteContent(contentKey: string, contentData: any, locale?: 'en' | 'ar'): Promise<void> {
+  const key = locale === 'ar' ? `${contentKey}_ar` : contentKey;
   await query(
     `INSERT INTO site_content (content_key, content_data, is_active)
      VALUES (?, ?, 1)
      ON DUPLICATE KEY UPDATE content_data = ?, updated_at = NOW()`,
-    [contentKey, JSON.stringify(contentData), JSON.stringify(contentData)]
+    [key, JSON.stringify(contentData), JSON.stringify(contentData)]
   );
 }
 

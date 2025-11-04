@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useLanguage } from '@/context/LanguageContext';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { AdminLanguageSwitcher } from './AdminLanguageSwitcher';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -65,6 +65,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 </h2>
               </div>
               <div className="flex items-center gap-4">
+                <AdminLanguageSwitcher />
                 {/* View site button */}
                 <a
                   href="/"

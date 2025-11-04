@@ -23,7 +23,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const doc = await getSiteContent<HeroContent>('hero');
+  // Determine locale from referer header or default to English
+  const referer = request.headers.get('referer') || '';
+  const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+  const doc = await getSiteContent<HeroContent>('hero', locale);
   const hero = doc || defaultHeroContent;
   return NextResponse.json(hero);
 }
@@ -33,6 +37,10 @@ export async function PUT(request: NextRequest) {
   if (!admin) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+
+  // Determine locale from referer header or default to English
+  const referer = request.headers.get('referer') || '';
+  const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
 
   const body = (await request.json()) as Partial<HeroContent>;
   if (!body.title || !body.subtitle || !body.ctaText || !body.ctaHref) {
@@ -50,7 +58,7 @@ export async function PUT(request: NextRequest) {
     updatedAt: new Date(),
   };
 
-  await upsertSiteContent('hero', payload);
+  await upsertSiteContent('hero', payload, locale);
 
   return NextResponse.json(payload);
 }
