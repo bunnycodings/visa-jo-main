@@ -400,7 +400,7 @@ const AdminDashboard = () => {
                 >
                   <span className="text-4xl group-hover:scale-110 transition-transform duration-300">{link.icon}</span>
                   <span className="font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
-                    {link.label[locale as 'en' | 'ar']}
+                    {link.label.en}
                   </span>
                 </Link>
               ))}
