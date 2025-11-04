@@ -249,7 +249,7 @@ export default function AdminHeroContentPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'نص الزر' : 'CTA Text'}</label>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">CTA Text</label>
                   <input
                     type="text"
                     name="ctaText"
@@ -257,11 +257,11 @@ export default function AdminHeroContentPage() {
                     onChange={onChange}
                     required
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                    placeholder={locale === 'ar' ? 'ابدأ الآن' : 'Apply Now'}
+                    placeholder="Apply Now"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-gray-900 mb-2">{locale === 'ar' ? 'رابط الزر' : 'CTA Link'}</label>
+                  <label className="block text-sm font-bold text-gray-900 mb-2">CTA Link</label>
                   <input
                     type="text"
                     name="ctaHref"
@@ -280,7 +280,7 @@ export default function AdminHeroContentPage() {
                   <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  {locale === 'ar' ? 'صورة الخلفية' : 'Background Image'}
+                  Background Image
                 </h3>
 
                 <div className="space-y-4">
@@ -299,14 +299,14 @@ export default function AdminHeroContentPage() {
                       disabled={!fileInput || uploading}
                       className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 font-semibold transition-all"
                     >
-                      {uploading ? (locale === 'ar' ? 'جاري التحميل...' : 'Uploading...') : (locale === 'ar' ? 'تحميل' : 'Upload')}
+                      {uploading ? 'Uploading...' : 'Upload'}
                     </button>
                   </div>
 
                   {/* Current Image Preview */}
                   {form.backgroundImage && (
                     <div className="relative">
-                      <p className="text-sm text-gray-600 mb-2">{locale === 'ar' ? 'الصورة الحالية:' : 'Current Image:'}</p>
+                      <p className="text-sm text-gray-600 mb-2">Current Image:</p>
                       <div className="relative h-40 rounded-lg overflow-hidden border-2 border-gray-300 bg-gray-100">
                         <img
                           src={form.backgroundImage}
@@ -318,7 +318,7 @@ export default function AdminHeroContentPage() {
                           onClick={() => setForm((prev) => ({ ...prev, backgroundImage: '' }))}
                           className="absolute top-2 right-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-all"
                         >
-                          {locale === 'ar' ? 'حذف' : 'Delete'}
+                          Delete
                         </button>
                       </div>
                       <p className="text-xs text-gray-500 mt-2 break-all">{form.backgroundImage}</p>
@@ -327,7 +327,7 @@ export default function AdminHeroContentPage() {
 
                   {/* Manual URL Input */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">{locale === 'ar' ? 'أو أدخل رابط الصورة يدويا' : 'Or enter image URL manually'}</label>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Or enter image URL manually</label>
                     <input
                       type="text"
                       name="backgroundImage"
