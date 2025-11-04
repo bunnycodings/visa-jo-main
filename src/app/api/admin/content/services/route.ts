@@ -51,7 +51,11 @@ export async function PUT(request: NextRequest) {
       isActive: payload.isActive ?? true,
     };
 
-    await upsertSiteContent('services', update);
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    await upsertSiteContent('services', update, locale);
 
     return NextResponse.json(update);
   } catch (error) {
