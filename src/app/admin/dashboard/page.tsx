@@ -337,7 +337,7 @@ const AdminDashboard = () => {
             <div className="px-6 py-4 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-100">
               <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
                 <div className="w-1 h-6 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full"></div>
-                {locale === 'ar' ? 'حالة النظام' : 'System Status'}
+                System Status
               </h2>
             </div>
             
