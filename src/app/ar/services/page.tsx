@@ -59,17 +59,20 @@ export default function ArabicServicesPage() {
             </div>
             
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {staticVisas.map((visa) => (
-                <Link
-                  key={visa.name}
-                  href={`/ar/visa/${visa.country}`}
-                  className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center transition-all border border-white/20 hover:border-white/40"
-                >
-                  <div className="text-3xl mb-2">{getCountryFlag(visa.country)}</div>
-                  <div className="text-sm font-medium">{t(`countries.${visa.country}`)}</div>
-                  <div className="text-xs text-blue-100 mt-1">{t('visas.visa')} {t(`countries.${visa.country}`)}</div>
-                </Link>
-              ))}
+              {staticVisas.map((visa) => {
+                const countryName = t(`countries.${visa.country}`);
+                return (
+                  <Link
+                    key={visa.name}
+                    href={`/ar/visa/${visa.country}`}
+                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg p-4 text-center transition-all border border-white/20 hover:border-white/40 hover:scale-105"
+                  >
+                    <div className="text-4xl mb-3">{getCountryFlag(visa.country)}</div>
+                    <div className="text-base font-bold text-white mb-1">{countryName}</div>
+                    <div className="text-xs text-blue-100">{t('visas.visa')}</div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
