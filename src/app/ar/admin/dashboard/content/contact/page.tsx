@@ -1,5 +1,5 @@
 import ContactPage from '@/app/admin/dashboard/content/contact/page';
-import ArabicAdminDashboardLayout from '../../layout';
+import ArabicAdminDashboardLayout from '@/components/admin/ArabicAdminDashboardLayout';
 
 export default function ArabicContactPage() {
   return (

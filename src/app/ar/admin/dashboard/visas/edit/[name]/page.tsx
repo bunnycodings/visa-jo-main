@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import { use } from 'react';
 import EditVisaPage from '@/app/admin/dashboard/visas/edit/[name]/page';
-import ArabicAdminDashboardLayout from '../../../layout';
+import ArabicAdminDashboardLayout from '@/components/admin/ArabicAdminDashboardLayout';
 
 export default function ArabicEditVisaPage({
   params,
