@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
 import DashboardLayout from '@/components/admin/DashboardLayout';
 import TabNavigation from '@/components/admin/TabNavigation';
 import { adminTabs } from '@/lib/admin-tabs';
 
 const AdminDashboard = () => {
   const router = useRouter();
-  const { locale } = useLanguage();
   const [username, setUsername] = useState('Admin');
   const [stats, setStats] = useState({
     totalVisas: 0,
@@ -50,11 +48,12 @@ const AdminDashboard = () => {
     fetchStats();
   }, [router]);
 
-  const isRTL = locale === 'ar';
+  // English admin - force English only
+  const isRTL = false;
 
   const statCards = [
     {
-      title: locale === 'ar' ? 'إجمالي التأشيرات' : 'Total Visas',
+      title: 'Total Visas',
       value: stats.totalVisas,
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -65,10 +64,10 @@ const AdminDashboard = () => {
       bgColor: 'bg-blue-50',
       textColor: 'text-blue-600',
       change: '+12%',
-      changeLabel: locale === 'ar' ? 'من الشهر الماضي' : 'from last month'
+      changeLabel: 'from last month'
     },
     {
-      title: locale === 'ar' ? 'التأشيرات النشطة' : 'Active Visas',
+      title: 'Active Visas',
       value: stats.activeVisas,
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -79,10 +78,10 @@ const AdminDashboard = () => {
       bgColor: 'bg-green-50',
       textColor: 'text-green-600',
       change: '+5%',
-      changeLabel: locale === 'ar' ? 'من الشهر الماضي' : 'from last month'
+      changeLabel: 'from last month'
     },
     {
-      title: locale === 'ar' ? 'صفحات المحتوى' : 'Content Pages',
+      title: 'Content Pages',
       value: stats.contentPages,
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -93,11 +92,11 @@ const AdminDashboard = () => {
       bgColor: 'bg-purple-50',
       textColor: 'text-purple-600',
       change: '0%',
-      changeLabel: locale === 'ar' ? 'بدون تغيير' : 'no change'
+      changeLabel: 'no change'
     },
     {
-      title: locale === 'ar' ? 'حالة النظام' : 'System Status',
-      value: locale === 'ar' ? 'مستقر' : 'Stable',
+      title: 'System Status',
+      value: 'Stable',
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -107,14 +106,14 @@ const AdminDashboard = () => {
       bgColor: 'bg-orange-50',
       textColor: 'text-orange-600',
       change: '100%',
-      changeLabel: locale === 'ar' ? 'تشغيل عادي' : 'uptime'
+      changeLabel: 'uptime'
     }
   ];
 
   const quickActions = [
     {
       href: '/admin/dashboard/visas/new',
-      label: { en: 'Add New Visa', ar: 'إضافة تأشيرة جديدة' },
+      label: 'Add New Visa',
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -171,16 +170,14 @@ const AdminDashboard = () => {
                 <div className="inline-flex items-center gap-2 px-4 py-2 mb-4 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="text-sm font-medium text-white/90">
-                    {locale === 'ar' ? 'جميع الأنظمة تعمل بشكل طبيعي' : 'All Systems Operational'}
+                    All Systems Operational
                   </span>
                 </div>
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-3">
-                  {locale === 'ar' ? `أهلا بعودتك، ${username}! 👋` : `Welcome back, ${username}! 👋`}
+                  Welcome back, {username}! 👋
                 </h1>
                 <p className="text-xl text-blue-100 mb-6">
-                  {locale === 'ar' 
-                    ? 'إدارة محتوى الموقع ومعلومات التأشيرات من مكان واحد' 
-                    : 'Manage your website content and visa information from one place'}
+                  Manage your website content and visa information from one place
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Link
@@ -191,7 +188,7 @@ const AdminDashboard = () => {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                    {locale === 'ar' ? 'عرض الموقع' : 'View Site'}
+                    View Site
                   </Link>
                   <Link
                     href="/admin/dashboard/visas/new"
@@ -200,7 +197,7 @@ const AdminDashboard = () => {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
-                    {locale === 'ar' ? 'إضافة تأشيرة' : 'Add Visa'}
+                    Add Visa
                   </Link>
                 </div>
               </div>
@@ -320,7 +317,7 @@ const AdminDashboard = () => {
                           </div>
                           <div className="flex-1">
                             <p className="font-semibold text-gray-900 group-hover:text-gray-900">
-                              {action.label[locale as 'en' | 'ar']}
+                              {typeof action.label === 'string' ? action.label : action.label.en}
                             </p>
                           </div>
                           <svg className={`w-5 h-5 text-gray-400 ${colors.arrow} transition-colors ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">

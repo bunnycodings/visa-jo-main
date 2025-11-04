@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
 import { useContentRefresh } from '@/context/ContentRefreshContext';
-import { useLanguage } from '@/context/LanguageContext';
 import Link from 'next/link';
-import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 interface StepInput {
   title: string;
@@ -105,7 +103,6 @@ export default function EditHowItWorksPage() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <LanguageSwitcher />
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all shadow-md hover:shadow-lg"
@@ -113,7 +110,7 @@ export default function EditHowItWorksPage() {
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
-                {locale === 'ar' ? 'تسجيل الخروج' : 'Logout'}
+                Logout
               </button>
             </div>
           </div>
@@ -126,7 +123,7 @@ export default function EditHowItWorksPage() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
-          {locale === 'ar' ? 'العودة إلى لوحة التحكم' : 'Back to Dashboard'}
+          Back to Dashboard
         </Link>
 
         {error && <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg">{error}</div>}
@@ -139,7 +136,7 @@ export default function EditHowItWorksPage() {
           <div className="bg-white rounded-xl shadow-md p-6 border border-gray-100">
             {/* Main Title */}
             <div className="mb-8">
-              <label className="block text-sm font-bold text-gray-900 mb-3">{locale === 'ar' ? 'العنوان الرئيسي' : 'Main Title'}</label>
+              <label className="block text-sm font-bold text-gray-900 mb-3">Main Title</label>
               <input
                 type="text"
                 value={title}
@@ -153,7 +150,7 @@ export default function EditHowItWorksPage() {
             <div className="mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="bg-teal-500 w-1 h-6 rounded-full"></div>
-                <h2 className="text-xl font-bold text-gray-900">{locale === 'ar' ? 'خطوات العملية' : 'Process Steps'}</h2>
+                <h2 className="text-xl font-bold text-gray-900">Process Steps</h2>
                 <span className="ml-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">{steps.length}</span>
               </div>
 
@@ -165,11 +162,11 @@ export default function EditHowItWorksPage() {
                       <div className="w-10 h-10 bg-gradient-to-br from-teal-600 to-teal-700 rounded-full flex items-center justify-center shadow-md flex-shrink-0">
                         <span className="text-white font-bold text-sm">{idx + 1}</span>
                       </div>
-                      <span className="text-sm font-semibold text-gray-600">{locale === 'ar' ? `الخطوة ${idx + 1}` : `Step ${idx + 1}`}</span>
+                      <span className="text-sm font-semibold text-gray-600">Step {idx + 1}</span>
                     </div>
                     <input
                       type="text"
-                      placeholder={locale === 'ar' ? `أدخل عنوان الخطوة` : `Enter step title`}
+                      placeholder="Enter step title"
                       value={step.title}
                       onChange={(e) => updateStep(idx, e.target.value)}
                       className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg text-gray-900 text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all group-hover:border-teal-300 bg-gray-50 group-hover:bg-white"
@@ -186,10 +183,10 @@ export default function EditHowItWorksPage() {
                 disabled={saving}
                 className="px-6 py-3 bg-[#145EFF] text-white font-semibold rounded-lg hover:bg-[#145EFF] transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {saving ? (locale === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (locale === 'ar' ? 'حفظ التغييرات' : 'Save Changes')}
+                {saving ? 'Saving...' : 'Save Changes'}
               </button>
               <Link href="/" target="_blank" className="px-6 py-3 bg-gray-200 text-gray-900 font-semibold rounded-lg hover:bg-gray-300 transition-all">
-                {locale === 'ar' ? 'عرض الموقع' : 'View Site'}
+                View Site
               </Link>
             </div>
           </div>
