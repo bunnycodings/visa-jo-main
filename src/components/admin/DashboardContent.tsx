@@ -22,7 +22,8 @@ export default function DashboardContent() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/admin/login');
+      const loginPath = isArabicAdmin ? '/ar/admin/login' : '/admin/login';
+      router.push(loginPath);
       return;
     }
 
