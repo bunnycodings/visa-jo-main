@@ -32,10 +32,10 @@ export function LanguageSwitcher() {
       if (currentPath.startsWith('/visa/')) {
         const country = currentPath.split('/visa/')[1];
         const arabicPath = getArabicVisaUrl(country);
-        router.push(arabicPath);
         setLocale(newLocale);
         document.documentElement.dir = 'rtl';
         document.documentElement.lang = 'ar';
+        window.location.href = arabicPath;
         return;
       }
       
@@ -57,7 +57,10 @@ export function LanguageSwitcher() {
       // For other routes, add /ar prefix
       const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') : currentPath;
       const arabicPath = pathWithoutAr === '/' ? '/ar' : `/ar${pathWithoutAr}`;
-      router.push(arabicPath);
+      setLocale(newLocale);
+      document.documentElement.dir = 'rtl';
+      document.documentElement.lang = 'ar';
+      window.location.href = arabicPath;
     } else {
       // Navigate to English version
       const currentPath = pathname || '/';
@@ -85,10 +88,10 @@ export function LanguageSwitcher() {
         }
         
         const englishPath = `/visa/${countryCode}`;
-        router.push(englishPath);
         setLocale(newLocale);
         document.documentElement.dir = 'ltr';
         document.documentElement.lang = 'en';
+        window.location.href = englishPath;
         return;
       }
       
@@ -107,16 +110,12 @@ export function LanguageSwitcher() {
           englishPath = '/' + englishPath;
         }
         
-        try {
-          router.push(englishPath);
-          setLocale(newLocale);
-          document.documentElement.dir = 'ltr';
-          document.documentElement.lang = 'en';
-        } catch (error) {
-          console.error('Navigation error:', error);
-          // Fallback to window.location if router.push fails
-          window.location.href = englishPath;
-        }
+        // Use window.location for more reliable navigation
+        // This ensures the page actually reloads and middleware processes correctly
+        setLocale(newLocale);
+        document.documentElement.dir = 'ltr';
+        document.documentElement.lang = 'en';
+        window.location.href = englishPath;
       } else {
         // Already on English route, just update locale
         setLocale(newLocale);
