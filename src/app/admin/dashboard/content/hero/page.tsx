@@ -162,12 +162,12 @@ export default function AdminHeroContentPage() {
       });
       if (!res.ok) {
         const err = await res.json();
-        throw new Error(err.error || (locale === 'ar' ? 'فشل حفظ المحتوى' : 'Failed to save content'));
+        throw new Error(err.error || 'Failed to save content');
       }
-      setSuccess(locale === 'ar' ? 'تم تحديث المحتوى بنجاح' : 'Hero content updated successfully');
+      setSuccess('Hero content updated successfully');
       triggerRefresh();
     } catch (err: any) {
-      setError(err.message || (locale === 'ar' ? 'فشل حفظ المحتوى' : 'Failed to save content'));
+      setError(err.message || 'Failed to save content');
     } finally {
       setSaving(false);
     }
