@@ -345,25 +345,25 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium text-gray-900">{locale === 'ar' ? 'قاعدة البيانات' : 'Database'}</span>
+                  <span className="font-medium text-gray-900">Database</span>
                 </div>
-                <span className="text-sm font-semibold text-green-600">{locale === 'ar' ? 'متصلة' : 'Connected'}</span>
+                <span className="text-sm font-semibold text-green-600">Connected</span>
               </div>
               
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium text-gray-900">{locale === 'ar' ? 'API' : 'API'}</span>
+                  <span className="font-medium text-gray-900">API</span>
                 </div>
-                <span className="text-sm font-semibold text-green-600">{locale === 'ar' ? 'يعمل' : 'Running'}</span>
+                <span className="text-sm font-semibold text-green-600">Running</span>
               </div>
               
               <div className="flex items-center justify-between p-4 bg-green-50 rounded-xl border border-green-200">
                 <div className="flex items-center gap-3">
                   <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="font-medium text-gray-900">{locale === 'ar' ? 'الموقع' : 'Website'}</span>
+                  <span className="font-medium text-gray-900">Website</span>
                 </div>
-                <span className="text-sm font-semibold text-green-600">{locale === 'ar' ? 'نشط' : 'Active'}</span>
+                <span className="text-sm font-semibold text-green-600">Active</span>
               </div>
 
               <div className="pt-4 border-t border-gray-200">
