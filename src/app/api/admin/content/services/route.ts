@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     jwt.verify(token, JWT_SECRET);
 
-    const doc = await getSiteContent<ServicesContent>('services');
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    const doc = await getSiteContent<ServicesContent>('services', locale);
     const content = doc || defaultServicesContent;
     return NextResponse.json(content);
   } catch (error) {

@@ -23,7 +23,11 @@ export async function GET(request: NextRequest) {
     const decoded = verifyAdmin(request);
     if (!decoded) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const doc = await getSiteContent<HowItWorksContent>('how');
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    const doc = await getSiteContent<HowItWorksContent>('how', locale);
     const content = doc || defaultHowItWorksContent;
     return NextResponse.json(content);
   } catch (error) {
@@ -51,7 +55,11 @@ export async function PUT(request: NextRequest) {
       updatedAt: new Date(),
     };
 
-    await upsertSiteContent('how', update);
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    await upsertSiteContent('how', update, locale);
 
     return NextResponse.json(update);
   } catch (error) {

@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     jwt.verify(token, JWT_SECRET);
 
-    const doc = await getSiteContent<AboutContent>('about');
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    const doc = await getSiteContent<AboutContent>('about', locale);
     const content = doc || defaultAboutContent;
     return NextResponse.json(content);
   } catch (error) {
@@ -43,7 +47,11 @@ export async function PUT(request: NextRequest) {
       isActive: payload.isActive ?? true,
     };
 
-    await upsertSiteContent('about', update);
+    // Determine locale from referer header or default to English
+    const referer = request.headers.get('referer') || '';
+    const locale = referer.includes('/ar/admin/') ? 'ar' : 'en';
+
+    await upsertSiteContent('about', update, locale);
 
     return NextResponse.json(update);
   } catch (error) {
