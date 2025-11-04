@@ -260,9 +260,9 @@ const AdminDashboard = () => {
               <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900 flex items-center gap-3">
                   <div className="w-1 h-6 bg-gradient-to-b from-blue-500 to-indigo-600 rounded-full"></div>
-                  {locale === 'ar' ? 'الإجراءات السريعة' : 'Quick Actions'}
+                  Quick Actions
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">{locale === 'ar' ? 'الوصول السريع للمهام الشائعة' : 'Quick access to common tasks'}</p>
+                <p className="text-sm text-gray-600 mt-1">Quick access to common tasks</p>
               </div>
               
               <div className="p-6">
