@@ -1,0 +1,30 @@
+{
+  "name": "Visa Jo - Visa Consulting Services",
+  "short_name": "Visa Jo",
+  "description": "Professional visa consulting services for UAE, UK, US, Canada, Australia, India, and Schengen visas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#145EFF",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/img/logo/visajo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/logo/visajo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["travel", "business"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
+

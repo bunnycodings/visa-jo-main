@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { ContentRefreshProvider } from "@/context/ContentRefreshContext";
 import { Analytics } from "@vercel/analytics/react";
 import FloatingCallButton from "@/components/FloatingCallButton";
+import PWARegistration from "@/components/PWARegistration";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +44,14 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#145EFF" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Visa Jo" />
+        <link rel="apple-touch-icon" href="/img/logo/visajo.png" />
+        
         {/* VATSIM overlay removal script temporarily disabled */}
       </head>
       <body
@@ -50,6 +59,7 @@ export default function RootLayout({
       >
         <ContentRefreshProvider>
           <LanguageProvider>
+            <PWARegistration />
             <Navbar />
             <main className="min-h-screen">
               {children}

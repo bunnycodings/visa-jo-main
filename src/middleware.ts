@@ -1,0 +1,102 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+// Arabic slug to country code mapping (inline to avoid import issues in middleware)
+const arabicSlugToCountry: Record<string, string> = {
+  'فيزا-الإمارات': 'uae',
+  'فيزا-بريطانيا': 'uk',
+  'فيزا-أمريكا': 'us',
+  'فيزا-كندا': 'canada',
+  'فيزا-أستراليا': 'australia',
+  'فيزا-الهند': 'india',
+  'فيزا-ألمانيا': 'germany',
+  'فيزا-فرنسا': 'france',
+  'فيزا-هولندا': 'netherlands',
+  'فيزا-إسبانيا': 'spain',
+  'فيزا-إيطاليا': 'italy',
+  'فيزا-النمسا': 'austria',
+};
+
+function getCountryFromArabicSlug(slug: string): string {
+  // Try direct match
+  if (arabicSlugToCountry[slug]) {
+    return arabicSlugToCountry[slug];
+  }
+  
+  // Try URL-decoded
+  try {
+    const decoded = decodeURIComponent(slug);
+    if (arabicSlugToCountry[decoded]) {
+      return arabicSlugToCountry[decoded];
+    }
+  } catch {
+    // Continue
+  }
+  
+  // Check if already English country code
+  const lowerSlug = slug.toLowerCase();
+  const englishCountries = ['uae', 'uk', 'us', 'canada', 'australia', 'india', 'germany', 'france', 'netherlands', 'spain', 'italy', 'austria'];
+  if (englishCountries.includes(lowerSlug)) {
+    return lowerSlug;
+  }
+  
+  return slug;
+}
+
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Handle Arabic visa URLs with category structure
+  // Pattern: /ar/فيزا-السفر/{country-slug} or /ar/فيزا-شنغن/{country-slug}
+  // Also handle: /ar/فيزا-شنغن/germany (English country code fallback)
+  
+  try {
+    // Decode the pathname to handle Arabic characters
+    let decodedPath: string;
+    try {
+      decodedPath = decodeURIComponent(pathname);
+    } catch {
+      decodedPath = pathname;
+    }
+    
+    // Match Arabic visa category patterns (both URL-encoded and decoded)
+    // Also match English country codes after Arabic category
+    const arabicVisaPattern = /^\/ar\/(?:فيزا-السفر|فيزا-شنغن)\/([^\/]+)/;
+    const match = decodedPath.match(arabicVisaPattern);
+    
+    if (match) {
+      const countrySlug = match[1];
+      const countryCode = getCountryFromArabicSlug(countrySlug);
+      
+      // Rewrite to the internal route structure
+      const rewriteUrl = new URL(`/ar/visa/${countryCode}`, request.url);
+      return NextResponse.rewrite(rewriteUrl);
+    }
+    
+    // Also handle direct Arabic visa routes without category: /ar/visa/{country}
+    // This handles old URLs or direct navigation
+    const directVisaPattern = /^\/ar\/visa\/([^\/]+)/;
+    const directMatch = decodedPath.match(directVisaPattern);
+    
+    if (directMatch) {
+      const countrySlug = directMatch[1];
+      const countryCode = getCountryFromArabicSlug(countrySlug);
+      
+      // Already in correct format, just ensure country code is correct
+      const rewriteUrl = new URL(`/ar/visa/${countryCode}`, request.url);
+      return NextResponse.rewrite(rewriteUrl);
+    }
+  } catch (error) {
+    // If decoding fails, continue with normal routing
+    console.error('Middleware error:', error);
+  }
+  
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: [
+    '/ar/:path*',
+  ],
+};
+

@@ -52,9 +52,32 @@ export function getArabicSlug(country: string): string {
 
 /**
  * Get English country code from Arabic slug
+ * Handles both encoded and decoded slugs
  */
 export function getCountryFromArabicSlug(slug: string): string {
-  return arabicSlugToCountry[slug] || slug;
+  // Try direct match first
+  if (arabicSlugToCountry[slug]) {
+    return arabicSlugToCountry[slug];
+  }
+  
+  // Try URL-decoded version
+  try {
+    const decoded = decodeURIComponent(slug);
+    if (arabicSlugToCountry[decoded]) {
+      return arabicSlugToCountry[decoded];
+    }
+  } catch {
+    // Not URL-encoded, continue
+  }
+  
+  // Check if it's already an English country code
+  const lowerSlug = slug.toLowerCase();
+  const englishCountries = ['uae', 'uk', 'us', 'canada', 'australia', 'india', 'germany', 'france', 'netherlands', 'spain', 'italy', 'austria'];
+  if (englishCountries.includes(lowerSlug)) {
+    return lowerSlug;
+  }
+  
+  return slug;
 }
 
 /**
@@ -76,10 +99,23 @@ export function getArabicCategorySlug(country: string): string {
 
 /**
  * Generate Arabic URL for a visa page
+ * Next.js will handle URL encoding automatically
  */
 export function getArabicVisaUrl(country: string): string {
   const categorySlug = getArabicCategorySlug(country);
   const countrySlug = getArabicSlug(country);
+  // Return unencoded - Next.js router will handle encoding
   return `/ar/${categorySlug}/${countrySlug}`;
+}
+
+/**
+ * Decode Arabic slug from URL
+ */
+export function decodeArabicSlug(encoded: string): string {
+  try {
+    return decodeURIComponent(encoded);
+  } catch {
+    return encoded;
+  }
 }
 
