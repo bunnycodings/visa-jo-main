@@ -48,6 +48,16 @@ export function LanguageSwitcher() {
         return;
       }
       
+      // Handle admin routes - add /ar prefix
+      if (currentPath.startsWith('/admin/')) {
+        const adminPath = currentPath.replace('/admin/', '/ar/admin/');
+        router.push(adminPath);
+        setLocale(newLocale);
+        document.documentElement.dir = 'rtl';
+        document.documentElement.lang = 'ar';
+        return;
+      }
+      
       // For other routes, add /ar prefix
       const pathWithoutAr = currentPath.startsWith('/ar') ? currentPath.replace('/ar', '') : currentPath;
       const arabicPath = pathWithoutAr === '/' ? '/ar' : `/ar${pathWithoutAr}`;
@@ -63,6 +73,16 @@ export function LanguageSwitcher() {
         const countryCode = getCountryFromArabicSlug(arabicSlug);
         const englishPath = `/visa/${countryCode}`;
         router.push(englishPath);
+        setLocale(newLocale);
+        document.documentElement.dir = 'ltr';
+        document.documentElement.lang = 'en';
+        return;
+      }
+      
+      // Handle admin routes - remove /ar prefix
+      if (currentPath.startsWith('/ar/admin/')) {
+        const adminPath = currentPath.replace('/ar/admin/', '/admin/');
+        router.push(adminPath);
         setLocale(newLocale);
         document.documentElement.dir = 'ltr';
         document.documentElement.lang = 'en';

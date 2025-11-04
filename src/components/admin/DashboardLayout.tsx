@@ -19,10 +19,12 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) {
-      router.push('/admin/login');
+      // Redirect to login in the same language
+      const loginPath = locale === 'ar' ? '/ar/admin/login' : '/admin/login';
+      router.push(loginPath);
       return;
     }
-  }, [router]);
+  }, [router, locale]);
 
   return (
     <div className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`} dir={isRTL ? 'rtl' : 'ltr'}>

@@ -36,7 +36,9 @@ export default function AdminLogin() {
       if (response.ok) {
         // Store token in context and localStorage
         setToken(data.token);
-        router.push('/admin/dashboard');
+        // Redirect to dashboard in the same language
+        const dashboardPath = locale === 'ar' ? '/ar/admin/dashboard' : '/admin/dashboard';
+        router.push(dashboardPath);
       } else {
         setError(locale === 'ar' ? 'بيانات الدخول غير صحيحة' : 'Invalid credentials');
       }
