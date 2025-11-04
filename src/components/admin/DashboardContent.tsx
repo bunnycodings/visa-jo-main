@@ -151,7 +151,7 @@ export default function DashboardContent() {
       color: 'green'
     },
     {
-      href: '/admin/dashboard/content/metadata',
+      href: getAdminPath('/admin/dashboard/content/metadata'),
       label: { en: 'SEO Settings', ar: 'إعدادات SEO' },
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +200,7 @@ export default function DashboardContent() {
                     View Site
                   </Link>
                   <Link
-                    href="/admin/dashboard/visas/new"
+                    href={getAdminPath('/admin/dashboard/visas/new')}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 hover:bg-blue-50 rounded-lg font-semibold transition-all hover:scale-105 shadow-lg"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -318,7 +318,7 @@ export default function DashboardContent() {
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-gray-900 group-hover:text-gray-900">
-                            {typeof action.label === 'string' ? action.label : action.label.en}
+                            {typeof action.label === 'string' ? action.label : (isArabicAdmin ? action.label.ar : action.label.en)}
                           </p>
                         </div>
                         <svg className={`w-5 h-5 text-gray-400 ${colors.arrow} transition-colors ${isRTL ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
