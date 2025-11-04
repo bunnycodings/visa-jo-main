@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import TabNavigation from '@/components/admin/TabNavigation';
 import { adminTabs } from '@/lib/admin-tabs';
 
 export default function DashboardContent() {
   const router = useRouter();
+  const pathname = usePathname();
+  const isArabicAdmin = pathname?.startsWith('/ar/admin/') || false;
   const [username, setUsername] = useState('Admin');
   const [stats, setStats] = useState({
     totalVisas: 0,
