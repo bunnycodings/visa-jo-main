@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useContentRefresh } from '@/context/ContentRefreshContext';
-import { useLanguage } from '@/context/LanguageContext';
 import DashboardLayout from '@/components/admin/DashboardLayout';
 import TabNavigation from '@/components/admin/TabNavigation';
 import { adminTabs } from '@/lib/admin-tabs';
@@ -69,14 +68,14 @@ export default function AdminHeroContentPage() {
           isActive: data.isActive ?? true,
         });
       } catch (err: any) {
-        setError(err.message || (locale === 'ar' ? 'فشل تحميل المحتوى' : 'Failed to load content'));
+        setError(err.message || 'Failed to load content');
       } finally {
         setLoading(false);
       }
     };
 
     fetchContent();
-  }, [router, locale]);
+  }, [router]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -98,7 +97,7 @@ export default function AdminHeroContentPage() {
 
   const handleUpload = async () => {
     if (!fileInput) {
-      setError(locale === 'ar' ? 'يرجى اختيار صورة' : 'Please select an image');
+      setError('Please select an image');
       return;
     }
 
