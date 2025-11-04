@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
 import { useLanguage } from '@/context/LanguageContext';
 import { AdminLanguageSwitcher } from './AdminLanguageSwitcher';
@@ -12,9 +12,12 @@ interface DashboardLayoutProps {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isArabicAdmin = pathname?.startsWith('/ar/admin/') || false;
   const { locale } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const isRTL = locale === 'ar';
+  // Force RTL only for Arabic admin routes
+  const isRTL = isArabicAdmin;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -61,7 +64,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">
-                  {locale === 'ar' ? 'لوحة التحكم' : 'Dashboard'}
+                  {isArabicAdmin ? 'لوحة التحكم' : 'Dashboard'}
                 </h2>
               </div>
               <div className="flex items-center gap-4">
@@ -76,7 +79,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
-                  {locale === 'ar' ? 'عرض الموقع' : 'View Site'}
+                  {isArabicAdmin ? 'عرض الموقع' : 'View Site'}
                 </a>
               </div>
             </div>
