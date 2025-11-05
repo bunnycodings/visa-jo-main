@@ -20,7 +20,7 @@ interface TabNavigationProps {
 export default function TabNavigation({ tabs, showSubTabs = true }: TabNavigationProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { locale } = useLanguage();
+  const locale = useLocale();
   const isRTL = locale === 'ar';
 
   const activeTab = tabs.find(tab => {

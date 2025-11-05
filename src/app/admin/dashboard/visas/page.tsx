@@ -4,14 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { VisaType } from '@/types/models/VisaApplication';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 import DashboardLayout from '@/components/admin/DashboardLayout';
 import TabNavigation from '@/components/admin/TabNavigation';
 import { adminTabs } from '@/lib/admin-tabs';
 
 const VisaListPage = () => {
   const router = useRouter();
-  const { locale } = useLanguage();
+  const locale = useLocale();
   const [visas, setVisas] = useState<VisaType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

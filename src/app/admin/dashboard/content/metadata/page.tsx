@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 import type { PageMetadata } from '@/types/models/SiteContent';
 
 export default function PageMetadataPage() {
   const router = useRouter();
-  const { locale } = useLanguage();
+  const locale = useLocale();
   const [pages, setPages] = useState<PageMetadata[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
