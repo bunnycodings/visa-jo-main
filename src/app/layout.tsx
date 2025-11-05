@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { IntlProvider } from '@/components/IntlProvider';
 import { ContentRefreshProvider } from "@/context/ContentRefreshContext";
 import { Analytics } from "@vercel/analytics/react";
 import FloatingCallButton from "@/components/FloatingCallButton";
@@ -67,7 +67,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ContentRefreshProvider>
-          <NextIntlClientProvider messages={messages} locale="en">
+          <IntlProvider messages={messages} defaultLocale="en">
             <PWARegistration />
             <Navbar />
             <main className="min-h-screen">
@@ -75,7 +75,7 @@ export default async function RootLayout({
             </main>
             <Footer />
             <FloatingCallButton />
-          </NextIntlClientProvider>
+          </IntlProvider>
         </ContentRefreshProvider>
         <Analytics />
       </body>
