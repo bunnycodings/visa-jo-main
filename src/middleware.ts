@@ -1,7 +1,5 @@
-import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { routing } from './i18n/routing';
 
 // Arabic slug to country code mapping (inline to avoid import issues in middleware)
 const arabicSlugToCountry: Record<string, string> = {
@@ -45,9 +43,6 @@ function getCountryFromArabicSlug(slug: string): string {
   return slug;
 }
 
-// Create next-intl middleware
-const intlMiddleware = createMiddleware(routing);
-
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
@@ -56,19 +51,8 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
-  // Skip next-intl middleware for visa routes - they use dynamic routing
-  // Handle both English and Arabic visa routes
-  if (pathname.startsWith('/visa/') && !pathname.startsWith('/visa/travel') && !pathname.startsWith('/visa/schengen')) {
-    // Remove trailing slash if present (Next.js handles trailing slashes)
-    if (pathname.endsWith('/') && pathname !== '/visa/') {
-      const cleanPath = pathname.slice(0, -1);
-      return NextResponse.redirect(new URL(cleanPath, request.url), 301);
-    }
-    return NextResponse.next();
-  }
-  
-  // Skip next-intl middleware for Arabic visa routes
-  if (pathname.startsWith('/ar/visa/')) {
+  // Skip middleware for API routes
+  if (pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
   
@@ -126,14 +110,15 @@ export function middleware(request: NextRequest) {
     console.error('Middleware error:', error);
   }
   
-  // Apply next-intl middleware
-  return intlMiddleware(request);
+  // For all other routes, just pass through - let Next.js handle routing
+  // next-intl will provide locale context via IntlProvider
+  return NextResponse.next();
 }
 
 export const config = {
   // Match all pathnames except for
   // - … if they start with `/api`, `/_next` or `/_vercel`
   // - … the ones containing a dot (e.g. `favicon.ico`)
-  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/', '/(ar|en)/:path*'],
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)'],
 };
 

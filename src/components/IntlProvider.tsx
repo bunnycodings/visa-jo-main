@@ -40,7 +40,11 @@ export function IntlProvider({ children, messages, defaultLocale = 'en' }: IntlP
   }, [pathname, locale, messages]);
 
   return (
-    <NextIntlClientProvider messages={localeMessages} locale={locale}>
+    <NextIntlClientProvider 
+      messages={localeMessages} 
+      locale={locale}
+      timeZone="Asia/Amman"
+    >
       {children}
     </NextIntlClientProvider>
   );
