@@ -145,12 +145,33 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
 }
 
 export async function getVisasByCountry(country: string): Promise<VisaType[]> {
+  // Normalize country code (trim whitespace, handle case variations)
+  const normalizedCountry = country.trim();
+  
+  console.log(`[getVisasByCountry] Querying for country: "${normalizedCountry}"`);
+  
+  // Use a more flexible query that handles case-insensitive matching
+  // Also try without the TRIM in case the database doesn't support it
   const rows = await query<VisaRow>(
     'SELECT * FROM visas WHERE LOWER(country) = LOWER(?) AND is_active = 1 ORDER BY name ASC',
-    [country]
+    [normalizedCountry]
   );
 
-  return rows.map((row) => ({
+  console.log(`[getVisasByCountry] Found ${rows.length} row(s) for country: "${normalizedCountry}"`);
+  
+  // If no results, try with trimmed version
+  let trimmedRows: VisaRow[] = [];
+  if (rows.length === 0 && normalizedCountry !== normalizedCountry.trim()) {
+    trimmedRows = await query<VisaRow>(
+      'SELECT * FROM visas WHERE LOWER(TRIM(country)) = LOWER(TRIM(?)) AND is_active = 1 ORDER BY name ASC',
+      [normalizedCountry]
+    );
+    console.log(`[getVisasByCountry] Found ${trimmedRows.length} row(s) with TRIM for country: "${normalizedCountry}"`);
+  }
+
+  const finalRows = rows.length > 0 ? rows : trimmedRows;
+
+  return finalRows.map((row) => ({
     id: row.id,
     name: row.name,
     country: row.country,
