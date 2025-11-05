@@ -13,16 +13,10 @@ export default function ArabicEditVisaPage({
   const resolvedParams = use(params);
   
   useEffect(() => {
+    // Ensure locale is set to Arabic
     document.documentElement.dir = 'rtl';
     document.documentElement.lang = 'ar';
   }, []);
-
-  useEffect(() => {
-    // Ensure locale is set to Arabic
-    setLocale('ar');
-    document.documentElement.dir = 'rtl';
-    document.documentElement.lang = 'ar';
-  }, [setLocale]);
 
   return (
     <ArabicAdminDashboardLayout>
