@@ -28,11 +28,11 @@ const nextConfig: NextConfig = {
   },
   
   experimental: {
-    turbopack: false,
     optimizeCss: true, // Optimize CSS
   },
   
-  serverComponentsExternalPackages: ['mysql2'],
+  // External packages for server components
+  serverExternalPackages: ['mysql2'],
   
   webpack: (config, { isServer }) => {
     if (!isServer) {
