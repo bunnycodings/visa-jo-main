@@ -1,18 +1,43 @@
-import type { AboutContent } from '@/types/models/SiteContent';
+'use client';
 
-export default async function AboutPage() {
-  // Use default content for static export
-  const title = 'About Us';
-  const intro = 'We are dedicated to making visa applications simple, fast, and stress-free.';
-  const story = 'Founded with the mission to simplify travel, our team provides expert guidance and end-to-end support for visa applications across the globe.';
-  const whyTitle = 'Why Choose Us?';
-  const whyItems = [
+import { useEffect, useState } from 'react';
+import type { AboutContent } from '@/types/models/SiteContent';
+import { defaultAboutContent } from '@/types/models/SiteContent';
+
+export default function AboutPage() {
+  const [content, setContent] = useState<AboutContent>(defaultAboutContent);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const res = await fetch('/api/content/about', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          setContent(data);
+        }
+      } catch (error) {
+        console.error('Error fetching about content:', error);
+        // Keep using defaults if fetch fails
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContent();
+  }, []);
+
+  const title = content.title || 'About Us';
+  const intro = content.intro || 'We are dedicated to making visa applications simple, fast, and stress-free.';
+  const story = content.story || 'Founded with the mission to simplify travel, our team provides expert guidance and end-to-end support for visa applications across the globe.';
+  const whyTitle = content.whyTitle || 'Why Choose Us?';
+  const whyItems = content.whyItems || [
     { title: 'Quality Service', description: 'Expert consultants ensuring accurate applications and reliable support.' },
     { title: 'Fast Processing', description: 'Streamlined workflows to help you get approvals quickly.' },
     { title: 'Customer Care', description: 'Friendly assistance throughout your journey with 24/7 availability.' },
   ];
-  const missionTitle = 'Our Mission';
-  const missionText = 'To deliver reliable, efficient, and personalized visa services that empower seamless global travel.';
+  const missionTitle = content.missionTitle || 'Our Mission';
+  const missionText = content.missionText || 'To deliver reliable, efficient, and personalized visa services that empower seamless global travel.';
 
   return (
     <div className="bg-gradient-to-br from-gray-50 via-white to-blue-50">
@@ -75,13 +100,13 @@ export default async function AboutPage() {
           </div>
         </div>
 
-        {/* Why Choose Us Section */}
+        {/* What We Do Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
-            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-100 text-indigo-600 font-medium">Why Choose Us</div>
+            <div className="inline-block px-3 py-1 mb-4 rounded-full bg-indigo-100 text-indigo-600 font-medium">Our Services</div>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">{whyTitle}</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {whyItems.map((item, idx) => (
               <div key={idx} className="group bg-white rounded-2xl shadow-lg p-8 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 hover:border-blue-300">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">

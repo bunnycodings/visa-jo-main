@@ -10,10 +10,10 @@ export interface HeroContent {
 }
 
 export const defaultHeroContent: HeroContent = {
-  bannerText: 'Trusted by thousands of travelers',
-  title: 'Fast, Easy, and Reliable Visa Services from Jordan',
+  bannerText: 'Visa Office in Jordan',
+  title: 'Visa Office in Jordan',
   subtitle:
-    'Apply for your travel visa online — 100+ destinations, expert support, and fast approvals with our streamlined process.',
+    'Are you planning to travel abroad but unsure of the visa application process? Our Visa Office in Jordan is here to assist you with every aspect of your visa application process. We understand that obtaining a travel visa can be a complex and time-consuming process, with specific requirements and regulations that must be met to ensure the success of your application. That\'s why our team of experienced professionals is here to help you choose the best destination and apply for the most appropriate visa type based on your individual needs and circumstances. We offer expert visa consultations, preparation of visa requirements, and full visa processing services from start to finish, ensuring that your application is handled efficiently and effectively. Furthermore, traveling has numerous benefits for your physical and psychological well-being, and we believe that a lack of time or money should not hold you back from exploring new places. With low-cost flights and flexible travel options, it\'s easier than ever to travel, even if you have a full-time job or a family to take care of. So, don\'t let anything hold you back from your travel dreams – contact our Visa Office in Jordan today to get started on your visa application process and experience the joys of travel!',
   ctaText: 'Apply Now',
   ctaHref: '/services',
   backgroundImage: undefined,
@@ -174,18 +174,21 @@ export interface AboutContent {
 
 export const defaultAboutContent: AboutContent = {
   title: 'About Us',
-  intro: 'We are dedicated to making visa applications simple, fast, and stress-free.',
+  intro: 'VisaJo provides expert consultations to help you choose the best destination and visa type that suits your needs.',
   story:
-    'Founded with the mission to simplify travel, our team provides expert guidance and end-to-end support for visa applications across the globe.',
-  whyTitle: 'Why Choose Us?',
+    'Our dedicated team ensures speed and accuracy in every service, including certified translations, flight bookings, hotel reservations, and trip plans—making sure you\'re fully prepared for your journey.',
+  whyTitle: 'What We Do…',
   whyItems: [
-    { title: 'Quality Service', description: 'Expert consultants ensuring accurate applications and reliable support.' },
-    { title: 'Fast Processing', description: 'Streamlined workflows to help you get approvals quickly.' },
-    { title: 'Customer Care', description: 'Friendly assistance throughout your journey with 24/7 availability.' },
+    { title: 'Visa Consultations', description: 'Expert guidance on visa preparations, requirements, and document processing' },
+    { title: 'Certified Translation', description: 'Professional document translation services' },
+    { title: 'Travel Insurance', description: 'Comprehensive travel and health insurance coverage' },
+    { title: 'Hotel Reservations', description: 'Hotel reservations worldwide to support your visa application' },
+    { title: 'Flight Bookings', description: 'Flight bookings with flexible options for your travel needs' },
+    { title: 'Trip Plan', description: 'Complete travel itinerary planning and coordination' },
   ],
   missionTitle: 'Our Mission',
   missionText:
-    'To deliver reliable, efficient, and personalized visa services that empower seamless global travel.',
+    'VisaJo provides expert consultations to help you choose the best destination and visa type that suits your needs. Our dedicated team ensures speed and accuracy in every service, including certified translations, flight bookings, hotel reservations, and trip plans—making sure you\'re fully prepared for your journey.',
   isActive: true,
   updatedAt: new Date(),
 };
@@ -279,9 +282,9 @@ export const defaultServicesContent: ServicesContent = {
       href: '/services'
     },
     {
-      category: 'Certificated Translations',
+      category: 'Certified Translation',
       icon: '🌐',
-      description: 'Professional document translation services for visa applications',
+      description: 'Professional document translation services',
       features: [
         'Certified document translation',
         'Multiple language support',
@@ -292,7 +295,7 @@ export const defaultServicesContent: ServicesContent = {
       href: '/services'
     },
     {
-      category: 'Travel Insurance',
+      category: 'Insurance',
       icon: '🛡️',
       description: 'Comprehensive travel and health insurance coverage',
       features: [
@@ -305,7 +308,7 @@ export const defaultServicesContent: ServicesContent = {
       href: '/services'
     },
     {
-      category: 'Hotel Reservations',
+      category: 'Hotel Bookings',
       icon: '🏨',
       description: 'Hotel reservations worldwide to support your visa application',
       features: [
@@ -341,7 +344,7 @@ export const defaultServicesContent: ServicesContent = {
         'Transportation arrangements',
         'Emergency support'
       ],
-      href: '/services/trip-plans'
+      href: '/services'
     }
   ],
   ctaPrimaryText: 'Get Free Consultation',

@@ -97,6 +97,61 @@ export default function ServicesPage() {
             </div>
           ))}
         </div>
+
+        {/* Types Of Visa Section */}
+        <div className="mb-12">
+          <div className="bg-gradient-to-r from-indigo-600 to-blue-700 text-white rounded-2xl shadow-xl p-8">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm">
+                <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19,6H17V4A1,1 0 0,0 16,3H8A1,1 0 0,0 7,4V6H5A3,3 0 0,0 2,9V19A3,3 0 0,0 5,22H19A3,3 0 0,0 22,19V9A3,3 0 0,0 19,6M9,6H15V5H9V6Z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold mb-2">{t('services.visaTypes') || 'Types Of Visa'}</h2>
+                <p className="text-blue-100">{t('services.visaTypesDesc') || 'Different visa categories available for your travel needs'}</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2">Tourist Visa</h3>
+                <p className="text-blue-100 text-sm">Allows an individual to enter a foreign nation for the purpose of leisure and tourism</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2">Visitor Visa</h3>
+                <p className="text-blue-100 text-sm">For family members or friends who reside outside of the host country</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20,6H16V4A2,2 0 0,0 14,2H10A2,2 0 0,0 8,4V6H4A1,1 0 0,0 3,7V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V7A1,1 0 0,0 20,6M10,4H14V6H10V4M19,19H5V8H19V19Z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2">Business Visa</h3>
+                <p className="text-blue-100 text-sm">For those planning to conduct business in the host country</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z"/>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold mb-2">Events Visa</h3>
+                <p className="text-blue-100 text-sm">This visa is necessary for participation in cultural, educational, or sporting events or conferences</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
