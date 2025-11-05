@@ -148,6 +148,8 @@ async function initializeDefaultVisas(): Promise<void> {
       descriptionAr: 'تأشيرة دولة الإمارات العربية المتحدة صالحة في جميع أنحاء دولة الإمارات، وهي دبي، أبو ظبي، عجمان، الشارقة، الفجيرة، رأس الخيمة وأم القيوين. تأشيرة 14 يوم دخول واحد تسمح للشخص بالبقاء لمدة 14 يومًا في الإمارات. الإذن صالح لمدة 60 يومًا من تاريخ الإصدار.',
       notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy.',
       notesAr: 'بعد تقديم جميع المستندات المطلوبة، سنقوم بإرسال طلب تأشيرة الإمارات مباشرة إلى سفارة الإمارات في الأردن للمراجعة. قد تستغرق مدة المعالجة حتى 7 أيام عمل بدءًا من تاريخ تقديم جميع مستنداتك في السفارة.',
+      mainRequirements: 'For the Emirates Embassy in Jordan to grant you a visa, you must meet the following conditions: 1-A clear photo with a white background. 2-A 6 months validity clear passport scan or picture.',
+      mainRequirementsAr: 'لكي تمنحك سفارة الإمارات في الأردن تأشيرة، يجب أن تستوفي الشروط التالية: 1-صورة واضحة بخلفية بيضاء. 2-نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر.',
       visaTypes: ['14 Days Single Entry'],
       visaTypesAr: ['14 يوم دخول واحد'],
       isActive: true
@@ -428,8 +430,9 @@ async function initializeDefaultVisas(): Promise<void> {
             name, name_ar, country, category, requirements, requirements_ar,
             processing_time, processing_time_ar, validity, validity_ar,
             fees, description, description_ar, notes, notes_ar,
+            main_requirements, main_requirements_ar,
             visa_types, visa_types_ar, is_active, created_at, updated_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
           [
             visa.name,
             (visa as any).nameAr || null,
@@ -446,6 +449,8 @@ async function initializeDefaultVisas(): Promise<void> {
             (visa as any).descriptionAr || null,
             visa.notes || null,
             (visa as any).notesAr || null,
+            (visa as any).mainRequirements || null,
+            (visa as any).mainRequirementsAr || null,
             (visa as any).visaTypes ? JSON.stringify((visa as any).visaTypes) : null,
             (visa as any).visaTypesAr ? JSON.stringify((visa as any).visaTypesAr) : null,
             visa.isActive ? 1 : 0
@@ -470,6 +475,8 @@ async function initializeDefaultVisas(): Promise<void> {
                 validity_ar = ?,
                 description_ar = ?,
                 notes_ar = ?,
+                main_requirements = ?,
+                main_requirements_ar = ?,
                 visa_types_ar = ?,
                 updated_at = NOW()
               WHERE name = ?`,
@@ -480,6 +487,8 @@ async function initializeDefaultVisas(): Promise<void> {
                 (visa as any).validityAr || null,
                 (visa as any).descriptionAr || null,
                 (visa as any).notesAr || null,
+                (visa as any).mainRequirements || null,
+                (visa as any).mainRequirementsAr || null,
                 (visa as any).visaTypesAr ? JSON.stringify((visa as any).visaTypesAr) : null,
                 visa.name
               ]
