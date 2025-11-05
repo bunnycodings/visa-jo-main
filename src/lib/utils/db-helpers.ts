@@ -145,33 +145,33 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
 }
 
 export async function getVisasByCountry(country: string): Promise<VisaType[]> {
-  // Normalize country code (trim whitespace)
-  const normalizedCountry = country.trim();
+  // Normalize country code (trim whitespace and convert to lowercase)
+  const normalizedCountry = country.trim().toLowerCase();
   
-  console.log(`[getVisasByCountry] Querying for country: "${normalizedCountry}"`);
+  console.log(`[getVisasByCountry] Querying for country: "${normalizedCountry}" (original: "${country}")`);
   
   // Use a flexible query that handles case-insensitive matching
-  // Try with LOWER() first (most common case)
-  const rows = await query<VisaRow>(
-    'SELECT * FROM visas WHERE LOWER(country) = LOWER(?) AND is_active = 1 ORDER BY name ASC',
+  // Try exact match first with LOWER()
+  let rows = await query<VisaRow>(
+    'SELECT * FROM visas WHERE LOWER(TRIM(country)) = LOWER(TRIM(?)) AND is_active = 1 ORDER BY name ASC',
     [normalizedCountry]
   );
 
   console.log(`[getVisasByCountry] Found ${rows.length} row(s) for country: "${normalizedCountry}"`);
   
-  // If no results, try with TRIM in case there are spaces in the database
-  let trimmedRows: VisaRow[] = [];
+  // If no results, try LIKE pattern matching for partial matches
   if (rows.length === 0) {
-    trimmedRows = await query<VisaRow>(
-      'SELECT * FROM visas WHERE LOWER(TRIM(country)) = LOWER(TRIM(?)) AND is_active = 1 ORDER BY name ASC',
-      [normalizedCountry]
+    const likePattern = `%${normalizedCountry}%`;
+    rows = await query<VisaRow>(
+      'SELECT * FROM visas WHERE LOWER(TRIM(country)) LIKE LOWER(?) AND is_active = 1 ORDER BY name ASC',
+      [likePattern]
     );
-    if (trimmedRows.length > 0) {
-      console.log(`[getVisasByCountry] Found ${trimmedRows.length} row(s) with TRIM for country: "${normalizedCountry}"`);
+    if (rows.length > 0) {
+      console.log(`[getVisasByCountry] Found ${rows.length} row(s) using LIKE pattern for country: "${normalizedCountry}"`);
     }
   }
 
-  const finalRows = rows.length > 0 ? rows : trimmedRows;
+  const finalRows = rows;
 
   return finalRows.map((row) => ({
     id: row.id,
