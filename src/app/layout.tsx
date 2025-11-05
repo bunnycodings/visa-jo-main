@@ -35,8 +35,9 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Get messages for default locale (English)
-  // Arabic messages will be loaded in /ar routes
+  // Get locale and messages for default locale (English)
+  // Arabic messages will be loaded in /ar routes via IntlProvider
+  const locale = await getLocale();
   const messages = await getMessages();
   
   return (
@@ -67,7 +68,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ContentRefreshProvider>
-          <IntlProvider messages={messages} defaultLocale="en">
+          <IntlProvider messages={messages} defaultLocale={locale}>
             <PWARegistration />
             <Navbar />
             <main className="min-h-screen">
