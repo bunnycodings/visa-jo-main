@@ -1,9 +1,11 @@
 import { getVisasByCountry } from './db-helpers';
 import { autoInitializeDatabase } from './auto-init';
-import { VisaType } from '@/types/models/VisaApplication';
+import { VisaType, VisaRow } from '@/types/models/VisaApplication';
+import { getAllVisas } from '@/lib/data/visas';
 
 export async function getVisasForCountryPage(country: string): Promise<VisaType[]> {
   let visas: VisaType[] = [];
+  let databaseError = false;
 
   try {
     await autoInitializeDatabase();
@@ -58,7 +60,31 @@ export async function getVisasForCountryPage(country: string): Promise<VisaType[
       code: error?.code,
       stack: error?.stack?.split('\n').slice(0, 3)
     });
-    // Return empty array on error
+    
+    // Check if it's a database connection error
+    databaseError = error?.code === 'ECONNREFUSED' || 
+                   error?.code === 'ENOTFOUND' ||
+                   error?.code === 'ETIMEDOUT' ||
+                   error?.code === 'ECONNRESET' ||
+                   error?.code === 'ER_ACCESS_DENIED_ERROR' ||
+                   error?.code === 'ER_DBACCESS_DENIED_ERROR' ||
+                   error?.message?.includes('connect') ||
+                   error?.message?.includes('ECONNRESET');
+  }
+
+  // Fallback to in-memory data if database is unavailable and no visas found
+  if (visas.length === 0 && databaseError) {
+    console.log(`[getVisasForCountryPage] Database unavailable, falling back to in-memory data for country: "${country}"`);
+    const countryLower = country.toLowerCase().trim();
+    const allVisas = getAllVisas();
+    visas = allVisas.filter(v => {
+      const visaCountry = v.country?.toLowerCase().trim();
+      return visaCountry === countryLower;
+    });
+    
+    if (visas.length > 0) {
+      console.log(`[getVisasForCountryPage] Found ${visas.length} visa(s) from fallback data for country: "${country}"`);
+    }
   }
 
   return visas;
@@ -67,7 +93,6 @@ export async function getVisasForCountryPage(country: string): Promise<VisaType[
 // Flexible search that uses LIKE for partial matches
 async function getVisasByCountryFlexible(country: string): Promise<VisaType[]> {
   const { query } = await import('./mysql');
-  const { VisaRow } = await import('@/types/models/VisaApplication');
   
   try {
     // Try LIKE search with the country code

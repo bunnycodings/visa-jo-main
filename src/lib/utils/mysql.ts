@@ -91,6 +91,7 @@ export async function query<T = any>(
       error.code === 'ECONNREFUSED' || 
       error.code === 'ENOTFOUND' ||
       error.code === 'ETIMEDOUT' ||
+      error.code === 'ECONNRESET' ||
       error.code === 'ER_ACCESS_DENIED_ERROR' ||
       error.code === 'ER_DBACCESS_DENIED_ERROR' ||
       error.message?.includes('connect')
