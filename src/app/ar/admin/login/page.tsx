@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
-import { useEffect } from 'react';
 
 export default function ArabicAdminLogin() {
   const router = useRouter();
@@ -17,7 +16,7 @@ export default function ArabicAdminLogin() {
     // Ensure locale is set to Arabic
     document.documentElement.dir = 'rtl';
     document.documentElement.lang = 'ar';
-  }, [setLocale]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
