@@ -105,7 +105,15 @@
     "fastTitle": "Fast Processing",
     "fastDesc": "Streamlined workflows to help you get approvals quickly.",
     "careTitle": "Customer Care",
-    "careDesc": "Friendly assistance throughout your journey with 24/7 availability."
+    "careDesc": "Friendly assistance throughout your journey with 24/7 availability.",
+    "ourStory": "Our Story",
+    "buildingTrust": "Building Trust Since Day One",
+    "trustedService": "Trusted Service",
+    "expertTeam": "Expert Team",
+    "successfulApplications": "Successful Visa Applications",
+    "ourCommitment": "Our Commitment",
+    "support247": "24/7 Support",
+    "fastProcessing": "Fast Processing"
   },
   "contact": {
     "title": "Contact Us",
@@ -119,7 +127,21 @@
     "messagePlaceholder": "Tell us how we can help you...",
     "successMessage": "Thank you! Your message has been sent successfully.",
     "errorMessage": "Something went wrong. Please try again later.",
-    "loadingMessage": "Sending your message..."
+    "loadingMessage": "Sending your message...",
+    "needImmediateHelp": "Need Immediate Help?",
+    "teamAvailable": "Our team is available 24/7 to assist you with your visa needs.",
+    "startWhatsAppChat": "Start WhatsApp Chat",
+    "callUsNow": "Call Us Now",
+    "contactConsultants": "Contact our Consultants for Inquiries...",
+    "leaveMessage": "Leave Us A Message",
+    "nameLabel": "Name",
+    "phoneLabel": "Phone Number",
+    "inquiriesLabel": "Your Inquiries....",
+    "emailLabel": "email...",
+    "send": "Send",
+    "thanksMessage": "Thanks! We'll get back to you soon.",
+    "visitOffice": "Visit Our Office",
+    "clickToView": "Click to view on Google Maps"
   },
   "visas": {
     "title": "Visa Information",
@@ -147,16 +169,6 @@
     "professionalGuidance": "Professional visa solutions and expert guidance",
     "importantNotes": "Important Notes"
   },
-  "about": {
-    "ourStory": "Our Story",
-    "buildingTrust": "Building Trust Since Day One",
-    "trustedService": "Trusted Service",
-    "expertTeam": "Expert Team",
-    "successfulApplications": "Successful Visa Applications",
-    "ourCommitment": "Our Commitment",
-    "support247": "24/7 Support",
-    "fastProcessing": "Fast Processing"
-  },
   "countries": {
     "uae": "UAE",
     "uk": "United Kingdom",
@@ -172,21 +184,5 @@
     "italy": "Italy",
     "austria": "Austria",
     "schengen": "Schengen"
-  },
-  "contact": {
-    "needImmediateHelp": "Need Immediate Help?",
-    "teamAvailable": "Our team is available 24/7 to assist you with your visa needs.",
-    "startWhatsAppChat": "Start WhatsApp Chat",
-    "callUsNow": "Call Us Now",
-    "contactConsultants": "Contact our Consultants for Inquiries...",
-    "leaveMessage": "Leave Us A Message",
-    "nameLabel": "Name",
-    "phoneLabel": "Phone Number",
-    "inquiriesLabel": "Your Inquiries....",
-    "emailLabel": "email...",
-    "send": "Send",
-    "thanksMessage": "Thanks! We'll get back to you soon.",
-    "visitOffice": "Visit Our Office",
-    "clickToView": "Click to view on Google Maps"
   }
 }
