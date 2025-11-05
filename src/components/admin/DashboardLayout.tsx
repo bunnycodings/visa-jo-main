@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Sidebar from './Sidebar';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 import { AdminLanguageSwitcher } from './AdminLanguageSwitcher';
 
 interface DashboardLayoutProps {
@@ -14,7 +14,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
   const isArabicAdmin = pathname?.startsWith('/ar/admin/') || false;
-  const { locale } = useLanguage();
+  const locale = useLocale();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   // Force RTL only for Arabic admin routes
   const isRTL = isArabicAdmin;
