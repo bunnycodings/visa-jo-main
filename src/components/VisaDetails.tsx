@@ -77,6 +77,30 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
 
   // Get hero image from first visa if available
   const heroImage = visas.length > 0 && visas[0].heroImage ? visas[0].heroImage : null;
+  
+  // Get general country information from first visa (if available)
+  const firstVisa = visas.length > 0 ? visas[0] : null;
+  const generalDescription = firstVisa ? getTranslatedContent(firstVisa, 'description', firstVisa.description || '') : '';
+  const generalMainRequirements = firstVisa ? getTranslatedContent(firstVisa, 'mainRequirements', firstVisa.mainRequirements || '') : '';
+  const generalNotes = firstVisa ? getTranslatedContent(firstVisa, 'notes', firstVisa.notes || '') : '';
+  
+  // Collect all visa types from all visas
+  const allVisaTypes: string[] = [];
+  const allVisaTypesAr: string[] = [];
+  visas.forEach(visa => {
+    if (visa.visaTypes) {
+      visa.visaTypes.forEach((type, idx) => {
+        if (!allVisaTypes.includes(type)) {
+          allVisaTypes.push(type);
+          if (visa.visaTypesAr && visa.visaTypesAr[idx]) {
+            allVisaTypesAr.push(visa.visaTypesAr[idx]);
+          } else {
+            allVisaTypesAr.push(type);
+          }
+        }
+      });
+    }
+  });
 
   return (
     <main className={`bg-white min-h-screen ${isRTL ? 'rtl' : ''}`}>
@@ -122,7 +146,122 @@ export default function VisaDetails({ country, title, visas }: VisaDetailsProps)
         </div>
       </header>
 
-      {/* Visas Container - Matching index page sections */}
+      {/* Country Overview Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        {generalDescription && (
+          <div className="mb-12 bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+              {getCountryName(country, locale)} {t('visas.visa')}
+            </h2>
+            <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">
+              {generalDescription}
+            </p>
+          </div>
+        )}
+
+        {/* Essential Requirements Section */}
+        {generalMainRequirements && (
+          <div className="mb-12 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl shadow-lg p-8 md:p-10 border border-blue-200">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M9,16.17L4.83,12l-1.42,1.41L9,19L21,7l-1.41-1.41L9,16.17Z" />
+                </svg>
+              </div>
+              {t('visas.mainRequirements')}
+            </h3>
+            <p className="text-gray-800 leading-relaxed text-lg whitespace-pre-line">
+              {generalMainRequirements}
+            </p>
+          </div>
+        )}
+
+        {/* Types of Visas Section */}
+        {allVisaTypes.length > 0 && (
+          <div className="mb-12 bg-white rounded-xl shadow-lg p-8 md:p-10 border border-gray-100">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19,6H17V4A1,1 0 0,0 16,3H8A1,1 0 0,0 7,4V6H5A3,3 0 0,0 2,9V19A3,3 0 0,0 5,22H19A3,3 0 0,0 22,19V9A3,3 0 0,0 19,6M9,6H15V5H9V6Z" />
+                </svg>
+              </div>
+              {locale === 'ar' ? 'أنواع التأشيرات' : 'Types of Visas'}
+            </h3>
+            <p className="text-gray-600 mb-6 text-lg">
+              {locale === 'ar' 
+                ? 'يمكنك التقدم بطلب للحصول على مجموعة متنوعة من التأشيرات. على سبيل المثال:'
+                : 'You can apply for a variety of visas. For example:'}
+            </p>
+            <ul className="space-y-4">
+              {allVisaTypes.map((type, idx) => {
+                const translatedType = (locale === 'ar' && allVisaTypesAr[idx]) ? allVisaTypesAr[idx] : type;
+                // Find the visa that has this type to get details
+                const visaWithType = visas.find(v => v.visaTypes?.includes(type));
+                const typeValidity = visaWithType ? getTranslatedContent(visaWithType, 'validity', visaWithType.validity || '') : '';
+                
+                return (
+                  <li key={idx} className="flex items-start gap-4 bg-gray-50 rounded-lg p-6 border border-gray-200">
+                    <div className="flex-shrink-0 mt-1">
+                      <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h4 className="text-xl font-bold text-gray-900 mb-2">{translatedType}</h4>
+                      {typeValidity && (
+                        <p className="text-gray-700 leading-relaxed">{typeValidity}</p>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
+
+        {/* Fees Information Section */}
+        {generalNotes && (generalNotes.includes('fees') || generalNotes.includes('Fees') || generalNotes.includes('رسوم')) && (
+          <div className="mb-12 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl shadow-lg p-8 md:p-10 border border-purple-200">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z" />
+                </svg>
+              </div>
+              {locale === 'ar' ? 'رسوم التأشيرة' : 'Visa Fees'}
+            </h3>
+            <p className="text-gray-800 leading-relaxed text-lg whitespace-pre-line">
+              {generalNotes.split('\n').filter(line => 
+                line.toLowerCase().includes('fee') || 
+                line.toLowerCase().includes('رسوم') ||
+                line.toLowerCase().includes('embassy fee') ||
+                line.toLowerCase().includes('office fee')
+              ).join('\n') || generalNotes}
+            </p>
+          </div>
+        )}
+
+        {/* Processing Time Information Section */}
+        {generalNotes && (
+          <div className="mb-12 bg-gradient-to-r from-orange-50 to-amber-50 rounded-xl shadow-lg p-8 md:p-10 border border-orange-200">
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg">
+                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12.5,7H11V13L16.2,16.2L17,15.3L12.5,12.1V7Z" />
+                </svg>
+              </div>
+              {t('visas.processingTime')}
+            </h3>
+            <p className="text-gray-800 leading-relaxed text-lg whitespace-pre-line">
+              {generalNotes}
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* Individual Visas Container - Matching index page sections */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="space-y-12">
           {visas.map((visa) => (
