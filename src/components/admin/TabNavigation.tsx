@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 import Link from 'next/link';
 
 interface TabItem {

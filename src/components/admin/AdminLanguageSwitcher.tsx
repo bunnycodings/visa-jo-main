@@ -1,12 +1,12 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 
 export function AdminLanguageSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
-  const { locale } = useLanguage();
+  const locale = useLocale();
   
   const isArabicAdmin = pathname?.startsWith('/ar/admin/') || false;
   

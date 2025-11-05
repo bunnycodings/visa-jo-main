@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLocale } from 'next-intl';
 
 interface NavItem {
   href: string;
@@ -15,7 +15,7 @@ interface NavItem {
 export default function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { locale } = useLanguage();
+  const locale = useLocale();
   const isRTL = locale === 'ar';
 
   // Determine if we're in Arabic admin based on pathname
