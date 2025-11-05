@@ -57,12 +57,18 @@ export function middleware(request: NextRequest) {
   }
   
   // Skip next-intl middleware for visa routes - they use dynamic routing
+  // Handle both English and Arabic visa routes
   if (pathname.startsWith('/visa/') && !pathname.startsWith('/visa/travel') && !pathname.startsWith('/visa/schengen')) {
-    // Remove trailing slash if present
+    // Remove trailing slash if present (Next.js handles trailing slashes)
     if (pathname.endsWith('/') && pathname !== '/visa/') {
       const cleanPath = pathname.slice(0, -1);
       return NextResponse.redirect(new URL(cleanPath, request.url), 301);
     }
+    return NextResponse.next();
+  }
+  
+  // Skip next-intl middleware for Arabic visa routes
+  if (pathname.startsWith('/ar/visa/')) {
     return NextResponse.next();
   }
   
