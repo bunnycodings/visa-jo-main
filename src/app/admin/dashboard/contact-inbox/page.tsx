@@ -4,6 +4,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import DashboardLayout from '@/components/admin/DashboardLayout';
 
+// Prevent static generation - this page requires client-side only features
+export const dynamic = 'force-dynamic';
+
 interface ContactMessage {
   id: number;
   name: string;
@@ -33,6 +36,9 @@ export default function ContactInboxPage() {
   });
 
   useEffect(() => {
+    // Ensure we're in the browser before accessing localStorage
+    if (typeof window === 'undefined') return;
+    
     const token = localStorage.getItem('token');
     if (!token) {
       router.push('/admin/login');
@@ -42,6 +48,8 @@ export default function ContactInboxPage() {
   }, [selectedStatus, router]);
 
   const fetchMessages = async () => {
+    if (typeof window === 'undefined') return;
+    
     try {
       const token = localStorage.getItem('token');
       const statusParam = selectedStatus !== 'all' ? `&status=${selectedStatus}` : '';
@@ -79,6 +87,8 @@ export default function ContactInboxPage() {
   };
 
   const updateMessageStatus = async (id: number, status: string, notes?: string) => {
+    if (typeof window === 'undefined') return;
+    
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/admin/contact-messages', {
@@ -106,6 +116,7 @@ export default function ContactInboxPage() {
   };
 
   const deleteMessage = async (id: number) => {
+    if (typeof window === 'undefined') return;
     if (!confirm('Are you sure you want to delete this message?')) return;
 
     try {
