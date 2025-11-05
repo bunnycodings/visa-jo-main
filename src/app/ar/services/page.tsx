@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
 
 export default function ArabicServicesPage() {
-  const { t } = useLanguage();
+  const t = useTranslations();
   // Static list of visa services for static export
   const staticVisas = [
     { country: 'uae', name: 'UAE Visa' },

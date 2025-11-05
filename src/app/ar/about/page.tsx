@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 import type { AboutContent } from '@/types/models/SiteContent';
 
 export default function ArabicAboutPage() {
-  const { t } = useLanguage();
+  const t = useTranslations();
   const [content, setContent] = useState<AboutContent | null>(null);
 
   useEffect(() => {
