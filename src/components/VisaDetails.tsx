@@ -1,7 +1,7 @@
 'use client';
 
 import { VisaType } from '@/types/models/VisaApplication';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations, useLocale } from 'next-intl';
 import { useEffect, useState } from 'react';
 
 interface VisaDetailsProps {
@@ -34,7 +34,8 @@ const getCountryName = (countryCode: string, locale: string): string => {
 
 // Client component that uses language context
 export default function VisaDetails({ country, title, visas }: VisaDetailsProps) {
-  const { locale, t } = useLanguage();
+  const locale = useLocale();
+  const t = useTranslations();
   const isRTL = locale === 'ar';
 
   // Helper function to get translated content from visa data Arabic fields

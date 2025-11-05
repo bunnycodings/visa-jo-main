@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { ContactContent } from '@/types/models/SiteContent';
 import type { ContactFormData } from '@/types';
 import { siteConfig } from '@/lib/constants';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 
 export default function ContactPage() {
   const { t } = useLanguage();

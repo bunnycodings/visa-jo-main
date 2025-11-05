@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 import { siteConfig } from '@/lib/constants';
 
 // Google Place ID from config
@@ -18,7 +18,7 @@ interface PlaceDetails {
 }
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const t = useTranslations();
   const [placeDetails, setPlaceDetails] = useState<PlaceDetails | null>(null);
   
   useEffect(() => {
