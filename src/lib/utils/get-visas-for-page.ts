@@ -66,7 +66,7 @@ export async function getVisasForCountryPage(country: string): Promise<VisaType[
 
 // Flexible search that uses LIKE for partial matches
 async function getVisasByCountryFlexible(country: string): Promise<VisaType[]> {
-  const { query } = await import('./db-helpers');
+  const { query } = await import('./mysql');
   const { VisaRow } = await import('@/types/models/VisaApplication');
   
   try {
