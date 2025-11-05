@@ -56,15 +56,25 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
   
+  // Skip next-intl middleware for visa routes - they use dynamic routing
+  if (pathname.startsWith('/visa/') && !pathname.startsWith('/visa/travel') && !pathname.startsWith('/visa/schengen')) {
+    // Remove trailing slash if present
+    if (pathname.endsWith('/') && pathname !== '/visa/') {
+      const cleanPath = pathname.slice(0, -1);
+      return NextResponse.redirect(new URL(cleanPath, request.url), 301);
+    }
+    return NextResponse.next();
+  }
+  
   // Redirect old /visas/ routes to /visa/ (both English and Arabic)
   if (pathname.startsWith('/visas/')) {
-    const country = pathname.replace('/visas/', '');
+    const country = pathname.replace('/visas/', '').replace(/\/$/, '');
     const redirectUrl = new URL(`/visa/${country}`, request.url);
     return NextResponse.redirect(redirectUrl, 301);
   }
   
   if (pathname.startsWith('/ar/visas/')) {
-    const country = pathname.replace('/ar/visas/', '');
+    const country = pathname.replace('/ar/visas/', '').replace(/\/$/, '');
     const redirectUrl = new URL(`/ar/visa/${country}`, request.url);
     return NextResponse.redirect(redirectUrl, 301);
   }

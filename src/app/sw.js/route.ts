@@ -18,12 +18,40 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  // Skip navigation preload for non-navigation requests
+  if (event.request.mode !== 'navigate') {
+    event.respondWith(
+      caches.match(event.request)
+        .then((response) => {
+          return response || fetch(event.request);
+        })
+    );
+    return;
+  }
+
+  // Handle navigation requests with preload
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        return response || fetch(event.request);
-      })
+    (async () => {
+      const cachedResponse = await caches.match(event.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+
+      // Use preloadResponse if available
+      if (event.preloadResponse) {
+        try {
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
+        } catch (error) {
+          // Preload failed, continue to fetch
+        }
+      }
+
+      // Fetch from network
+      return fetch(event.request);
+    })()
   );
 });
 

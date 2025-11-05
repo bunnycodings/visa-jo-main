@@ -44,6 +44,7 @@ const Footer = () => {
   
   // Get map source URL using Place ID
   const [mapUrl, setMapUrl] = useState<string>('');
+  const [mapLoaded, setMapLoaded] = useState(false);
   
   useEffect(() => {
     const fetchMapUrl = async () => {
@@ -54,17 +55,23 @@ const Footer = () => {
           const data = await response.json();
           if (data.embedUrl) {
             setMapUrl(data.embedUrl);
+            setMapLoaded(true);
           }
         }
       } catch (error) {
         console.error('Error fetching map URL:', error);
+        // Fallback: use static map or placeholder
       }
     };
     fetchMapUrl();
   }, []);
   
   const getMapUrl = () => {
-    return mapUrl || `https://www.google.com/maps/embed/v1/place?q=place_id:${siteConfig.googlePlaceId}&zoom=15`;
+    if (mapUrl) {
+      return mapUrl;
+    }
+    // Return empty string until map URL is loaded to avoid 401 error
+    return '';
   };
   
   // Get Google Maps link using Place ID
@@ -194,17 +201,23 @@ const Footer = () => {
                 className="block relative group"
                 aria-label="View Visa Jo location on Google Maps"
               >
-                <iframe
-                  src={getMapUrl()}
-                  width="100%"
-                  height="150"
-                  style={{ border: 0 }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full"
-                  title="Visa Jo Office Location"
-                ></iframe>
+                {mapLoaded && mapUrl ? (
+                  <iframe
+                    src={mapUrl}
+                    width="100%"
+                    height="150"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full"
+                    title="Visa Jo Office Location"
+                  ></iframe>
+                ) : (
+                  <div className="w-full h-[150px] bg-gray-800 flex items-center justify-center">
+                    <p className="text-gray-400 text-sm">Loading map...</p>
+                  </div>
+                )}
               </a>
             </div>
           </div>
