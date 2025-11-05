@@ -78,6 +78,8 @@
     "description": "Comprehensive services to make your journey seamless",
     "visaServices": "Available Visa Services",
     "visaServicesDesc": "Select a destination to view visa requirements and information",
+    "availableVisaServices": "Available Visa Services",
+    "selectDestination": "Select a destination to view visa requirements and information",
     "visaConsultations": "Visa Consultations",
     "consultationDesc": "Expert guidance on visa preparations, requirements, and document processing",
     "translation": "Certification Translation",
@@ -154,10 +156,6 @@
     "ourCommitment": "Our Commitment",
     "support247": "24/7 Support",
     "fastProcessing": "Fast Processing"
-  },
-  "services": {
-    "availableVisaServices": "Available Visa Services",
-    "selectDestination": "Select a destination to view visa requirements and information"
   },
   "countries": {
     "uae": "UAE",
