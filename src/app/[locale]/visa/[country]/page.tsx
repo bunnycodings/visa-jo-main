@@ -36,9 +36,19 @@ export default async function VisaCountryPage({
         const visaCountry = v.country?.toLowerCase().trim();
         return visaCountry === countryLower;
       });
+      
+      // If no visas found from database, use fallback data
+      if (visas.length === 0) {
+        console.log('No visas found in database for', countryLower, ', using fallback data');
+        const allVisas = getFallbackVisas();
+        visas = allVisas.filter(v => {
+          const visaCountry = v.country?.toLowerCase().trim();
+          return visaCountry === countryLower;
+        });
+      }
     } catch (error: any) {
       // If database fails, use fallback data
-      console.log('Database unavailable, using fallback data');
+      console.log('Database unavailable, using fallback data:', error.message);
       const allVisas = getFallbackVisas();
       visas = allVisas.filter(v => {
         const visaCountry = v.country?.toLowerCase().trim();
