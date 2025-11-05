@@ -27,14 +27,20 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   
-  experimental: {
-    optimizeCss: true, // Optimize CSS
-  },
+  // experimental: {
+  //   optimizeCss: true, // Optimize CSS - disabled to avoid critters conflicts
+  // },
   
   // External packages for server components
   serverExternalPackages: ['mysql2'],
   
   webpack: (config, { isServer }) => {
+    // Ensure critters is properly resolved
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      critters: require.resolve('critters'),
+    };
+    
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
