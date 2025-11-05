@@ -47,10 +47,14 @@ export default function RootLayout({
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#145EFF" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        {/* Keep Apple-specific meta for backward compatibility with older iOS devices */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Visa Jo" />
         <link rel="apple-touch-icon" href="/img/logo/visajo.png" />
+        {/* Preload logo image with proper as attribute for immediate use */}
+        <link rel="preload" href="/img/logo/visajo.png" as="image" type="image/png" />
         
         {/* VATSIM overlay removal script temporarily disabled */}
       </head>
