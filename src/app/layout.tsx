@@ -34,8 +34,9 @@ export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}) {
   // Get messages for default locale (English)
+  // Arabic messages will be loaded in /ar routes
   const messages = await getMessages();
   
   return (

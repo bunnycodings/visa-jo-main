@@ -1,6 +1,5 @@
 'use client';
 
-import { NextIntlClientProvider } from 'next-intl';
 import { useEffect } from 'react';
 
 export default function ArabicLayout({
