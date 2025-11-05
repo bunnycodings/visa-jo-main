@@ -47,7 +47,7 @@ export const SERVICES = [
     href: '/services'
   },
   {
-    category: 'Certification Translation',
+    category: 'Certificated Translations',
     icon: '🌐',
     description: 'Professional document translation services for visa applications',
     href: '/services'
@@ -71,7 +71,7 @@ export const SERVICES = [
     href: '/services'
   },
   {
-    category: 'Trip Plans',
+    category: 'Trip Plan',
     icon: '🗺️',
     description: 'Complete travel itinerary planning and coordination',
     href: '/services'

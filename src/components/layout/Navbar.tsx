@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { LanguageSwitcherNextIntl as LanguageSwitcher } from '@/components/LanguageSwitcherNextIntl';
 import { useTranslations, useLocale } from 'next-intl';
+import { Link as IntlLink } from '@/i18n/routing';
 import { getFlagPath } from '@/lib/utils/flags';
 import { getServiceIcon } from '@/lib/utils/service-icons';
 import { siteConfig } from '@/lib/constants';
-import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
+import { getArabicVisaUrl, getArabicSlug } from '@/lib/utils/arabic-slugs';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,8 +19,7 @@ const Navbar = () => {
   const t = useTranslations();
   const locale = useLocale();
   const pathname = usePathname();
-  const isArabic = pathname?.startsWith('/ar');
-  const prefix = isArabic ? '/ar' : '';
+  const isArabic = locale === 'ar';
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -45,9 +45,11 @@ const Navbar = () => {
   // Generate URLs based on language
   const getVisaUrl = (country: string) => {
     if (isArabic) {
-      return getArabicVisaUrl(country);
+      // Use Arabic slug in URL
+      const arabicSlug = getArabicSlug(country);
+      return `/ar/visa/${arabicSlug}`;
     }
-    return `${prefix}/visa/${country}`;
+    return `/en/visa/${country}`;
   };
 
   const travelVisaItems = [
@@ -69,12 +71,12 @@ const Navbar = () => {
   ];
 
   const servicesItems = [
-    { key: 'visaConsultations', href: `${prefix}/services#consultations` },
-    { key: 'translation', href: `${prefix}/services#translation` },
-    { key: 'insurance', href: `${prefix}/services#insurance` },
-    { key: 'hotelBookings', href: `${prefix}/services#hotels` },
-    { key: 'flightBookings', href: `${prefix}/services#flights` },
-    { key: 'tripPlans', href: `${prefix}/services#trip-plans` },
+    { key: 'visaConsultations', href: `/services#consultations` },
+    { key: 'translation', href: `/services#translation` },
+    { key: 'insurance', href: `/services#insurance` },
+    { key: 'hotelBookings', href: `/services#hotels` },
+    { key: 'flightBookings', href: `/services#flights` },
+    { key: 'tripPlans', href: `/services#trip-plans` },
   ];
 
   const toggleDropdown = (dropdown: string) => {
@@ -87,7 +89,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href={prefix || '/'} className="flex items-center group">
+            <IntlLink href="/" className="flex items-center group">
               <div className="relative">
               <Image
                 src="/img/logo/visajo.png"
@@ -107,19 +109,19 @@ const Navbar = () => {
                   {t('navbar.professionalServices')}
                 </div>
               </div>
-            </Link>
+            </IntlLink>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-1">
-              <Link
-                href={prefix || '/'}
+              <IntlLink
+                href="/"
                 className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-gray-800 relative group"
               >
                 {t('common.home')}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
+              </IntlLink>
 
               {/* Travel Visa Dropdown */}
               <div className="relative group dropdown-container">
@@ -291,11 +293,11 @@ const Navbar = () => {
                     // Map translation keys to English names for icon lookup
                     const iconNameMap: Record<string, string> = {
                       'visaConsultations': 'Visa Consultations',
-                      'translation': 'Certification Translation',
+                      'translation': 'Certificated Translations',
                       'insurance': 'Insurance',
                       'hotelBookings': 'Hotel Bookings',
                       'flightBookings': 'Flight Bookings',
-                      'tripPlans': 'Trip Plans',
+                      'tripPlans': 'Trip Plan',
                     };
                     const iconPath = getServiceIcon(iconNameMap[item.key]);
                     const serviceName = t(`services.${item.key}`);
@@ -335,20 +337,20 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <Link
-                href={`${prefix}/about`}
+              <IntlLink
+                href="/about"
                 className="text-gray-300 hover:text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-gray-800 relative group"
               >
                 {t('common.aboutUs')}
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-400 group-hover:w-full transition-all duration-300"></span>
-              </Link>
+              </IntlLink>
               
               <div className="ml-[5px]">
                 <LanguageSwitcher />
               </div>
               {isAdminLoggedIn && (
                 <Link
-                  href={isArabic ? '/ar/admin/dashboard' : '/admin/dashboard'}
+                  href="/admin/dashboard"
                   className="ml-2 bg-gray-800 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:bg-gray-700"
                   title={locale === 'ar' ? 'لوحة التحكم' : 'Admin Dashboard'}
                 >
@@ -384,7 +386,7 @@ const Navbar = () => {
           <div className="md:hidden" id="mobile-menu">
             <div className="px-4 pt-4 pb-6 space-y-2 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 shadow-lg max-h-[calc(100vh-96px)] overflow-y-auto">
               <Link
-                href={prefix || '/'}
+                href="/"
                 className="text-gray-300 hover:text-white block px-4 py-3 rounded-lg text-base font-semibold hover:bg-gray-800 transition-all duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -454,7 +456,7 @@ const Navbar = () => {
               </div>
 
               <Link
-                href={`${prefix}/about`}
+                href="/about"
                 className="text-gray-300 hover:text-white block px-4 py-3 rounded-lg text-base font-semibold hover:bg-gray-800 transition-all duration-300"
                 onClick={() => setIsMenuOpen(false)}
               >

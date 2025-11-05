@@ -279,7 +279,7 @@ export const defaultServicesContent: ServicesContent = {
       href: '/services'
     },
     {
-      category: 'Certification Translation',
+      category: 'Certificated Translations',
       icon: '🌐',
       description: 'Professional document translation services for visa applications',
       features: [
@@ -331,7 +331,7 @@ export const defaultServicesContent: ServicesContent = {
       href: '/services'
     },
     {
-      category: 'Trip Plans',
+      category: 'Trip Plan',
       icon: '🗺️',
       description: 'Complete travel itinerary planning and coordination',
       features: [

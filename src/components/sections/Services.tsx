@@ -9,11 +9,11 @@ const ServiceIcon = ({ serviceName }: { serviceName: string }) => {
   const [useEmoji, setUseEmoji] = useState(false);
   const emojiMap: Record<string, string> = {
     'Visa Consultations': '📋',
-    'Certification Translation': '🌐',
+    'Certificated Translations': '🌐',
     'Insurance': '🛡️',
     'Hotel Bookings': '🏨',
     'Flight Bookings': '✈️',
-    'Trip Plans': '🗺️'
+    'Trip Plan': '🗺️'
   };
 
   if (useEmoji) {
@@ -54,11 +54,11 @@ const Services = () => {
 
   const ourServices = [
     { name: 'Visa Consultations', description: 'Expert guidance on visa requirements and processes', href: '/services' },
-    { name: 'Certification Translation', description: 'Professional document translation services', href: '/services' },
+    { name: 'Certificated Translations', description: 'Professional document translation services', href: '/services' },
     { name: 'Insurance', description: 'Travel and health insurance coverage', href: '/services' },
     { name: 'Hotel Bookings', description: 'Best deals on accommodation worldwide', href: '/services' },
     { name: 'Flight Bookings', description: 'Competitive airfare and flight arrangements', href: '/services' },
-    { name: 'Trip Plans', description: 'Complete travel itinerary planning', href: '/services' },
+    { name: 'Trip Plan', description: 'Complete travel itinerary planning', href: '/services' },
   ];
 
   return (
