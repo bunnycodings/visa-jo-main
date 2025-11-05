@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { getMessages } from 'next-intl/server';
+import { getMessages, getLocale } from 'next-intl/server';
 import { IntlProvider } from '@/components/IntlProvider';
 import { ContentRefreshProvider } from "@/context/ContentRefreshContext";
 import { Analytics } from "@vercel/analytics/react";
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
 }) {
   // Get messages for default locale (English)
