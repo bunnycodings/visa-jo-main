@@ -159,6 +159,22 @@
     "availableVisaServices": "Available Visa Services",
     "selectDestination": "Select a destination to view visa requirements and information"
   },
+  "countries": {
+    "uae": "UAE",
+    "uk": "United Kingdom",
+    "us": "United States",
+    "usa": "United States",
+    "canada": "Canada",
+    "australia": "Australia",
+    "india": "India",
+    "germany": "Germany",
+    "france": "France",
+    "netherlands": "Netherlands",
+    "spain": "Spain",
+    "italy": "Italy",
+    "austria": "Austria",
+    "schengen": "Schengen"
+  },
   "contact": {
     "needImmediateHelp": "Need Immediate Help?",
     "teamAvailable": "Our team is available 24/7 to assist you with your visa needs.",
