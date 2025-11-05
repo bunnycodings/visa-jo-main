@@ -7,7 +7,7 @@ import Footer from '@/components/layout/Footer';
 import FloatingCallButton from '@/components/FloatingCallButton';
 import PWARegistration from '@/components/PWARegistration';
 import { ContentRefreshProvider } from '@/context/ContentRefreshContext';
-import { Analytics } from '@vercel/analytics/react';
+import AnalyticsWrapper from '@/components/AnalyticsWrapper';
 
 export default async function LocaleLayout({
   children,
@@ -39,7 +39,7 @@ export default async function LocaleLayout({
         <Footer />
         <FloatingCallButton />
       </ContentRefreshProvider>
-      <Analytics />
+      <AnalyticsWrapper />
     </NextIntlClientProvider>
   );
 }
