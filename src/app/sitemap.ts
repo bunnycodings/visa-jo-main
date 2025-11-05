@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getAllVisas, getSiteContent } from '@/lib/utils/db-helpers';
+import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Get the base URL from environment variables
@@ -113,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Dynamic visa pages from database (English and Arabic)
     const visaPages: MetadataRoute.Sitemap = [];
-    visas.forEach((visa: any) => {
+    for (const visa of visas) {
       const country = visa.country.toLowerCase();
       // English URL
       visaPages.push({
@@ -123,7 +124,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.8,
       });
       // Arabic URL - use category-based structure
-      const { getArabicVisaUrl } = await import('@/lib/utils/arabic-slugs');
       const arabicUrl = getArabicVisaUrl(country);
       visaPages.push({
         url: `${baseUrl}${arabicUrl}`,
@@ -137,7 +137,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           },
         },
       });
-    });
+    }
 
     // Category pages (static)
     const categoryPages: MetadataRoute.Sitemap = [
