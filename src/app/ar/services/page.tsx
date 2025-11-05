@@ -3,7 +3,7 @@
 import type { ServicesContent } from '@/types/models/SiteContent';
 import { defaultServicesContent } from '@/types/models/SiteContent';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 import { getArabicVisaUrl } from '@/lib/utils/arabic-slugs';
 
 export default function ArabicServicesPage() {

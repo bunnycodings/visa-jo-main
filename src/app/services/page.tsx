@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 
 export default function ServicesPage() {
-  const { t } = useLanguage();
+  const t = useTranslations();
   // Static list of visa services for static export
   const staticVisas = [
     { country: 'uae', name: 'UAE Visa' },
