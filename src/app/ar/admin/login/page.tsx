@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminAuth } from '@/context/AdminAuthContext';
-import { useLanguage } from '@/context/LanguageContext';
+import { useEffect } from 'react';
 
 export default function ArabicAdminLogin() {
   const router = useRouter();
   const { setToken } = useAdminAuth();
-  const { setLocale } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,7 +15,6 @@ export default function ArabicAdminLogin() {
 
   useEffect(() => {
     // Ensure locale is set to Arabic
-    setLocale('ar');
     document.documentElement.dir = 'rtl';
     document.documentElement.lang = 'ar';
   }, [setLocale]);
