@@ -1,1 +1,43 @@
-{}
+{
+  "common": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "applyNow": "Apply Now",
+    "learnMore": "Learn More",
+    "contactUs": "Contact Us",
+    "callUs": "Call Us",
+    "aboutUs": "About Us"
+  },
+  "navbar": {
+    "professionalServices": "Professional Services",
+    "travelVisa": "Travel Visas",
+    "schengenVisa": "Schengen Visas",
+    "ourServices": "Our Services",
+    "adminDashboard": "Admin Dashboard"
+  },
+  "countries": {
+    "uae": "UAE",
+    "uk": "United Kingdom",
+    "us": "United States",
+    "canada": "Canada",
+    "australia": "Australia",
+    "india": "India",
+    "germany": "Germany",
+    "france": "France",
+    "netherlands": "Netherlands",
+    "spain": "Spain",
+    "italy": "Italy",
+    "austria": "Austria"
+  },
+  "services": {
+    "title": "Our Services",
+    "visaConsultations": "Visa Consultations",
+    "translation": "Certificated Translations",
+    "insurance": "Insurance",
+    "hotelBookings": "Hotel Bookings",
+    "flightBookings": "Flight Bookings",
+    "tripPlans": "Trip Plan"
+  }
+}

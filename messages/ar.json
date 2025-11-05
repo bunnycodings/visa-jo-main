@@ -1,1 +1,43 @@
-{}
+{
+  "common": {
+    "home": "الرئيسية",
+    "services": "الخدمات",
+    "about": "من نحن",
+    "contact": "اتصل بنا",
+    "applyNow": "قدّم الآن",
+    "learnMore": "اعرف المزيد",
+    "contactUs": "تواصل معنا",
+    "callUs": "اتصل بنا",
+    "aboutUs": "من نحن"
+  },
+  "navbar": {
+    "professionalServices": "خدمات احترافية",
+    "travelVisa": "تأشيرات السفر",
+    "schengenVisa": "تأشيرات شنغن",
+    "ourServices": "خدماتنا",
+    "adminDashboard": "لوحة التحكم"
+  },
+  "countries": {
+    "uae": "الإمارات العربية المتحدة",
+    "uk": "المملكة المتحدة",
+    "us": "الولايات المتحدة",
+    "canada": "كندا",
+    "australia": "أستراليا",
+    "india": "الهند",
+    "germany": "ألمانيا",
+    "france": "فرنسا",
+    "netherlands": "هولندا",
+    "spain": "إسبانيا",
+    "italy": "إيطاليا",
+    "austria": "النمسا"
+  },
+  "services": {
+    "title": "خدماتنا",
+    "visaConsultations": "استشارات التأشيرات",
+    "translation": "الترجمة المعتمدة",
+    "insurance": "التأمين",
+    "hotelBookings": "حجوزات الفنادق",
+    "flightBookings": "حجوزات الطيران",
+    "tripPlans": "خطة السفر"
+  }
+}
