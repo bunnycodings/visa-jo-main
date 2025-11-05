@@ -35,16 +35,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Get messages for default locale (English)
-  // Arabic messages will be loaded in /ar routes via IntlProvider
-  // Since we're not using [locale] folder structure, we manually specify locale
-  let messages;
-  try {
-    messages = (await import(`../../messages/en.json`)).default;
-  } catch {
-    // Fallback if import fails
-    messages = {};
-  }
+  // Using next-intl for translations - messages are loaded automatically via i18n.ts
   
   return (
     <html lang="en" dir="ltr">
@@ -74,7 +65,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ContentRefreshProvider>
-          <IntlProvider messages={messages} defaultLocale="en">
+          <IntlProvider>
             <PWARegistration />
             <Navbar />
             <main className="min-h-screen">

@@ -128,47 +128,80 @@ async function initializeDefaultVisas(): Promise<void> {
   const defaultVisas = [
     {
       name: 'UAE 14 Days Visa',
+      nameAr: 'تأشيرة الإمارات 14 يوم',
       country: 'uae',
       category: 'travel',
       requirements: [
         'A clear photo with a white background',
         'A 6 months validity clear passport scan or picture'
       ],
+      requirementsAr: [
+        'صورة واضحة بخلفية بيضاء',
+        'نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر'
+      ],
       processingTime: 'Up to 7 working days',
+      processingTimeAr: 'حتى 7 أيام عمل',
       validity: '14 days single entry',
+      validityAr: '14 يوم دخول واحد',
       fees: { consultation: 50, government: 150, total: 200 },
       description: 'Short-term single entry visa for UAE valid for 14 days.',
+      descriptionAr: 'تأشيرة دخول واحدة قصيرة الأجل لدولة الإمارات صالحة لمدة 14 يومًا.',
       notes: 'Processing time varies. Application must include clear documents for faster processing.',
+      notesAr: 'تختلف مدة المعالجة. يجب أن تتضمن الطلب وثائق واضحة للمعالجة السريعة.',
+      visaTypes: ['14 Days Single Entry'],
+      visaTypesAr: ['14 يوم دخول واحد'],
       isActive: true
     },
     {
       name: 'UAE 30 Days Visa',
+      nameAr: 'تأشيرة الإمارات 30 يوم',
       country: 'uae',
       category: 'travel',
       requirements: [
         'A clear photo with a white background',
         'A 6 months validity clear passport scan or picture'
       ],
+      requirementsAr: [
+        'صورة واضحة بخلفية بيضاء',
+        'نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر'
+      ],
       processingTime: 'Up to 7 working days',
+      processingTimeAr: 'حتى 7 أيام عمل',
       validity: '30 days multiple entry',
+      validityAr: '30 يوم دخول متعدد',
       fees: { consultation: 70, government: 250, total: 320 },
       description: '30-day multiple entry visa for UAE with flexible travel options.',
+      descriptionAr: 'تأشيرة دخول متعدد لمدة 30 يومًا لدولة الإمارات مع خيارات سفر مرنة.',
       notes: 'Allows multiple entries within the 30-day validity period.',
+      notesAr: 'يسمح بدخول متعدد خلال فترة الصلاحية البالغة 30 يومًا.',
+      visaTypes: ['30 Days Multiple Entry'],
+      visaTypesAr: ['30 يوم دخول متعدد'],
       isActive: true
     },
     {
       name: 'UAE 90 Days Visa',
+      nameAr: 'تأشيرة الإمارات 90 يوم',
       country: 'uae',
       category: 'travel',
       requirements: [
         'A clear photo with a white background',
         'A 6 months validity clear passport scan or picture'
       ],
+      requirementsAr: [
+        'صورة واضحة بخلفية بيضاء',
+        'نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر'
+      ],
       processingTime: 'Up to 7 working days',
+      processingTimeAr: 'حتى 7 أيام عمل',
       validity: '90 days multiple entry',
+      validityAr: '90 يوم دخول متعدد',
       fees: { consultation: 100, government: 400, total: 500 },
       description: 'Long-term multiple entry visa for UAE valid for 90 days.',
+      descriptionAr: 'تأشيرة دخول متعدد طويلة الأجل لدولة الإمارات صالحة لمدة 90 يومًا.',
       notes: 'Ideal for extended stays and multiple visits.',
+      notesAr: 'مثالية للإقامة الممتدة والزيارات المتعددة.',
+      visaTypes: ['90 Days Multiple Entry'],
+      visaTypesAr: ['90 يوم دخول متعدد'],
       isActive: true
     },
     {
@@ -391,23 +424,68 @@ async function initializeDefaultVisas(): Promise<void> {
       if ((existing as any[]).length === 0) {
         console.log(`  ✓ Creating visa: ${visa.name}`);
         await pool.execute(
-          `INSERT INTO visas (name, country, category, requirements, processing_time, validity, fees, description, notes, is_active, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
+          `INSERT INTO visas (
+            name, name_ar, country, category, requirements, requirements_ar,
+            processing_time, processing_time_ar, validity, validity_ar,
+            fees, description, description_ar, notes, notes_ar,
+            visa_types, visa_types_ar, is_active, created_at, updated_at
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())`,
           [
             visa.name,
+            (visa as any).nameAr || null,
             visa.country,
             visa.category,
             JSON.stringify(visa.requirements),
+            (visa as any).requirementsAr ? JSON.stringify((visa as any).requirementsAr) : null,
             visa.processingTime,
+            (visa as any).processingTimeAr || null,
             visa.validity,
+            (visa as any).validityAr || null,
             JSON.stringify(visa.fees),
             visa.description || null,
+            (visa as any).descriptionAr || null,
             visa.notes || null,
+            (visa as any).notesAr || null,
+            (visa as any).visaTypes ? JSON.stringify((visa as any).visaTypes) : null,
+            (visa as any).visaTypesAr ? JSON.stringify((visa as any).visaTypesAr) : null,
             visa.isActive ? 1 : 0
           ]
         );
       } else {
         console.log(`  ⊘ Visa already exists: ${visa.name} (skipping)`);
+        // Update existing visa if it's missing Arabic fields (for ALL visas)
+        if ((visa as any).nameAr) {
+          const [existingVisa] = await pool.execute(
+            'SELECT name_ar FROM visas WHERE name = ?',
+            [visa.name]
+          );
+          const existingVisaData = (existingVisa as any[])[0];
+          if (!existingVisaData?.name_ar) {
+            console.log(`  ↻ Updating missing Arabic fields for: ${visa.name}`);
+            await pool.execute(
+              `UPDATE visas SET 
+                name_ar = ?,
+                requirements_ar = ?,
+                processing_time_ar = ?,
+                validity_ar = ?,
+                description_ar = ?,
+                notes_ar = ?,
+                visa_types_ar = ?,
+                updated_at = NOW()
+              WHERE name = ?`,
+              [
+                (visa as any).nameAr || null,
+                (visa as any).requirementsAr ? JSON.stringify((visa as any).requirementsAr) : null,
+                (visa as any).processingTimeAr || null,
+                (visa as any).validityAr || null,
+                (visa as any).descriptionAr || null,
+                (visa as any).notesAr || null,
+                (visa as any).visaTypesAr ? JSON.stringify((visa as any).visaTypesAr) : null,
+                visa.name
+              ]
+            );
+          }
+        }
       }
     } catch (error: any) {
       // Skip duplicate entries (might happen in race conditions)

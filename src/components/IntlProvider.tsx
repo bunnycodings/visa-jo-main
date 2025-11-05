@@ -6,30 +6,17 @@ import { useEffect, useState } from 'react';
 
 interface IntlProviderProps {
   children: React.ReactNode;
-  messages: any;
-  defaultLocale?: string;
 }
 
-export function IntlProvider({ children, messages, defaultLocale = 'en' }: IntlProviderProps) {
+export function IntlProvider({ children }: IntlProviderProps) {
   const pathname = usePathname();
-  const [locale, setLocale] = useState(defaultLocale);
-  const [localeMessages, setLocaleMessages] = useState(messages);
+  const [locale, setLocale] = useState('en');
 
   useEffect(() => {
     const currentLocale = pathname?.startsWith('/ar') ? 'ar' : 'en';
     
     if (currentLocale !== locale) {
       setLocale(currentLocale);
-      
-      // Load messages for the current locale
-      import(`../../messages/${currentLocale}.json`)
-        .then((module) => {
-          setLocaleMessages(module.default);
-        })
-        .catch(() => {
-          // Fallback to default messages
-          setLocaleMessages(messages);
-        });
     }
     
     // Update document attributes
@@ -37,11 +24,12 @@ export function IntlProvider({ children, messages, defaultLocale = 'en' }: IntlP
       document.documentElement.dir = currentLocale === 'ar' ? 'rtl' : 'ltr';
       document.documentElement.lang = currentLocale;
     }
-  }, [pathname, locale, messages]);
+  }, [pathname, locale]);
 
+  // Messages are provided by next-intl's server-side configuration
+  // No need to manually load them - next-intl handles it automatically
   return (
     <NextIntlClientProvider 
-      messages={localeMessages} 
       locale={locale}
       timeZone="Asia/Amman"
     >

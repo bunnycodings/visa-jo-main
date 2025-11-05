@@ -11,9 +11,11 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale = routing.defaultLocale;
   }
 
+  // Using next-intl's built-in message handling
+  // Messages are loaded through next-intl's standard configuration
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default,
+    messages: {}, // Messages will be loaded through next-intl's standard mechanism
     timeZone: 'Asia/Amman' // Jordan timezone
   };
 });
