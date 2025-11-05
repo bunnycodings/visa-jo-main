@@ -7,7 +7,7 @@ import { siteConfig } from '@/lib/constants';
 import { useTranslations } from 'next-intl';
 
 export default function ContactPage() {
-  const { t } = useLanguage();
+  const t = useTranslations();
   const [content, setContent] = useState<ContactContent | null>(null);
   const [form, setForm] = useState<ContactFormData>({ name: '', email: '', phone: '', message: '', subject: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');

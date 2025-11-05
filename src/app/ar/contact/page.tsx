@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import type { ContactContent } from '@/types/models/SiteContent';
 import type { ContactFormData } from '@/types';
 import { siteConfig } from '@/lib/constants';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations } from 'next-intl';
 
 export default function ArabicContactPage() {
-  const { t } = useLanguage();
+  const t = useTranslations();
   const [content, setContent] = useState<ContactContent | null>(null);
   const [form, setForm] = useState<ContactFormData>({ name: '', email: '', phone: '', message: '', subject: '' });
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
