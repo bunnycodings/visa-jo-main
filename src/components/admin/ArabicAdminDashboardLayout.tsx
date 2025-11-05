@@ -9,14 +9,11 @@ export default function ArabicAdminDashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { setLocale } = useLanguage();
-
   useEffect(() => {
     // Ensure locale is set to Arabic
-    setLocale('ar');
     document.documentElement.dir = 'rtl';
     document.documentElement.lang = 'ar';
-  }, [setLocale]);
+  }, []);
 
   return <DashboardLayout>{children}</DashboardLayout>;
 }
