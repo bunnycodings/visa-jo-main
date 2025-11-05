@@ -35,10 +35,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       console.warn('Failed to fetch page metadata for sitemap:', error);
     }
 
-    // Static pages
+    // Static pages (English and Arabic)
     const staticPages: MetadataRoute.Sitemap = [
       {
         url: `${baseUrl}`,
+        lastModified: new Date(),
+        changeFrequency: 'daily',
+        priority: 1.0,
+        alternates: {
+          languages: {
+            ar: `${baseUrl}/ar`,
+            en: `${baseUrl}`,
+          },
+        },
+      },
+      {
+        url: `${baseUrl}/ar`,
         lastModified: new Date(),
         changeFrequency: 'daily',
         priority: 1.0,
@@ -48,9 +60,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.8,
+        alternates: {
+          languages: {
+            ar: `${baseUrl}/ar/about`,
+            en: `${baseUrl}/about`,
+          },
+        },
+      },
+      {
+        url: `${baseUrl}/ar/about`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
       },
       {
         url: `${baseUrl}/contact`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly',
+        priority: 0.7,
+        alternates: {
+          languages: {
+            ar: `${baseUrl}/ar/contact`,
+            en: `${baseUrl}/contact`,
+          },
+        },
+      },
+      {
+        url: `${baseUrl}/ar/contact`,
         lastModified: new Date(),
         changeFrequency: 'monthly',
         priority: 0.7,
@@ -60,16 +96,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.8,
+        alternates: {
+          languages: {
+            ar: `${baseUrl}/ar/services`,
+            en: `${baseUrl}/services`,
+          },
+        },
+      },
+      {
+        url: `${baseUrl}/ar/services`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly',
+        priority: 0.8,
       },
     ];
 
-    // Dynamic visa pages from database
-    const visaPages: MetadataRoute.Sitemap = visas.map((visa: any) => ({
-      url: `${baseUrl}/visa/${visa.country.toLowerCase()}`,
-      lastModified: visa.updatedAt ? new Date(visa.updatedAt) : new Date(),
-      changeFrequency: 'weekly' as const,
-      priority: 0.8,
-    }));
+    // Dynamic visa pages from database (English and Arabic)
+    const visaPages: MetadataRoute.Sitemap = [];
+    visas.forEach((visa: any) => {
+      const country = visa.country.toLowerCase();
+      // English URL
+      visaPages.push({
+        url: `${baseUrl}/visa/${country}`,
+        lastModified: visa.updatedAt ? new Date(visa.updatedAt) : new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      });
+      // Arabic URL - use category-based structure
+      const { getArabicVisaUrl } = await import('@/lib/utils/arabic-slugs');
+      const arabicUrl = getArabicVisaUrl(country);
+      visaPages.push({
+        url: `${baseUrl}${arabicUrl}`,
+        lastModified: visa.updatedAt ? new Date(visa.updatedAt) : new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+        alternates: {
+          languages: {
+            ar: `${baseUrl}${arabicUrl}`,
+            en: `${baseUrl}/visa/${country}`,
+          },
+        },
+      });
+    });
 
     // Category pages (static)
     const categoryPages: MetadataRoute.Sitemap = [

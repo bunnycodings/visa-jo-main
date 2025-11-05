@@ -1,5 +1,7 @@
+import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { routing } from './i18n/routing';
 
 // Arabic slug to country code mapping (inline to avoid import issues in middleware)
 const arabicSlugToCountry: Record<string, string> = {
@@ -43,6 +45,9 @@ function getCountryFromArabicSlug(slug: string): string {
   return slug;
 }
 
+// Create next-intl middleware
+const intlMiddleware = createMiddleware(routing);
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
@@ -66,8 +71,6 @@ export function middleware(request: NextRequest) {
   
   // Handle Arabic visa URLs with category structure
   // Pattern: /ar/فيزا-السفر/{country-slug} or /ar/فيزا-شنغن/{country-slug}
-  // Also handle: /ar/فيزا-شنغن/germany (English country code fallback)
-  
   try {
     // Decode the pathname to handle Arabic characters
     let decodedPath: string;
@@ -78,7 +81,6 @@ export function middleware(request: NextRequest) {
     }
     
     // Match Arabic visa category patterns (both URL-encoded and decoded)
-    // Also match English country codes after Arabic category
     const arabicVisaPattern = /^\/ar\/(?:فيزا-السفر|فيزا-شنغن)\/([^\/]+)/;
     const match = decodedPath.match(arabicVisaPattern);
     
@@ -92,7 +94,6 @@ export function middleware(request: NextRequest) {
     }
     
     // Also handle direct Arabic visa routes without category: /ar/visa/{country}
-    // This handles old URLs or direct navigation
     const directVisaPattern = /^\/ar\/visa\/([^\/]+)/;
     const directMatch = decodedPath.match(directVisaPattern);
     
@@ -109,14 +110,14 @@ export function middleware(request: NextRequest) {
     console.error('Middleware error:', error);
   }
   
-  return NextResponse.next();
+  // Apply next-intl middleware
+  return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: [
-    '/visas/:path*',
-    '/visa/:path*',
-    '/ar/:path*',
-  ],
+  // Match all pathnames except for
+  // - … if they start with `/api`, `/_next` or `/_vercel`
+  // - … the ones containing a dot (e.g. `favicon.ico`)
+  matcher: ['/((?!api|_next|_vercel|.*\\..*).*)', '/', '/(ar|en)/:path*'],
 };
 

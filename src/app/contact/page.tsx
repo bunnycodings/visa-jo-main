@@ -42,27 +42,46 @@ export default function ContactPage() {
     value: string;
   }
 
-  function submitForm(e: React.FormEvent) {
+  async function submitForm(e: React.FormEvent) {
     e.preventDefault();
+    setStatus('submitting');
     
-    // Create email content
-    const subject = encodeURIComponent('Contact Form Submission');
-    const body = encodeURIComponent(
-      `Name: ${form.name}\n` +
-      `Email: ${form.email}\n` +
-      `Phone: ${form.phone}\n\n` +
-      `Message:\n${form.message}`
-    );
-    
-    // Open email client
-    window.location.href = `mailto:${siteConfig.contactEmail}?subject=${subject}&body=${body}`;
-    
-    // Show success message
-    setStatus('success');
-    setTimeout(() => {
-      setForm({ name: '', email: '', phone: '', message: '', subject: '' });
-      setStatus('idle');
-    }, 2000);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          subject: form.subject || 'Contact Form Submission',
+          message: form.message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setStatus('success');
+        setForm({ name: '', email: '', phone: '', message: '', subject: '' });
+        setTimeout(() => {
+          setStatus('idle');
+        }, 3000);
+      } else {
+        setStatus('error');
+        setTimeout(() => {
+          setStatus('idle');
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus('error');
+      setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
+    }
   }
 
   return (
@@ -196,9 +215,9 @@ export default function ContactPage() {
                 <button 
                   type="submit" 
                   disabled={status === 'submitting'} 
-                  className="w-full px-6 py-3 bg-[#145EFF] text-white rounded-xl font-semibold hover:bg-[#145EFF] transition-all duration-300 text-center"
+                  className="w-full px-6 py-3 bg-[#145EFF] text-white rounded-xl font-semibold hover:bg-[#145EFF] transition-all duration-300 text-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {t('contact.send')}
+                  {status === 'submitting' ? t('contact.loadingMessage') : t('contact.send')}
                 </button>
                 {status === 'success' && (
                   <div className="flex items-center gap-2 text-green-600 bg-green-50 px-6 py-3 rounded-xl">
@@ -206,6 +225,14 @@ export default function ContactPage() {
                       <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8L10,17Z"/>
                     </svg>
                     <span className="font-semibold">{t('contact.thanksMessage')}</span>
+                  </div>
+                )}
+                {status === 'error' && (
+                  <div className="flex items-center gap-2 text-red-600 bg-red-50 px-6 py-3 rounded-xl">
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12,2C6.48,2 2,6.48 2,12C2,17.52 6.48,22 12,22C17.52,22 22,17.52 22,12C22,6.48 17.52,2 12,2M13,17H11V15H13M13,13H11V7H13V13Z"/>
+                    </svg>
+                    <span className="font-semibold">{t('contact.errorMessage')}</span>
                   </div>
                 )}
               </div>

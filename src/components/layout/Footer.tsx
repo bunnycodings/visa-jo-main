@@ -6,9 +6,7 @@ import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 import { siteConfig } from '@/lib/constants';
 
-// Google Place ID and API Key
-const GOOGLE_PLACE_ID = 'ChIJdeupRGqhHBURVIFe6tsJobA';
-const GOOGLE_API_KEY = 'AIzaSyDtGagLe57lZB0QrLSknpyDhhjnF3lGVPs';
+// Google Place ID from config
 
 interface PlaceDetails {
   formattedAddress: string;
@@ -27,8 +25,9 @@ const Footer = () => {
     // Fetch place details from Google Places API
     const fetchPlaceDetails = async () => {
       try {
+        const placeId = siteConfig.googlePlaceId;
         const response = await fetch(
-          `/api/google-places/details?placeId=${GOOGLE_PLACE_ID}`
+          `/api/google-places/details?placeId=${placeId}`
         );
         
         if (response.ok) {
@@ -44,13 +43,34 @@ const Footer = () => {
   }, []);
   
   // Get map source URL using Place ID
+  const [mapUrl, setMapUrl] = useState<string>('');
+  
+  useEffect(() => {
+    const fetchMapUrl = async () => {
+      try {
+        const placeId = siteConfig.googlePlaceId;
+        const response = await fetch(`/api/google-places/map?placeId=${placeId}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.embedUrl) {
+            setMapUrl(data.embedUrl);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching map URL:', error);
+      }
+    };
+    fetchMapUrl();
+  }, []);
+  
   const getMapUrl = () => {
-    return `https://www.google.com/maps/embed/v1/place?key=${GOOGLE_API_KEY}&q=place_id:${GOOGLE_PLACE_ID}&zoom=15`;
+    return mapUrl || `https://www.google.com/maps/embed/v1/place?q=place_id:${siteConfig.googlePlaceId}&zoom=15`;
   };
   
   // Get Google Maps link using Place ID
   const getMapsLink = () => {
-    return `https://www.google.com/maps/place/?q=place_id:${GOOGLE_PLACE_ID}`;
+    const placeId = siteConfig.googlePlaceId;
+    return `https://www.google.com/maps/place/?q=place_id:${placeId}`;
   };
   
   const displayAddress = placeDetails?.formattedAddress || 'Al Qaherah, Abdoun, Building Number 24, Amman, Jordan';

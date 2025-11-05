@@ -10,9 +10,9 @@ export const siteConfig = {
   phone: process.env.SITE_PHONE || process.env.CONTACT_PHONE || '0796090319',
   
   // Contact Information
-  contactEmail: process.env.CONTACT_EMAIL || 'info@visa-jo.com',
-  contactPhone: process.env.CONTACT_PHONE || '0796090319',
-  contactAddress: process.env.CONTACT_ADDRESS || 'Al Qaherah, Abdoun, Building Number 24, Amman-Jordan',
+  contactEmail: process.env.CONTACT_EMAIL || process.env.SITE_EMAIL || 'info@visa-jo.com',
+  contactPhone: process.env.CONTACT_PHONE || process.env.SITE_PHONE || '0796090319',
+  contactAddress: process.env.CONTACT_ADDRESS || process.env.SITE_ADDRESS || 'Al Qaherah, Abdoun, Building Number 24, Amman-Jordan',
   businessHours: process.env.BUSINESS_HOURS || 'Mon - Fri: 09:00 AM - 18:00 PM',
   
   // Google Places Configuration

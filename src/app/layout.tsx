@@ -3,7 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { LanguageProvider } from "@/context/LanguageContext";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
 import { ContentRefreshProvider } from "@/context/ContentRefreshContext";
 import { Analytics } from "@vercel/analytics/react";
 import FloatingCallButton from "@/components/FloatingCallButton";
@@ -29,13 +30,16 @@ export const metadata: Metadata = {
   keywords: "visa consulting, travel visa, schengen visa, UAE visa, UK visa, US visa, Canada visa, Australia visa, India visa",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Get messages for default locale (English)
+  const messages = await getMessages();
+  
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <head>
         {/* Preconnect to external domains for faster resource loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -62,7 +66,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ContentRefreshProvider>
-          <LanguageProvider>
+          <NextIntlClientProvider messages={messages} locale="en">
             <PWARegistration />
             <Navbar />
             <main className="min-h-screen">
@@ -70,7 +74,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <FloatingCallButton />
-          </LanguageProvider>
+          </NextIntlClientProvider>
         </ContentRefreshProvider>
         <Analytics />
       </body>
