@@ -2,13 +2,14 @@
 
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useLanguage } from '@/context/LanguageContext';
+import { useTranslations, useLocale } from 'next-intl';
 import Link from 'next/link';
 
 export default function NotFound() {
   const router = useRouter();
   const pathname = usePathname();
-  const { locale, t } = useLanguage();
+  const locale = useLocale();
+  const t = useTranslations();
   const isArabic = pathname?.startsWith('/ar');
 
   useEffect(() => {
