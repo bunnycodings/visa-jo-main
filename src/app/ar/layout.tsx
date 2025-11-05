@@ -10,14 +10,16 @@ export default async function ArabicLayout({
   // Get messages for Arabic locale
   const messages = await getMessages({ locale: 'ar' });
 
+  // Set document direction on client side
+  if (typeof document !== 'undefined') {
+    document.documentElement.dir = 'rtl';
+    document.documentElement.lang = 'ar';
+  }
+
   return (
-    <html lang="ar" dir="rtl">
-      <body>
-        <NextIntlClientProvider messages={messages} locale="ar">
-          {children}
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages} locale="ar">
+      {children}
+    </NextIntlClientProvider>
   );
 }
 
