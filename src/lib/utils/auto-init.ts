@@ -176,6 +176,8 @@ async function initializeDefaultVisas(): Promise<void> {
       descriptionAr: 'تأشيرة دولة الإمارات العربية المتحدة صالحة في جميع أنحاء دولة الإمارات، وهي دبي، أبو ظبي، عجمان، الشارقة، الفجيرة، رأس الخيمة وأم القيوين. تأشيرة 30 يوم دخول متعدد تسمح لك بزيارة دولة الإمارات بشكل متكرر والبقاء لمدة تصل إلى 30 يومًا. ستكون التأشيرة صالحة لمدة 60 يومًا من تاريخ الإصدار.',
       notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy. Embassy fees per person/duration may vary from one period to another, according to an official decision issued by the embassy. Our office fees may vary depending on the type of visa, country and any additional charges.',
       notesAr: 'بعد تقديم جميع المستندات المطلوبة، سنقوم بإرسال طلب تأشيرة الإمارات مباشرة إلى سفارة الإمارات في الأردن للمراجعة. قد تستغرق مدة المعالجة حتى 7 أيام عمل بدءًا من تاريخ تقديم جميع مستنداتك في السفارة. قد تختلف رسوم السفارة لكل شخص/المدة من فترة إلى أخرى، وفقًا لقرار رسمي صادر عن السفارة. قد تختلف رسوم مكتبنا اعتمادًا على نوع التأشيرة والبلد وأي رسوم إضافية.',
+      mainRequirements: 'For the Emirates Embassy in Jordan to grant you a visa, you must meet the following conditions: 1-A clear photo with a white background. 2-A 6 months validity clear passport scan or picture.',
+      mainRequirementsAr: 'لكي تمنحك سفارة الإمارات في الأردن تأشيرة، يجب أن تستوفي الشروط التالية: 1-صورة واضحة بخلفية بيضاء. 2-نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر.',
       visaTypes: ['30 Days Multiple Entry'],
       visaTypesAr: ['30 يوم دخول متعدد'],
       isActive: true
@@ -202,6 +204,8 @@ async function initializeDefaultVisas(): Promise<void> {
       descriptionAr: 'تأشيرة دولة الإمارات العربية المتحدة صالحة في جميع أنحاء دولة الإمارات، وهي دبي، أبو ظبي، عجمان، الشارقة، الفجيرة، رأس الخيمة وأم القيوين. 90 يوم دخول متعدد تسمح لك بزيارة دولة الإمارات بشكل متكرر والبقاء لمدة تصل إلى 90 يومًا في دولة الإمارات. ستكون التأشيرة صالحة لمدة 60 يومًا من تاريخ الإصدار.',
       notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy. Embassy fees per person/duration may vary from one period to another, according to an official decision issued by the embassy. Our office fees may vary depending on the type of visa, country and any additional charges.',
       notesAr: 'بعد تقديم جميع المستندات المطلوبة، سنقوم بإرسال طلب تأشيرة الإمارات مباشرة إلى سفارة الإمارات في الأردن للمراجعة. قد تستغرق مدة المعالجة حتى 7 أيام عمل بدءًا من تاريخ تقديم جميع مستنداتك في السفارة. قد تختلف رسوم السفارة لكل شخص/المدة من فترة إلى أخرى، وفقًا لقرار رسمي صادر عن السفارة. قد تختلف رسوم مكتبنا اعتمادًا على نوع التأشيرة والبلد وأي رسوم إضافية.',
+      mainRequirements: 'For the Emirates Embassy in Jordan to grant you a visa, you must meet the following conditions: 1-A clear photo with a white background. 2-A 6 months validity clear passport scan or picture.',
+      mainRequirementsAr: 'لكي تمنحك سفارة الإمارات في الأردن تأشيرة، يجب أن تستوفي الشروط التالية: 1-صورة واضحة بخلفية بيضاء. 2-نسخة واضحة من جواز السفر أو صورة سارية لمدة 6 أشهر.',
       visaTypes: ['90 Days Multiple Entry'],
       visaTypesAr: ['90 يوم دخول متعدد'],
       isActive: true
