@@ -144,67 +144,6 @@ export async function getVisaByName(name: string): Promise<VisaType | null> {
   };
 }
 
-export async function getVisasByCountry(country: string): Promise<VisaType[]> {
-  // Normalize country code (trim whitespace and convert to lowercase)
-  const normalizedCountry = country.trim().toLowerCase();
-  
-  console.log(`[getVisasByCountry] Querying for country: "${normalizedCountry}" (original: "${country}")`);
-  
-  // Use a flexible query that handles case-insensitive matching
-  // Try exact match first with LOWER()
-  let rows = await query<VisaRow>(
-    'SELECT * FROM visas WHERE LOWER(TRIM(country)) = LOWER(TRIM(?)) AND is_active = 1 ORDER BY name ASC',
-    [normalizedCountry]
-  );
-
-  console.log(`[getVisasByCountry] Found ${rows.length} row(s) for country: "${normalizedCountry}"`);
-  
-  // If no results, try LIKE pattern matching for partial matches
-  if (rows.length === 0) {
-    const likePattern = `%${normalizedCountry}%`;
-    rows = await query<VisaRow>(
-      'SELECT * FROM visas WHERE LOWER(TRIM(country)) LIKE LOWER(?) AND is_active = 1 ORDER BY name ASC',
-      [likePattern]
-    );
-    if (rows.length > 0) {
-      console.log(`[getVisasByCountry] Found ${rows.length} row(s) using LIKE pattern for country: "${normalizedCountry}"`);
-    }
-  }
-
-  const finalRows = rows;
-
-  return finalRows.map((row) => ({
-    id: row.id,
-    name: row.name,
-    country: row.country,
-    category: row.category,
-    requirements: JSON.parse(row.requirements),
-    processingTime: row.processing_time,
-    validity: row.validity,
-    fees: JSON.parse(row.fees),
-    description: row.description,
-    notes: row.notes,
-    embassyInfo: row.embassy_info || null,
-    embassyAppointment: row.embassy_appointment || null,
-    mainRequirements: row.main_requirements || null,
-    visaTypes: row.visa_types ? JSON.parse(row.visa_types) : null,
-    heroImage: row.hero_image || null,
-    // Arabic fields
-    nameAr: row.name_ar || null,
-    descriptionAr: row.description_ar || null,
-    notesAr: row.notes_ar || null,
-    embassyInfoAr: row.embassy_info_ar || null,
-    embassyAppointmentAr: row.embassy_appointment_ar || null,
-    mainRequirementsAr: row.main_requirements_ar || null,
-    requirementsAr: row.requirements_ar ? JSON.parse(row.requirements_ar) : null,
-    visaTypesAr: row.visa_types_ar ? JSON.parse(row.visa_types_ar) : null,
-    processingTimeAr: row.processing_time_ar || null,
-    validityAr: row.validity_ar || null,
-    isActive: Boolean(row.is_active),
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-  }));
-}
 
 export async function createVisa(visa: VisaType): Promise<number> {
   const pool = getConnectionPool();
