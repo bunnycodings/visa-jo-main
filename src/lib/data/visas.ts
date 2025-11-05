@@ -126,15 +126,15 @@ let visaDatabase: VisaType[] = [
       'A 6 months validity clear passport scan or picture'
     ],
     processingTime: 'Up to 7 working days',
-    validity: '14 days single entry',
+    validity: '14 days single entry, valid for 60 days from date of issuance',
     fees: {
       consultation: 50,
       government: 150,
       total: 200
     },
     isActive: true,
-    description: 'Short-term single entry visa for UAE valid for 14 days.',
-    notes: 'Processing time varies. Application must include clear documents for faster processing.'
+    description: 'United Arab Emirates Visa is Valid across all UAE, namely Dubai, Abu Dhabi, Ajman, Sharjah, Fujairah, Ras Al Khaimah and Umm Al Quwain. 14 days single entry visa allows a person to remain for 14 days in the emirates. The permission is valid for 60 days from the date of issuance.',
+    notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy.'
   },
   {
     name: 'UAE 30 Days Visa',
@@ -145,15 +145,15 @@ let visaDatabase: VisaType[] = [
       'A 6 months validity clear passport scan or picture'
     ],
     processingTime: 'Up to 7 working days',
-    validity: '30 days multiple entry',
+    validity: '30 days multiple entry, valid for 60 days from date of issue',
     fees: {
       consultation: 70,
       government: 250,
       total: 320
     },
     isActive: true,
-    description: '30-day multiple entry visa for UAE with flexible travel options.',
-    notes: 'Allows multiple entries within the 30-day validity period. Processing time may vary during peak seasons.'
+    description: 'United Arab Emirates Visa is Valid across all UAE, namely Dubai, Abu Dhabi, Ajman, Sharjah, Fujairah, Ras Al Khaimah and Umm Al Quwain. 30 days multiple Entry Visa allows you to visit the UAE frequently and stay for up to 30 days. The visa will be valid for 60 days from the date of issue.',
+    notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy. Embassy fees per person/duration may vary from one period to another, according to an official decision issued by the embassy. Our office fees may vary depending on the type of visa, country and any additional charges.'
   },
   {
     name: 'UAE 90 Days Visa',
@@ -164,15 +164,15 @@ let visaDatabase: VisaType[] = [
       'A 6 months validity clear passport scan or picture'
     ],
     processingTime: 'Up to 7 working days',
-    validity: '90 days multiple entry',
+    validity: '90 days multiple entry, valid for 60 days from date of issue',
     fees: {
       consultation: 100,
       government: 400,
       total: 500
     },
     isActive: true,
-    description: 'Long-term multiple entry visa for UAE valid for 90 days.',
-    notes: 'Ideal for extended stays and multiple visits. Fee varies based on visa type.'
+    description: 'United Arab Emirates Visa is Valid across all UAE, namely Dubai, Abu Dhabi, Ajman, Sharjah, Fujairah, Ras Al Khaimah and Umm Al Quwain. 90 days multiple entry allows you to visit the UAE frequently and stay for up to 90 days in UAE. The visa will be valid for 60 days from the date of issue.',
+    notes: 'After providing all of the needed documents, we will directly send your UAE Visa application for the UAE Embassy in Jordan for viewing. Processing time might take up to 7 working days starting from the date of submitting all your documents at the embassy. Embassy fees per person/duration may vary from one period to another, according to an official decision issued by the embassy. Our office fees may vary depending on the type of visa, country and any additional charges.'
   }
 ];
 
